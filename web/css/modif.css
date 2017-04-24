@@ -1,0 +1,10 @@
+.table-bordered thead th{
+    background-color:cornflowerblue ;
+}
+th a{
+    text-align: center;
+    color: #292929;
+}
+.table-bordered {
+    border: solid 1px #000;
+}
