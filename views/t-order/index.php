@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use kartik\grid\GridView;
+use app\models\TOrderDetailSearch;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\TOrderSearch */
@@ -17,6 +18,8 @@ $this->params['breadcrumbs'][] = $this->title;
 <?= GridView::widget([
             'dataProvider'=>$dataProvider,
             'filterModel'=>$searchModel,
+            'export'=>false,
+            'pjax'=>true,
             'hover'=>TRUE,
 //            'showPageSummary'=>true,
             'columns'=>[
@@ -24,6 +27,25 @@ $this->params['breadcrumbs'][] = $this->title;
                 'class' => 'yii\grid\SerialColumn',
                 'contentOptions' => ['Align' => 'right','style' => 'width: 50px;'],
                 'headerOptions' => ['style' => 'text-align:center'],
+            ],
+            [
+                'class'=>'kartik\grid\ExpandRowColumn',
+                'width'=>'50px',
+                'value'=>function ($model, $key, $index, $column) {
+                    return GridView::ROW_COLLAPSED;
+                },
+                'detail'=>function ($model, $key, $index, $column) {
+                    $searchModel = new TOrderDetailSearch();
+                    $searchModel->orderId = $model->orderId;
+                    $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+                    return Yii::$app->controller->renderPartial('_expand-detail', [
+                        'searchModel' => $searchModel,
+                        'dataProvider' => $dataProvider,
+                    ]);
+//                    return Yii::$app->controller->renderPartial('_expand-detail', ['model'=>$model]);
+                },
+                'headerOptions'=>['class'=>'kartik-sheet-style'],
+//                'expandOneOnly'=>true
             ],
             [
                 'header' => 'Order ID',

@@ -1,1 +1,6 @@
 /nbproject
+
+/runtime/*.*
+/runtime/*
+/web/assets/*
+/web/assets/*.*

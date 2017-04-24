@@ -18,8 +18,8 @@ class TOrderDetailSearch extends TOrderDetail
     public function rules()
     {
         return [
-            [['orderDetailId', 'orderId', 'serviceDetailId', 'kapasitasId', 'orderDetailQTY'], 'integer'],
-            [['rekanId', 'orderDetailTglKerja', 'orderDetailWaktuKerja', 'orderDetailKeluhan', 'orderDetailNote', 'orderDetailStatus', 'orderDetailProperti'], 'safe'],
+            [['orderDetailId', 'orderId', 'serviceDetailId', 'kapasitasId', 'rekanId', 'orderDetailQTY'], 'integer'],
+            [['orderDetailTglKerja', 'orderDetailWaktuKerja', 'orderDetailKeluhan', 'orderDetailNote', 'orderDetailStatus', 'orderDetailProperti'], 'safe'],
         ];
     }
 
@@ -62,6 +62,7 @@ class TOrderDetailSearch extends TOrderDetail
             'orderDetailId' => $this->orderDetailId,
             'orderId' => $this->orderId,
             'serviceDetailId' => $this->serviceDetailId,
+            'rekanId' => $this->rekanId,
             'kapasitasId' => $this->kapasitasId,
             'orderDetailTglKerja' => $this->orderDetailTglKerja,
             'orderDetailQTY' => $this->orderDetailQTY,
