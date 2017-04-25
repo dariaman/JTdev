@@ -35,17 +35,39 @@ $this->params['breadcrumbs'][] = $this->title;
                     return GridView::ROW_COLLAPSED;
                 },
                 'detail'=>function ($model, $key, $index, $column) {
-                    $searchModel = new TOrderDetailSearch();
-                    $searchModel->orderId = $model->orderId;
-                    $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+//                    $searchModel = new TOrderDetailSearch();
+//                    $searchModel->orderId = $model->orderId;
+//                    $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+                    $query = new \yii\db\Query;
+                    $query->select('ms.`serviceJudul` as service,
+                                mk.`serviceKategoriJudul` as serviceKategori,
+                                md.`serviceDetailJudul` as serviceDetail,
+                                kd.`kapasitasJudul` as satuan,
+                                td.`orderDetailQTY` as Qty,
+                                kd.`kapasitasHarga` as HargaSatuan,
+                                mr.`rekanNamaLengkap` as RekanTukang,
+                                td.`orderDetailTglKerja` as TglPengerjaan,
+                                td.`orderDetailWaktuKerja` as JamPengerjaan,
+                                td.`orderDetailKeluhan` as Keluhan,
+                                td.`orderDetailNote` as DetailKeluhan,
+                                td.`orderDetailProperti` as DetailProperti')
+                            ->from('`t_order_detail` td')
+                            ->leftJoin('`m_service_detail` md', 'md.`serviceDetailId`=td.`serviceDetailId`')
+                            ->leftJoin('`m_service` ms', 'ms.`serviceId`=md.`serviceId`')
+                            ->leftJoin('`m_service_kategori` mk', 'mk.`serviceKategoriId`=md.`serviceKategoriId`')
+                            ->leftJoin('`m_kapasitas_detail` kd', 'kd.`kapasitasId`=td.`kapasitasId`')
+                            ->leftJoin('`m_rekan_jt` mr', 'mr.`rekanId`=td.`rekanId`')
+                            ->where('td.`orderId`='.$key);
+                    $dataProvider = new yii\data\ActiveDataProvider([
+                        'query' => $query,
+                        'sort' => false,
+                    ]);
                     return Yii::$app->controller->renderPartial('_expand-detail', [
-                        'searchModel' => $searchModel,
                         'dataProvider' => $dataProvider,
                     ]);
-//                    return Yii::$app->controller->renderPartial('_expand-detail', ['model'=>$model]);
                 },
                 'headerOptions'=>['class'=>'kartik-sheet-style'],
-//                'expandOneOnly'=>true
+                'expandOneOnly'=>true
             ],
             [
                 'header' => 'Order ID',

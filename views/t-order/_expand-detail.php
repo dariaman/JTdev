@@ -1,43 +1,35 @@
 <?php
 
 use yii\helpers\Html;
-use yii\grid\GridView;
+use kartik\grid\GridView;
 use yii\widgets\Pjax;
-/* @var $this yii\web\View */
-/* @var $searchModel app\models\TOrderDetailSearch */
-/* @var $dataProvider yii\data\ActiveDataProvider */
-
-$this->title = 'Torder Details';
-$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="torder-detail-index">
-
-    <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
-    <p>
-        <?= Html::a('Create Torder Detail', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
 <?php Pjax::begin(); ?>    <?= GridView::widget([
         'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'columns' => [
+            'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'orderDetailId',
-            'orderId',
-            'serviceDetailId',
-            'kapasitasId',
-            'rekanId',
-            // 'orderDetailTglKerja',
-            // 'orderDetailWaktuKerja',
-            // 'orderDetailKeluhan',
-            // 'orderDetailNote',
-            // 'orderDetailStatus',
-            // 'orderDetailQTY',
-            // 'orderDetailProperti',
+            'service',
+            'serviceKategori',
+            'serviceDetail',
+            'satuan',
+            'Qty',
+            'HargaSatuan',
+            'RekanTukang',
+            [
+                'label'=>'Tgl Pengerjaan',
+                'format'=>['date', 'php:d M Y'],
+                'value'=>'TglPengerjaan'
+            ],
+            'JamPengerjaan',
+            'Keluhan',
+            'DetailKeluhan',
+             'DetailProperti',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+                'class' => 'yii\grid\ActionColumn'
+            ],
         ],
     ]); ?>
 <?php Pjax::end(); ?></div>
