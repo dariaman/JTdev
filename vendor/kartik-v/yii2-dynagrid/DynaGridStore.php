@@ -3,40 +3,30 @@
 /**
  * @package   yii2-dynagrid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
- * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2015 - 2017
- * @version   1.4.6
+ * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2015
+ * @version   1.4.2
  */
 
 namespace kartik\dynagrid;
 
 use Yii;
 use yii\web\Cookie;
-use yii\base\Object;
-use yii\db\Query;
 use yii\helpers\Json;
+use yii\helpers\Inflector;
 use yii\helpers\ArrayHelper;
 use yii\base\InvalidConfigException;
 use kartik\base\Config;
 
 /**
- * Dynagrid storage configuration object
+ * Dynagrid storage configuration helper
  *
  * @author Kartik Visweswaran <kartikv2@gmail.com>
  * @since 1.2.0
  */
-class DynaGridStore extends Object
+class DynaGridStore extends \yii\base\Object
 {
-    /**
-     * Grid configuration storage
-     */
     const STORE_GRID = 'grid';
-    /**
-     * Grid filter configuration storage
-     */
     const STORE_FILTER = 'filter';
-    /**
-     * Grid sort configuration storage
-     */
     const STORE_SORT = 'sort';
 
     /**
@@ -72,14 +62,7 @@ class DynaGridStore extends Object
     public $userSpecific = true;
 
     /**
-     * @var boolean whether to update only the name, when editing and saving a filter or sort. This is applicable
-     * only for [[$storage]] set to [[Dynagrid::TYPE_DB]]. If set to `false`, it will also overwrite the current 
-     * `filter` or `sort` settings.
-     */
-    public $dbUpdateNameOnly = false;
-
-    /**
-     * @var string the detail key identifier if available
+     * @var the detail key identifier if available
      */
     public $dtlKey;
 
@@ -89,17 +72,17 @@ class DynaGridStore extends Object
     protected $_module;
 
     /**
-     * @var string generated storage key for dynagrid master record
+     * @var generated storage key for dynagrid master record
      */
     protected $_mstKey;
 
     /**
-     * @var string generated storage key for dynagrid detail record (filter & sort)
+     * @var generated storage key for dynagrid detail record (filter & sort)
      */
     protected $_dtlKey;
 
     /**
-     * @var boolean is this a master record
+     * @var bool is this a master record
      */
     private $_isMaster;
 
@@ -157,10 +140,7 @@ class DynaGridStore extends Object
     /**
      * Fetch configuration from store
      *
-     * @param string $col the column attribute
-     *
-     * @return array the column configuration
-     * @throws InvalidConfigException
+     * @throws \yii\base\InvalidConfigException
      */
     public function fetch($col = 'dataAttr')
     {
@@ -198,8 +178,6 @@ class DynaGridStore extends Object
     /**
      * Parses configuration for session or cookie storage
      *
-     * @return array the store configuration
-     *
      * @param array json decoded config array
      */
     protected static function parseConfig($config)
@@ -216,7 +194,7 @@ class DynaGridStore extends Object
      *
      * @param array Json::decoded config array
      *
-     * @return array configuration for master or detail
+     * @return configuration for master or detail
      */
     protected function fetchConfig($config)
     {
@@ -238,12 +216,12 @@ class DynaGridStore extends Object
      * @param string $col the column type
      * @param string $id the primary key value
      *
-     * @return boolean|null|string
+     * @return bool|null|string
      */
     protected function getDataFromDb($col, $id)
     {
         $settings = $this->_isMaster ? $this->_module->dbSettings : $this->_module->dbSettingsDtl;
-        $query = (new Query())
+        $query = (new \yii\db\Query())
             ->select($settings[$col])
             ->from($settings['tableName'])
             ->where([$settings['idAttr'] => $id]);
@@ -251,9 +229,11 @@ class DynaGridStore extends Object
     }
 
     /**
-     * Delete configuration from store. Both master and detail records will be deleted.
+     * Delete configuration from store
      *
-     * @throws InvalidConfigException
+     * both master and detail records will be deleted.
+     *
+     * @throws \yii\base\InvalidConfigException
      */
     public function delete()
     {
@@ -294,10 +274,6 @@ class DynaGridStore extends Object
                 } else {
                     extract($this->_module->dbSettingsDtl);
                 }
-                /**
-                 * @var string $tableName
-                 * @var string $idAttr
-                 */
                 $db->createCommand()->delete($tableName, [$idAttr => $key])->execute();
                 break;
             default:
@@ -311,17 +287,11 @@ class DynaGridStore extends Object
      * @param string $key to delete
      * @param mixed  $config configuration data
      *
-     * @throws InvalidConfigException
+     * @throws \yii\base\InvalidConfigException
      */
     public function deleteConfig($key, $config)
     {
         if ($this->storage == DynaGrid::TYPE_DB) {
-            /**
-             * @var string $filterAttr
-             * @var string $sortAttr
-             * @var string $tableName
-             * @var string $idAttr
-             */
             extract($this->_module->dbSettings);
             $attr = $key === self::STORE_FILTER ? $filterAttr : $sortAttr;
             $db = Yii::$app->db;
@@ -340,21 +310,11 @@ class DynaGridStore extends Object
      *
      * @param mixed $config configuration data to save
      *
-     * @throws InvalidConfigException
+     * @throws \yii\base\InvalidConfigException
      */
     public function save($config)
     {
         $configData = Json::encode($config);
-        /**
-         * @var string $tableName
-         * @var string $idAttr
-         * @var string $nameAttr
-         * @var string $dataAttr
-         * @var string $categoryAttr
-         * @var string $dynaGridIdAttr
-         * @var string $filterAttr
-         * @var string $sortAttr
-         */
         switch ($this->storage) {
             case Dynagrid::TYPE_SESSION:
                 $oldConfig = Yii::$app->session->get($this->_mstKey, false);
@@ -388,17 +348,12 @@ class DynaGridStore extends Object
                     $data = [$filterAttr => $filterData, $sortAttr => $sortData, $dataAttr => $configData];
                 } else {
                     extract($this->_module->dbSettingsDtl);
-                    if ($out != null) {
-                        $data = $this->dbUpdateNameOnly ? [$nameAttr => $this->name] :
-                            [$nameAttr => $this->name, $dataAttr => $configData];
-                    } else {
-                        $data = [
-                            $nameAttr => $this->name,
-                            $dataAttr => $configData,
-                            $categoryAttr => $this->category,
-                            $dynaGridIdAttr => $this->_mstKey
-                        ];
-                    }
+                    $data = ($out != null) ? [$nameAttr => $this->name] : [
+                        $nameAttr => $this->name,
+                        $dataAttr => $configData,
+                        $categoryAttr => $this->category,
+                        $dynaGridIdAttr => $this->_mstKey
+                    ];
                 }
                 if ($out != null) {
                     $db->createCommand()->update($tableName, $data, [$idAttr => $key])->execute();
@@ -432,11 +387,10 @@ class DynaGridStore extends Object
     }
 
     /**
-     * Fetch and return the list of detail values for a specific master (category = STORE_GRID) instance
+     * Fetch and return the list of detail values for a
+     * specific master (category = STORE_GRID) instance
      *
      * @param string $cat the detail category
-     *
-     * @throws InvalidConfigException
      *
      * @return array
      */
@@ -451,7 +405,7 @@ class DynaGridStore extends Object
                 return static::getDtlListOther($config, $cat);
             case Dynagrid::TYPE_DB:
                 $s = $this->_module->dbSettingsDtl;
-                $data = (new Query())
+                $data = (new \yii\db\Query())
                     ->select([$s['idAttr'], $s['nameAttr']])
                     ->from($s['tableName'])
                     ->where([$s['dynaGridIdAttr'] => $this->_mstKey, $s['categoryAttr'] => $cat])

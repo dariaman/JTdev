@@ -68,12 +68,7 @@ class MServiceDetailController extends Controller
         ];
         return ArrayHelper::map($ary_status,'id','status');
     }
-     /**
-     * Depdrop list kategori
-     * @author aditiya
-     * @since 1.1.0
-     * @return mixed
-     */
+    
    public function actionListKategori() {
     $out = [];
     if (isset($_POST['depdrop_parents'])) {

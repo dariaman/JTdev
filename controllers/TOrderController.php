@@ -10,6 +10,8 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use kartik\mpdf\Pdf;
+use yii\helpers\Json;
+use yii\web\Response;
 
 /**
  * TOrderController implements the CRUD actions for TOrder model.
@@ -289,4 +291,38 @@ class TOrderController extends Controller
         // return the pdf output as per the destination setting
         return $pdf->render();
     }
+    
+    public function actionListServicesDetail() {
+        $out = [];
+        if (isset($_POST['depdrop_parents'])) {
+            $parents = $_POST['depdrop_parents'];
+            if ($parents != null) {
+                $model = \app\models\MServiceDetail::find()->where(['serviceId'=>$parents[0]])->all();
+                foreach ($model as $key => $value) {
+                   $out[] = ['id'=>$value->serviceDetailId,'name'=> $value->serviceDetailJudul];
+                }
+                echo Json::encode(['output' => $out, 'selected' => '']);
+                return;
+            }
+        }
+        echo Json::encode(['output' => '', 'selected' => '']);
+        return;
+   }
+   
+   public function actionListKapasitas() {
+        $out = [];
+        if (isset($_POST['depdrop_parents'])) {
+            $parents = $_POST['depdrop_parents'];
+            if ($parents != null) {
+                $model = \app\models\MKapasitasDetail::find()->where(['serviceDetailId'=>$parents[0]])->all();
+                foreach ($model as $key => $value) {
+                   $out[] = ['id'=>$value->kapasitasId,'name'=> $value->kapasitasJudul];
+                }
+                echo Json::encode(['output' => $out, 'selected' => '']);
+                return;
+            }
+        }
+        echo Json::encode(['output' => '', 'selected' => '']);
+        return;
+   }
 }

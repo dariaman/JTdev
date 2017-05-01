@@ -3,8 +3,8 @@
 /**
  * @package   yii2-dynagrid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
- * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2015 - 2017
- * @version   1.4.6
+ * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2015
+ * @version   1.4.2
  */
 
 namespace kartik\dynagrid;
@@ -22,26 +22,10 @@ use yii\helpers\ArrayHelper;
  */
 class Module extends \kartik\base\Module
 {
-    /**
-     * Dynagrid module name
-     */
     const MODULE = 'dynagrid';
-    /**
-     * Dynagrid layout type 1
-     */
     const LAYOUT_1 = "<hr>{dynagrid}<hr>\n{summary}\n{items}\n{pager}";
-    /**
-     * Dynagrid layout type 2
-     */
     const LAYOUT_2 = "&nbsp;";
-    /**
-     * Cookie expiry (used for dynagrid configuration storage)
-     */
     const COOKIE_EXPIRY = 8640000; // 100 days
-    /**
-     * Session key variable name for storing the dynagrid configuration encryption salt.
-     */
-    const SALT_SESS_KEY = "krajeeDGConfigSalt";
 
     /**
      * @var array the settings for the cookie to be used in saving the dynagrid setup
@@ -52,26 +36,26 @@ class Module extends \kartik\base\Module
     /**
      * @var array the settings for the database table to store the dynagrid setup
      * The following parameters are supported:
-     * - tableName: _string_, the name of the database table, that will store the dynagrid settings.
+     * - tableName: string, the name of the database table, that will store the dynagrid settings.
      *   Defaults to `tbl_dynagrid`.
-     * - idAttr: _string_, the attribute name for the configuration id . Defaults to `id`.
-     * - filterAttr: _string_, the attribute name for the filter setting id. Defaults to `filter_id`.
-     * - sortAttr: _string_, the attribute name for the filter setting id. Defaults to `sort_id`.
-     * - dataAttr: _string_, the attribute name for grid column data configuration. Defaults to `data`.
+     * - idAttr: string, the attribute name for the configuration id . Defaults to `id`.
+     * - filterAttr: string, the attribute name for the filter setting id. Defaults to `filter_id`.
+     * - sortAttr: string, the attribute name for the filter setting id. Defaults to `sort_id`.
+     * - dataAttr: string, the attribute name for grid column data configuration. Defaults to `data`.
      */
     public $dbSettings = [];
 
     /**
      * @var array the settings for the detail database table to store the dynagrid filter and sort settings.
      * The following parameters are supported:
-     * - tableName: _string_, the name of the database table, that will store the dynagrid settings.
+     * - tableName: string, the name of the database table, that will store the dynagrid settings.
      *   Defaults to `tbl_dynagrid_dtl`.
-     * - idAttr: _string_, the attribute name for the detail configuration id. Defaults to `id`.
-     * - categoryAttr: _string_, the attribute name for the detail category (values currently possible are 'filter' or
+     * - idAttr: string, the attribute name for the detail configuration id. Defaults to `id`.
+     * - categoryAttr: string, the attribute name for the detail category (values currently possible are 'filter' or
      *     'sort'). Defaults to `category`.
-     * - nameAttr: _string_, the attribute name for the filter or sort name. Defaults to `name`.
-     * - dataAttr: _string_, the attribute name for grid detail (filter/sort) configuration. Defaults to `data`.
-     * - dynaGridIdAttr: _string_, the attribute name for the dynagrid identifier. Defaults to `dynagrid_id`.
+     * - nameAttr: string, the attribute name for the filter or sort name. Defaults to `name`.
+     * - dataAttr: string, the attribute name for grid detail (filter/sort) configuration. Defaults to `data`.
+     * - dynaGridIdAttr: string, the attribute name for the dynagrid identifier. Defaults to `dynagrid_id`.
      */
     public $dbSettingsDtl = [];
 
@@ -126,31 +110,39 @@ class Module extends \kartik\base\Module
     ];
 
     /**
-     * @var integer the default theme for the gridview.
+     * @var int the default theme for the gridview. Defaults to 'panel-primary'.
      */
     public $defaultTheme = 'panel-primary';
 
     /**
-     * @var integer the default pagesize for the gridview.
+     * @var int the default pagesize for the gridview. Defaults to 10.
      */
     public $defaultPageSize = 10;
 
     /**
-     * @var integer the minimum pagesize for the gridview. Setting pagesize to `0` will display all rows.
+     * @var int the minimum pagesize for the gridview. Defaults to 5.
      */
-    public $minPageSize = 0;
+    public $minPageSize = 5;
 
     /**
-     * @var integer the maximum pagesize for the gridview.
+     * @var int the maximum pagesize for the gridview. Defaults to 100.
      */
-    public $maxPageSize = 50;
+    public $maxPageSize = 100;
 
     /**
-     * @var string a random salt that will be used to generate a hash signature for tree configuration. If not set, this
-     * will be generated using [[\yii\base\Security::generateRandomKey()]] to generate a random key. The randomly
-     * generated salt in the second case will be stored in a session variable identified by [[SALT_SESS_KEY]].
+     * @var mixed the action (url) used for creating a filter or sort setting
      */
-    public $configEncryptSalt;
+    public $createAction = '/dynagrid/settings/create';
+
+    /**
+     * @var mixed the action (url) used for creating a filter or sort setting
+     */
+    public $updateAction = '/dynagrid/settings/update';
+
+    /**
+     * @var mixed the action (url) used for deleting a filter or sort setting
+     */
+    public $deleteAction = '/dynagrid/settings/delete';
 
     /**
      * @inheritdoc
@@ -159,33 +151,24 @@ class Module extends \kartik\base\Module
     {
         $this->_msgCat = 'kvdynagrid';
         parent::init();
-        $app = Yii::$app;
-        if ($app->has('session') && !isset($this->configEncryptSalt)) {
-            $session = $app->session;
-            if (!$session->get(self::SALT_SESS_KEY)) {
-                $session->set(self::SALT_SESS_KEY, $app->security->generateRandomKey());
-            }
-            $this->configEncryptSalt = $session->get(self::SALT_SESS_KEY);
-        } elseif (!isset($this->configEncryptSalt)) {
-            $this->configEncryptSalt = '<$0ME_R@ND0M_$@LT>';
-        }
         $this->initSettings();
     }
 
     /**
-     * Gets the module instance
+     * Gets the module
      *
      * @param string $module the module name
      *
      * @return Module
      */
-    public static function fetchModule($module = self::MODULE)
-    {
+    public static function fetchModule($module = self::MODULE) {
         return Config::getModule($module);
     }
-
+    
     /**
      * Initialize module level settings
+     *
+     * @return void
      */
     public function initSettings()
     {

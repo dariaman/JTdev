@@ -26,7 +26,9 @@ use Yii;
  * @property MServiceDetail $serviceDetail
  */
 class TOrderDetail extends \yii\db\ActiveRecord
-{
+{    
+    use \mootensai\relation\RelationTrait;
+
     /**
      * @inheritdoc
      */
@@ -34,6 +36,7 @@ class TOrderDetail extends \yii\db\ActiveRecord
     {
         return 't_order_detail';
     }
+    public $serviceId;
 
     /**
      * @inheritdoc

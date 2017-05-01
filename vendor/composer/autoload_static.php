@@ -39,6 +39,7 @@ class ComposerStaticInit11038a457e4cb2389d0cd425fbe55178
         ),
         'm' => 
         array (
+            'mootensai\\relation\\' => 19,
             'mdm\\admin\\' => 10,
         ),
         'k' => 
@@ -158,6 +159,7 @@ class ComposerStaticInit11038a457e4cb2389d0cd425fbe55178
         'wbraganca\\dynamicform\\' => 
         array (
             0 => __DIR__ . '/..' . '/wbraganca/yii2-dynamicform',
+            1 => __DIR__ . '/..' . '/vivekmarakana/yii2-dynamicform',
         ),
         'rmrevin\\yii\\fontawesome\\' => 
         array (
@@ -168,6 +170,10 @@ class ComposerStaticInit11038a457e4cb2389d0cd425fbe55178
             0 => __DIR__ . '/..' . '/phpdocumentor/reflection-common/src',
             1 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
             2 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
+        ),
+        'mootensai\\relation\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/mootensai/yii2-relation-trait',
         ),
         'mdm\\admin\\' => 
         array (

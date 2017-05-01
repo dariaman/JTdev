@@ -65,6 +65,7 @@ class MServiceDetail extends \yii\db\ActiveRecord
             'serviceDetailStatus' => 'Service Detail Status',
         ];
     }
+
     /**
      * @inheritdoc
      * @return MServiceDetailQuery the active query used by this AR class.
