@@ -3,8 +3,8 @@
 /**
  * @package   yii2-dynagrid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
- * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2015
- * @version   1.4.2
+ * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2015 - 2017
+ * @version   1.4.5
  */
 
 namespace kartik\dynagrid;
@@ -22,9 +22,21 @@ use yii\helpers\ArrayHelper;
  */
 class Module extends \kartik\base\Module
 {
+    /**
+     * Dynagrid module name
+     */
     const MODULE = 'dynagrid';
+    /**
+     * Dynagrid layout type 1
+     */
     const LAYOUT_1 = "<hr>{dynagrid}<hr>\n{summary}\n{items}\n{pager}";
+    /**
+     * Dynagrid layout type 2
+     */
     const LAYOUT_2 = "&nbsp;";
+    /**
+     * Cookie expiry (used for dynagrid configuration storage)
+     */
     const COOKIE_EXPIRY = 8640000; // 100 days
 
     /**
@@ -36,26 +48,26 @@ class Module extends \kartik\base\Module
     /**
      * @var array the settings for the database table to store the dynagrid setup
      * The following parameters are supported:
-     * - tableName: string, the name of the database table, that will store the dynagrid settings.
+     * - tableName: _string_, the name of the database table, that will store the dynagrid settings.
      *   Defaults to `tbl_dynagrid`.
-     * - idAttr: string, the attribute name for the configuration id . Defaults to `id`.
-     * - filterAttr: string, the attribute name for the filter setting id. Defaults to `filter_id`.
-     * - sortAttr: string, the attribute name for the filter setting id. Defaults to `sort_id`.
-     * - dataAttr: string, the attribute name for grid column data configuration. Defaults to `data`.
+     * - idAttr: _string_, the attribute name for the configuration id . Defaults to `id`.
+     * - filterAttr: _string_, the attribute name for the filter setting id. Defaults to `filter_id`.
+     * - sortAttr: _string_, the attribute name for the filter setting id. Defaults to `sort_id`.
+     * - dataAttr: _string_, the attribute name for grid column data configuration. Defaults to `data`.
      */
     public $dbSettings = [];
 
     /**
      * @var array the settings for the detail database table to store the dynagrid filter and sort settings.
      * The following parameters are supported:
-     * - tableName: string, the name of the database table, that will store the dynagrid settings.
+     * - tableName: _string_, the name of the database table, that will store the dynagrid settings.
      *   Defaults to `tbl_dynagrid_dtl`.
-     * - idAttr: string, the attribute name for the detail configuration id. Defaults to `id`.
-     * - categoryAttr: string, the attribute name for the detail category (values currently possible are 'filter' or
+     * - idAttr: _string_, the attribute name for the detail configuration id. Defaults to `id`.
+     * - categoryAttr: _string_, the attribute name for the detail category (values currently possible are 'filter' or
      *     'sort'). Defaults to `category`.
-     * - nameAttr: string, the attribute name for the filter or sort name. Defaults to `name`.
-     * - dataAttr: string, the attribute name for grid detail (filter/sort) configuration. Defaults to `data`.
-     * - dynaGridIdAttr: string, the attribute name for the dynagrid identifier. Defaults to `dynagrid_id`.
+     * - nameAttr: _string_, the attribute name for the filter or sort name. Defaults to `name`.
+     * - dataAttr: _string_, the attribute name for grid detail (filter/sort) configuration. Defaults to `data`.
+     * - dynaGridIdAttr: _string_, the attribute name for the dynagrid identifier. Defaults to `dynagrid_id`.
      */
     public $dbSettingsDtl = [];
 
@@ -110,24 +122,24 @@ class Module extends \kartik\base\Module
     ];
 
     /**
-     * @var int the default theme for the gridview. Defaults to 'panel-primary'.
+     * @var integer the default theme for the gridview.
      */
     public $defaultTheme = 'panel-primary';
 
     /**
-     * @var int the default pagesize for the gridview. Defaults to 10.
+     * @var integer the default pagesize for the gridview.
      */
     public $defaultPageSize = 10;
 
     /**
-     * @var int the minimum pagesize for the gridview. Defaults to 5.
+     * @var integer the minimum pagesize for the gridview. Setting pagesize to `0` will display all rows.
      */
-    public $minPageSize = 5;
+    public $minPageSize = 0;
 
     /**
-     * @var int the maximum pagesize for the gridview. Defaults to 100.
+     * @var integer the maximum pagesize for the gridview.
      */
-    public $maxPageSize = 100;
+    public $maxPageSize = 50;
 
     /**
      * @var mixed the action (url) used for creating a filter or sort setting
@@ -155,20 +167,19 @@ class Module extends \kartik\base\Module
     }
 
     /**
-     * Gets the module
+     * Gets the module instance
      *
      * @param string $module the module name
      *
      * @return Module
      */
-    public static function fetchModule($module = self::MODULE) {
+    public static function fetchModule($module = self::MODULE)
+    {
         return Config::getModule($module);
     }
-    
+
     /**
      * Initialize module level settings
-     *
-     * @return void
      */
     public function initSettings()
     {

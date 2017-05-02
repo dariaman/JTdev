@@ -1,8 +1,8 @@
 /*!
  * @package   yii2-dynagrid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
- * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2015
- * @version   1.4.2
+ * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2015 - 2017
+ * @version   1.4.5
  *
  * Styling for yii2-dynagrid.
  * 
@@ -49,4 +49,14 @@
 
 .dynagrid-settings-text li {
     line-height: 2em;
+}
+
+.sortable-hidden .icon-visible-column,
+.sortable-visible .icon-hidden-column {
+    display: none;
+}
+
+.sortable-hidden .icon-hidden-column,
+.sortable-visible .icon-visible-column {
+    display: inline-block;
 }
