@@ -3,8 +3,8 @@
 /**
  * @package   yii2-dynagrid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
- * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2015 - 2017
- * @version   1.4.5
+ * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2015
+ * @version   1.4.2
  */
 
 namespace kartik\dynagrid\models;
@@ -13,6 +13,7 @@ use Yii;
 use yii\base\Model;
 use kartik\base\Config;
 use kartik\dynagrid\Module;
+use kartik\dynagrid\DynaGridStore;
 
 /**
  * Model for the dynagrid configuration
@@ -22,70 +23,47 @@ use kartik\dynagrid\Module;
  */
 class DynaGridConfig extends Model
 {
-    /**
-     * @var string the dynagrid widget identifier
-     */
     public $id;
-    /**
-     * @var array the hidden grid columns
-     */
     public $hiddenColumns = [];
-    /**
-     * @var array the visible grid columns
-     */
     public $visibleColumns = [];
-    /**
-     * @var array the widget options for the [[\kartik\sortable\Sortable]] widget
-     */
     public $widgetOptions = [];
-    /**
-     * @var array the list of saved grid themes
-     */
     public $themeList = [];
-    /**
-     * @var array the list of saved grid filters
-     */
     public $filterList = [];
-    /**
-     * @var array the list of saved grid sort
-     */
     public $sortList = [];
-    /**
-     * @var integer the grid page size
-     */
     public $pageSize;
-    /**
-     * @var string the filter identifier
-     */
     public $filterId = null;
-    /**
-     * @var string the sort identifier
-     */
     public $sortId = null;
-    /**
-     * @var string|null the footer content for the dynagrid configuration form
-     */
+    public $hiddenKeys;
+    public $visibleKeys;
     public $footer = null;
-    /**
-     * @var string the currently selected grid theme
-     */
     public $theme;
+    protected $_module;
 
     /**
      * @inheritdoc
      */
     public function rules()
     {
-        /**
-         * @var Module $module
-         */
-        $module = Config::initModule(Module::classname());
+        $this->_module = Config::initModule(Module::classname());
         return [
-            [['id', 'hiddenColumns', 'visibleColumns', 'pageSize', 'filterId', 'sortId', 'theme'], 'safe'],
+            [
+                [
+                    'id',
+                    'hiddenColumns',
+                    'visibleColumns',
+                    'pageSize',
+                    'filterId',
+                    'sortId',
+                    'theme',
+                    'hiddenKeys',
+                    'visibleKeys'
+                ],
+                'safe'
+            ],
             [['pageSize', 'theme'], 'required'],
-            ['pageSize', 'integer', 'min' => $module->minPageSize, 'max' => $module->maxPageSize],
-            ['pageSize', 'default', 'value' => $module->defaultPageSize],
-            ['theme', 'default', 'value' => $module->defaultTheme],
+            ['pageSize', 'integer', 'min' => $this->_module->minPageSize, 'max' => $this->_module->maxPageSize],
+            ['pageSize', 'default', 'value' => $this->_module->defaultPageSize],
+            ['theme', 'default', 'value' => $this->_module->defaultTheme],
         ];
     }
 

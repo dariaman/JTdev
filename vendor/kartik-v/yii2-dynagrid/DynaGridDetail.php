@@ -3,33 +3,31 @@
 /**
  * @package   yii2-dynagrid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
- * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2015 - 2017
- * @version   1.4.5
+ * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2015
+ * @version   1.4.2
  */
 
 namespace kartik\dynagrid;
 
-use kartik\base\Config;
-use kartik\base\Widget;
-use kartik\dynagrid\models\DynaGridSettings;
 use Yii;
+use yii\helpers\Json;
+use yii\helpers\Html;
+use yii\helpers\ArrayHelper;
+use yii\helpers\Url;
+use yii\base\Model;
 use yii\base\InvalidConfigException;
 use yii\bootstrap\Modal;
-use yii\helpers\ArrayHelper;
-use yii\helpers\Html;
-use yii\helpers\Json;
-use yii\helpers\Url;
+use kartik\base\Config;
 
 /**
- * DynaGrid detail widget to save/store grid sort OR grid filter (search criteria) configuration.
+ * DynaGrid detail widget to save/store grid sort OR
+ * grid filter (search criteria) configuration.
  *
  * @author Kartik Visweswaran <kartikv2@gmail.com>
  * @since 1.2.0
  */
-class DynaGridDetail extends Widget
+class DynaGridDetail extends \kartik\base\Widget
 {
-    use DynaGridTrait;
-
     /**
      * @var string the modal container identifier
      */
@@ -41,23 +39,25 @@ class DynaGridDetail extends Widget
     public $key;
 
     /**
-     * @var DynaGridSettings the settings model
+     * @var Model the settings model
      */
     public $model;
 
     /**
-     * @var array the HTML attributes for the toggle button that will open the editable form for the filter or sort.
+     * @var array the HTML attributes for the toggle button
+     * that will open the editable form for the filter or sort.
      */
     public $toggleButton = [];
 
     /**
-     * @var string the message to display after applying and submitting the configuration and until refreshed grid is
-     * reloaded
+     * @var string the message to display after applying and submitting the configuration and
+     * until refreshed grid is reloaded
      */
     public $submitMessage;
 
     /**
-     * @var string the message to display after deleting the configuration and until refreshed grid is reloaded
+     * @var string the message to display after deleting the configuration and
+     * until refreshed grid is reloaded
      */
     public $deleteMessage;
 
@@ -72,7 +72,7 @@ class DynaGridDetail extends Widget
     public $deleteConfirmation;
 
     /**
-     * @var boolean flag to check if the pjax is enabled for the grid
+     * @var bool flag to check if the pjax is enabled for the grid
      */
     public $isPjax;
 
@@ -81,13 +81,14 @@ class DynaGridDetail extends Widget
      */
     public $pjaxId;
 
+
     /**
      * @var string request param name which will show the grid configuration submitted
      */
     protected $_requestSubmit;
 
     /**
-     * @var boolean flag to check if the grid configuration form has been submitted
+     * @var bool flag to check if the grid configuration form has been submitted
      */
     protected $_isSubmit = false;
 
@@ -95,24 +96,53 @@ class DynaGridDetail extends Widget
      * @var Module the current module
      */
     protected $_module;
-
+    
     /**
      * @inheritdoc
      */
     public function init()
     {
-        if (empty($this->model) || !$this->model instanceof DynaGridSettings) {
-            throw new InvalidConfigException(
-                "You must enter a valid 'model' for DynaGridDetail extending from '" . DynaGridSettings::classname() . "'"
-            );
+        if (empty($this->model) || !$this->model instanceof Model) {
+            throw new InvalidConfigException("You must enter a valid 'model' for DynaGridDetail.");
         }
         parent::init();
         $this->_module = Config::initModule(Module::classname());
         $this->_requestSubmit = $this->options['id'] . '-dynagrid-detail';
-        $this->_isSubmit = !empty($_POST[$this->_requestSubmit]) &&
-            $this->model->load(Yii::$app->request->post()) &&
-            $this->model->validate();
+        $this->_isSubmit = !empty($_POST[$this->_requestSubmit]) && $this->model->load(Yii::$app->request->post()) && $this->model->validate();
         $this->registerAssets();
+    }
+
+    /**
+     * Register client assets
+     */
+    protected function registerAssets()
+    {
+        $view = $this->getView();
+        DynaGridDetailAsset::register($view);
+        Html::addCssClass($this->messageOptions, 'dynagrid-submit-message');
+        $options = Json::encode([
+            'submitMessage' => Html::tag('div', $this->submitMessage, $this->messageOptions),
+            'deleteMessage' => Html::tag('div', $this->deleteMessage, $this->messageOptions),
+            'deleteConfirmation' => $this->deleteConfirmation,
+            'configUrl' => Url::to([$this->_module->settingsConfigAction]),
+            'modalId' => $this->id
+        ]);
+        $id = "#{$this->model->key}";
+        $dynagrid = $this->model->dynaGridId;
+        $js = <<< JS
+jQuery('{$id}').dynagridDetail({$options});
+jQuery('{$dynagrid}').after(jQuery('{$id}'));
+JS;
+
+        // pjax related reset
+        if ($this->isPjax) {
+            $js .= "jQuery('#{$this->pjaxId}').on('pjax:complete', function() {\n
+                jQuery('{$id}').dynagridDetail({$options});\n
+            });";
+        }
+
+        $view->registerJs($js);
+
     }
 
     /**
@@ -121,8 +151,7 @@ class DynaGridDetail extends Widget
     public function run()
     {
         $this->saveDetail();
-        $params = ['title' => static::getCat($this->model->category, true)];
-        $title = Yii::t('kvdynagrid', "Save / Edit Grid {title}", $params);
+        $title = Yii::t('kvdynagrid', "Save / Edit Grid {title}", ['title' => ucfirst($this->model->category)]);
         $icon = "<i class='glyphicon glyphicon-{$this->model->category}'></i> ";
         Modal::begin([
             'header' => '<h3 class="modal-title">' . $icon . $title . '</h3>',
@@ -138,7 +167,10 @@ class DynaGridDetail extends Widget
     }
 
     /**
-     * Check and validate any detail record to save or delete
+     * Check and validate any detail record
+     * to save or delete
+     *
+     * @return void
      */
     protected function saveDetail()
     {
@@ -155,33 +187,5 @@ class DynaGridDetail extends Widget
         if ($delete) {
             $this->model->deleteSettings();
         }
-    }
-
-    /**
-     * Register client assets
-     */
-    protected function registerAssets()
-    {
-        $view = $this->getView();
-        DynaGridDetailAsset::register($view);
-        Html::addCssClass($this->messageOptions, 'dynagrid-submit-message');
-        $options = Json::encode([
-            'submitMessage' => Html::tag('div', $this->submitMessage, $this->messageOptions),
-            'deleteMessage' => Html::tag('div', $this->deleteMessage, $this->messageOptions),
-            'deleteConfirmation' => $this->deleteConfirmation,
-            'configUrl' => Url::to([$this->_module->settingsConfigAction]),
-            'modalId' => $this->id,
-            'dynaGridId' => $this->model->dynaGridId
-        ]);
-        $id = "#{$this->model->key}";
-        $dynagrid = $this->model->dynaGridId;
-        $js = "jQuery('{$id}').dynagridDetail({$options});\njQuery('#{$dynagrid}').after(jQuery('{$id}'));";
-        // pjax related reset
-        if ($this->isPjax) {
-            $js .= "jQuery('#{$this->pjaxId}').on('pjax:complete', function() {\n
-                jQuery('{$id}').dynagridDetail({$options});\n
-            });";
-        }
-        $view->registerJs($js);
     }
 }

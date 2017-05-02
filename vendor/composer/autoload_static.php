@@ -158,8 +158,8 @@ class ComposerStaticInit11038a457e4cb2389d0cd425fbe55178
         ),
         'wbraganca\\dynamicform\\' => 
         array (
-            0 => __DIR__ . '/..' . '/wbraganca/yii2-dynamicform',
-            1 => __DIR__ . '/..' . '/vivekmarakana/yii2-dynamicform',
+            0 => __DIR__ . '/..' . '/vivekmarakana/yii2-dynamicform',
+            1 => __DIR__ . '/..' . '/wbraganca/yii2-dynamicform',
         ),
         'rmrevin\\yii\\fontawesome\\' => 
         array (

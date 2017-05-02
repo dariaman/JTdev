@@ -12,6 +12,21 @@ use wbraganca\dynamicform\DynamicFormWidget;
 
 
 $this->registerJs(<<<JS
+    $(".dynamicform_wrapper").on("beforeDelete", function(e, item) {
+        if (! confirm("Are you sure you want to delete this item?")) {
+            return false;
+        }
+        return true;
+    });
+
+    $(".dynamicform_wrapper").on("afterDelete", function(e) {
+        console.log("Deleted item!");
+    });
+
+    $(".dynamicform_wrapper").on("limitReached", function(e, item) {
+        alert("Limit reached");
+    });
+        
     $(".dynamicform_wrapper").on('afterInsert', function(e, item) {
         var datePickers = $(this).find('[data-krajee-kvdatepicker]');
         datePickers.each(function(index, el) {
@@ -79,7 +94,7 @@ JS
         <td style="width: 50%;">
             <?= $form->field($modelD, "[{$i}]serviceId")->widget(Select2::classname(), [
                     'data'=> ArrayHelper::map(app\models\MService::find()->all(),'serviceId','serviceJudul'),
-                    'options' => ['placeholder' => '-- Services --'],'pluginOptions' => ['allowClear' => true]]) ?></td>
+                    'options' => ['placeholder' => '-- Services --'],'pluginOptions' => ['allowClear' => true]])->label("Service") ?></td>
         <td><?= $form->field($modelD, "[{$i}]orderDetailTglKerja")->widget(DatePicker::classname(), [
                                     'options' => ['class' => 'form-control picker','placeholder' => 'Tanggal Pengerjaan ...'],
                                     'pluginOptions' => [
