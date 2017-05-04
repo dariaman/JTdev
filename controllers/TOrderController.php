@@ -96,6 +96,7 @@ class TOrderController extends Controller
      */
     public function actionUpdate($id)
     {
+        $this->layout ='blank';
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {

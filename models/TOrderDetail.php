@@ -27,8 +27,6 @@ use Yii;
  */
 class TOrderDetail extends \yii\db\ActiveRecord
 {    
-    use \mootensai\relation\RelationTrait;
-
     /**
      * @inheritdoc
      */

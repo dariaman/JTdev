@@ -5,7 +5,6 @@ use yii\helpers\ArrayHelper;
 use yii\bootstrap\ActiveForm;
 use kartik\widgets\DatePicker;
 use kartik\widgets\Select2;
-use kartik\checkbox\CheckboxX;
 use kartik\depdrop\DepDrop;
 use yii\helpers\Url;
 use app\models\MKota;
@@ -100,9 +99,6 @@ $dropDownDataKelurahan = ArrayHelper::map($allKel,'kelurahanId','kelurahanNama')
     <?= $form->field($model, 'orderGpsKoordinat')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'orderBiayaTransport')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'orderStatus')->checkbox(['label' => 'Active']); ?>
-
 
     <?= Html::submitButton($model->isNewRecord ? 'Save' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
 

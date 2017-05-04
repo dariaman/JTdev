@@ -2,7 +2,7 @@
 
 use yii\helpers\Html;
 use kartik\grid\GridView;
-use app\models\TOrderDetailSearch;
+use yii\bootstrap\Modal;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\TOrderSearch */
@@ -10,6 +10,29 @@ use app\models\TOrderDetailSearch;
 
 $this->title = 'Order';
 $this->params['breadcrumbs'][] = $this->title;
+
+$script = <<<SKRIPT
+        
+    $(function() {
+       $('.popupEditHeader').click(function(e) {
+            e.preventDefault();
+            $('#PopupEdit').modal('show').find('.modal-content')
+            .load($(this).attr('href'));
+       });
+    });
+
+SKRIPT;
+$this->registerJs($script);
+
+Modal::begin([
+    'id' =>'PopupEdit',
+    'size' => 'modal-lg',
+    'header' => 'Update Header',
+    'clientOptions' => [
+        'backdrop' => 'static',
+    ],
+]);
+Modal::end();
 ?>
 <div class="torder-index">
 
@@ -39,7 +62,8 @@ $this->params['breadcrumbs'][] = $this->title;
 //                    $searchModel->orderId = $model->orderId;
 //                    $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
                     $query = new \yii\db\Query;
-                    $query->select('ms.`serviceJudul` as service,
+                    $query->select('td.`orderDetailId`,td.`orderId`,mr.`rekanId`,
+                                ms.`serviceJudul` as service,
                                 mk.`serviceKategoriJudul` as serviceKategori,
                                 md.`serviceDetailJudul` as serviceDetail,
                                 kd.`kapasitasJudul` as satuan,
@@ -117,6 +141,12 @@ $this->params['breadcrumbs'][] = $this->title;
                 'headerOptions' => ['style' => 'text-align:center'],
                 'value' => function($data){
                     return Html::a('',['print-inv','orderid' => $data['orderId']],['class'=>'glyphicon glyphicon-print']);
+                }
+            ],
+            [
+                'format' => 'raw',
+                'value' => function($data){
+                    return Html::a('sdf',['update','id' => $data['orderId']],['class' => 'popupEditHeader']);
                 }
             ],
             ['class' => 'yii\grid\ActionColumn','template'=>'{update}'],
