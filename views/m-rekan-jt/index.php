@@ -7,7 +7,7 @@ use yii\grid\GridView;
 /* @var $searchModel app\models\MRekanJtSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Mrekan Jts';
+$this->title = 'Rekan Tukang';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="mrekan-jt-index">
@@ -16,7 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Create Mrekan Jt', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Create', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -41,7 +41,7 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'rekanKendaraanNopol',
             // 'rekanStatus',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            ['class' => 'yii\grid\ActionColumn','template'=>'{update}{delete}'],
         ],
     ]); ?>
 </div>

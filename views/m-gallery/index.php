@@ -24,14 +24,21 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'galleriId',
+//            'galleriId',
             'galleriJudul',
             'galleriDeskripsi:ntext',
             'galleriTgl',
-            'galleriGambarUrl:url',
-            'galleriStatus',
+//            'galleriGambarUrl:url',
+            [
+                'header' => 'Gambar',
+                'format' => 'raw',
+                'value' => function($data){
+                    return Html::a('',['#'],['class'=>'glyphicon glyphicon-camera']);
+                }
+            ],
+//            'galleriStatus',
 
-            ['class' => 'yii\grid\ActionColumn','template'=>'{update}'],
+            ['class' => 'yii\grid\ActionColumn','template'=>'{update}{delete}'],
         ],
     ]); ?>
 </div>

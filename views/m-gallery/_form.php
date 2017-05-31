@@ -3,7 +3,6 @@
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use kartik\widgets\DatePicker;
-use kartik\file\FileInput;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\MGallery */
@@ -27,14 +26,11 @@ use kartik\file\FileInput;
             'autoclose'=>true,
             'format' => 'yyyy-mm-d'
     ]])?>
+    <?= $form->field($model, 'pic')->fileInput()->label("Gambar") ?>
 
-<?= $form->field($model, 'pic')->fileInput() ?>
-
-    <?= $form->field($model, 'galleriStatus')->checkbox(); ?>
-
-
-    <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+    <div class="col-xs-12">
+        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Cancel', ['index'], ['class' => 'btn btn-primary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>
