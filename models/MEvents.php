@@ -29,16 +29,19 @@ class MEvents extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
+    public $pic;
     public function rules()
     {
         return [
-            [['eventId', 'eventJudul', 'eventDeskripsi', 'eventTgl', 'eventDibuatOleh', 'eventStatus'], 'required'],
+            [['eventJudul', 'eventDeskripsi', 'eventTgl'], 'required'],
+            [['eventStatus'],'default','value'=>1],
             [['eventId'], 'integer'],
             [['eventDeskripsi'], 'string'],
             [['eventTgl', 'eventDibuatTgl'], 'safe'],
             [['eventJudul'], 'string', 'max' => 100],
             [['eventGambarUrl', 'eventDibuatOleh'], 'string', 'max' => 200],
-            [['eventStatus'], 'string', 'max' => 1],
+            [['pic'], 'file'],
+            // [['eventStatus'], 'string', 'max' => 1],
         ];
     }
 

@@ -7,7 +7,7 @@ use yii\widgets\DetailView;
 /* @var $model app\models\MEvents */
 
 $this->title = $model->eventId;
-$this->params['breadcrumbs'][] = ['label' => 'Mevents', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'event', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="mevents-view">

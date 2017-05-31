@@ -8,6 +8,7 @@ use app\models\MPromoSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\UploadedFile;
 
 /**
  * MPromoController implements the CRUD actions for MPromo model.
@@ -65,9 +66,17 @@ class MPromoController extends Controller
     {
         $model = new MPromo();
 
-        if ($model->load(Yii::$app->request->post()) ) {
+        if ($model->load(Yii::$app->request->post())) {
+            $model->promoGambarUrl = UploadedFile::getInstance($model, 'pic');
+            $img = Yii::$app->security->generateRandomString();
+
+            $nama = $img . '.' . $model->promoGambarUrl->extension;
+            $model->promoGambarUrl->saveAs(Yii::$app->params['GambarPromo'] .'images/'. $nama);
+            $model->promoGambarUrl = 'images/'.$nama;
+            $model->promoDibuatOleh = Yii::$app->user->identity->id;
+            $model->promoDibuatTgl = date('Y-m-d');
             $model->save(false);
-            return $this->redirect('index');
+            return $this->redirect(['index']);
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -84,10 +93,19 @@ class MPromoController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post())) {
+        
+        if (Yii::$app->request->isPost) {
+            if (file_exists(Yii::$app->params['GambarPromo'] . $model->promoGambarUrl)){
+                unlink(Yii::$app->params['GambarPromo'] . $model->promoGambarUrl);    
+            }
+            $model->load(Yii::$app->request->post());
+            $model->promoGambarUrl = UploadedFile::getInstance($model, 'pic');
+            $img = Yii::$app->security->generateRandomString();
+            $nama = $img . '.' . $model->promoGambarUrl->extension;
+            $model->promoGambarUrl->saveAs(Yii::$app->params['GambarPromo'].'images/'. $nama);
+            $model->promoGambarUrl = 'images/'.$nama;
             $model->save(false);
-            return $this->redirect('index');
+            return $this->redirect(['index']);
         } else {
             return $this->render('update', [
                 'model' => $model,

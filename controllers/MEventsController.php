@@ -8,6 +8,7 @@ use app\models\MEventsSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\UploadedFile;
 
 /**
  * MEventsController implements the CRUD actions for MEvents model.
@@ -65,8 +66,17 @@ class MEventsController extends Controller
     {
         $model = new MEvents();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->eventId]);
+        if ($model->load(Yii::$app->request->post())) {
+            $model->eventGambarUrl = UploadedFile::getInstance($model, 'pic');
+            $img = Yii::$app->security->generateRandomString();
+
+            $nama = $img . '.' . $model->eventGambarUrl->extension;
+            $model->eventGambarUrl->saveAs(Yii::$app->params['GambarEvent']. $nama);
+            $model->eventGambarUrl =  'images/'.$nama;
+            $model->eventDibuatOleh = Yii::$app->user->identity->id;
+            $model->eventDibuatTgl = date('Y-m-d');
+            $model->save(false);
+            return $this->redirect(['index']);
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -83,9 +93,19 @@ class MEventsController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->eventId]);
+        
+        if (Yii::$app->request->isPost) {
+            if (file_exists(Yii::$app->params['GambarEvent'] . $model->eventGambarUrl)){
+                unlink(Yii::$app->params['GambarEvent'] . $model->eventGambarUrl);    
+            }
+            $model->load(Yii::$app->request->post());
+            $model->eventGambarUrl = UploadedFile::getInstance($model, 'pic');
+            $img = Yii::$app->security->generateRandomString();
+            $nama = $img . '.' . $model->eventGambarUrl->extension;
+            $model->eventGambarUrl->saveAs(Yii::$app->params['GambarEvent'].'images/'. $nama);
+            $model->eventGambarUrl = 'images/'.$nama;
+            $model->save(false);
+            return $this->redirect(['index']);
         } else {
             return $this->render('update', [
                 'model' => $model,
