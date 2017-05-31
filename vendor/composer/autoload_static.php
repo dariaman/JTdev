@@ -4,13 +4,13 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit11038a457e4cb2389d0cd425fbe55178
+class ComposerStaticInit3d4582d9ada3c490682f66a7c14c4c6f
 {
     public static $files = array (
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
         '2cffec82183ee1cea088009cef9a6fc3' => __DIR__ . '/..' . '/ezyang/htmlpurifier/library/HTMLPurifier.composer.php',
-        'a0edc8309cc5e1d60e3047b5df6b7052' => __DIR__ . '/..' . '/guzzlehttp/psr7/src/functions_include.php',
         '2c102faa651ef8ea5874edb585946bce' => __DIR__ . '/..' . '/swiftmailer/swiftmailer/lib/swift_required.php',
+        'a0edc8309cc5e1d60e3047b5df6b7052' => __DIR__ . '/..' . '/guzzlehttp/psr7/src/functions_include.php',
         '180092cfc969a12e06f2132a203a3184' => __DIR__ . '/..' . '/codeception/verify/src/Codeception/function.php',
     );
 
@@ -39,7 +39,6 @@ class ComposerStaticInit11038a457e4cb2389d0cd425fbe55178
         ),
         'm' => 
         array (
-            'mootensai\\relation\\' => 19,
             'mdm\\admin\\' => 10,
         ),
         'k' => 
@@ -158,8 +157,8 @@ class ComposerStaticInit11038a457e4cb2389d0cd425fbe55178
         ),
         'wbraganca\\dynamicform\\' => 
         array (
-            0 => __DIR__ . '/..' . '/vivekmarakana/yii2-dynamicform',
-            1 => __DIR__ . '/..' . '/wbraganca/yii2-dynamicform',
+            0 => __DIR__ . '/..' . '/vivekmarakana/yii2-dynamicform/src',
+            1 => __DIR__ . '/..' . '/wbraganca/yii2-dynamicform/src',
         ),
         'rmrevin\\yii\\fontawesome\\' => 
         array (
@@ -170,10 +169,6 @@ class ComposerStaticInit11038a457e4cb2389d0cd425fbe55178
             0 => __DIR__ . '/..' . '/phpdocumentor/reflection-common/src',
             1 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
             2 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
-        ),
-        'mootensai\\relation\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/mootensai/yii2-relation-trait',
         ),
         'mdm\\admin\\' => 
         array (
@@ -954,10 +949,10 @@ class ComposerStaticInit11038a457e4cb2389d0cd425fbe55178
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit11038a457e4cb2389d0cd425fbe55178::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit11038a457e4cb2389d0cd425fbe55178::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInit11038a457e4cb2389d0cd425fbe55178::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInit11038a457e4cb2389d0cd425fbe55178::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit3d4582d9ada3c490682f66a7c14c4c6f::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit3d4582d9ada3c490682f66a7c14c4c6f::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit3d4582d9ada3c490682f66a7c14c4c6f::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInit3d4582d9ada3c490682f66a7c14c4c6f::$classMap;
 
         }, null, ClassLoader::class);
     }

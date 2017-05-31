@@ -6,8 +6,6 @@ use Yii;
 
 class TOrder extends \yii\db\ActiveRecord
 {
-    use \mootensai\relation\RelationTrait;
-    
     public static function tableName()
     {
         return 't_order';

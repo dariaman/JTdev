@@ -36,7 +36,6 @@
                     ['label' => 'Rekan JagoTukang', 'url' => ['/m-rekan-jt'], "icon" => "files-o"],
                     ['label' => 'Order', 'url' => ['/t-order'], "icon" => "files-o"],
                     ['label' => 'Work Order', 'url' => ['/t-order/wo'], "icon" => "files-o"],
-                    ['label' => 'Inbound Order', 'url' => ['/t-order/inbound-order'], "icon" => "files-o"],
                     [
                         "label" => "Service",
                         "icon" => "th",
