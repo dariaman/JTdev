@@ -33,11 +33,14 @@
                     ['label' => 'Gallery', 'url' => ['/m-gallery'], "icon" => "files-o"],
                     ['label' => 'Event', 'url' => ['/m-events'], "icon" => "files-o"],
                     ['label' => 'Promo', 'url' => ['/m-promo'], "icon" => "files-o"],
+                    ['label' => 'Voucher', 'url' => ['/voucher'], "icon" => "files-o"],
 //                    ['label' => 'InternetBanking', 'url' => ['/m-internet-banking'], "icon" => "files-o"],
 //                    ['label' => 'KartuDebit', 'url' => ['/m-kartu-debit'], "icon" => "files-o"],
-                    ['label' => 'Rekan JagoTukang', 'url' => ['/m-rekan-jt'], "icon" => "files-o"],
+                    ['label' => 'Rekan Tukang', 'url' => ['/m-rekan-jt'], "icon" => "files-o"],
+                    ['label' => 'Customer', 'url' => ['/m-user'], "icon" => "files-o"],
                     ['label' => 'Order', 'url' => ['/t-order'], "icon" => "files-o"],
-                    ['label' => 'Work Order', 'url' => ['/t-order/wo'], "icon" => "files-o"],
+                    ['label' => 'Inbound Order', 'url' => ['/t-order/inbound'], "icon" => "files-o"],
+//                    ['label' => 'Work Order', 'url' => ['/t-order/wo'], "icon" => "files-o"],
                     [
                         "label" => "Service",
                         "icon" => "th",
@@ -67,7 +70,7 @@
                             ['label' => 'Promo', 'url' => ['/m-promo']],
                             ['label' => 'tips', 'url' => ['/m-tips']],
                             ['label' => 'testimoni', 'url' => ['/m-testimoni']],
-                            ['label' => 'Faq', 'url' => ['/m-faq']]
+//                            ['label' => 'Faq', 'url' => ['/m-faq']]
                         ],
                     ],
 //                    ['label' => 'Menu Yii2', 'options' => ['class' => 'header']],

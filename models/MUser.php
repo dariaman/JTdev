@@ -36,10 +36,14 @@ class MUser extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
+    public $kotaNama;
+    public $kecamatanNama;
+    public $kelurahanNama;
+    
     public function rules()
     {
         return [
-            [['userEmail', 'userNamaDepan', 'userKelamin', 'userPassword', 'userAlamat', 'userKota', 'userKelurahan', 'userKecamatan', 'userDaerah', 'userKodePos', 'userNoTelp', 'userNoHp', 'userStatus'], 'required'],
+            [['userEmail', 'userNamaDepan', 'userPassword', 'userAlamat'], 'required'],
             [['userEmail', 'userPassword'], 'string', 'max' => 200],
             [['userNamaDepan', 'userNamaBelakang', 'userKota', 'userKelurahan', 'userKecamatan', 'userDaerah'], 'string', 'max' => 100],
             [['userKelamin', 'userStatus'], 'string', 'max' => 1],
@@ -56,20 +60,20 @@ class MUser extends \yii\db\ActiveRecord
     {
         return [
             'userId' => 'User ID',
-            'userEmail' => 'User Email',
-            'userNamaDepan' => 'User Nama Depan',
-            'userNamaBelakang' => 'User Nama Belakang',
-            'userKelamin' => 'User Kelamin',
-            'userPassword' => 'User Password',
-            'userAlamat' => 'User Alamat',
-            'userKota' => 'User Kota',
-            'userKelurahan' => 'User Kelurahan',
-            'userKecamatan' => 'User Kecamatan',
-            'userDaerah' => 'User Daerah',
-            'userKodePos' => 'User Kode Pos',
-            'userNoTelp' => 'User No Telp',
-            'userNoHp' => 'User No Hp',
-            'userStatus' => 'User Status',
+            'userEmail' => 'Email',
+            'userNamaDepan' => 'Nama Depan',
+            'userNamaBelakang' => 'Nama Belakang',
+            'userKelamin' => 'JenisKelamin',
+            'userPassword' => 'Password',
+            'userAlamat' => 'Alamat',
+            'userKota' => 'Kota',
+            'userKelurahan' => 'Kelurahan',
+            'userKecamatan' => 'Kecamatan',
+            'userDaerah' => 'Daerah',
+            'userKodePos' => 'Kode Pos',
+            'userNoTelp' => 'No Telp',
+            'userNoHp' => 'No Hp',
+            'userStatus' => 'Status',
         ];
     }
 

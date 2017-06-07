@@ -20,7 +20,8 @@ use yii\helpers\Html;
             <ul class="nav navbar-nav">
                 <li class="dropdown user user-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <span class="hidden-xs"><b><?= Yii::$app->user->identity->username ?></b></span>
+                        <span class="hidden-xs"><b>
+        <?php if(!Yii::$app->user->isGuest) echo Yii::$app->user->identity->username; ?></b></span>
                     </a>
                     <ul class="dropdown-menu">
                         <!-- Menu Footer-->

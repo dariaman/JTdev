@@ -1,9 +1,8 @@
 <?php
 
 use yii\helpers\Html;
-use yii\bootstrap\ActiveForm;
-use kartik\date\DatePicker;
-use kartik\file\FileInput;
+use yii\widgets\ActiveForm;
+
 /* @var $this yii\web\View */
 /* @var $model app\models\MEvents */
 /* @var $form yii\widgets\ActiveForm */
@@ -11,44 +10,23 @@ use kartik\file\FileInput;
 
 <div class="mevents-form">
 
-   <?php $form = ActiveForm::begin([
-    'options' => ['enctype' => 'multipart/form-data'],   
-    'id'=>$model->formName(),
-    'layout' => 'horizontal'
-   ]); ?>
+    <?php $form = ActiveForm::begin(); ?>
 
+    <?= $form->field($model, 'eventId')->textInput() ?>
 
     <?= $form->field($model, 'eventJudul')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'eventDeskripsi')->textarea(['rows' => 6]) ?>
 
+    <?= $form->field($model, 'eventTgl')->textInput() ?>
 
-    <?= $form->field($model, 'eventTgl')->widget(DatePicker::classname(), [
-        'options' => ['placeholder' => 'Enter  date ...'],
-        'pluginOptions' => [
-            'autoclose'=>true,
-            'format' => 'yyyy-mm-d'
-        ]
-    ]) ?>
-    
-    <?= $form->field($model, 'pic')->widget(FileInput::classname(), [
-            'options' => ['accept' => 'image/*'],
-            'pluginOptions' => ['showUpload' => false]
-        ])
-    ?>
-    
-    <?php
-    if(!$model->isNewRecord){
-    ?>
+    <?= $form->field($model, 'eventGambarUrl')->textInput(['maxlength' => true]) ?>
 
+    <?= $form->field($model, 'eventDibuatTgl')->textInput() ?>
 
+    <?= $form->field($model, 'eventDibuatOleh')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'eventStatus')->checkbox() ?>
-
-    <?php
-    }
-
-    ?>
+    <?= $form->field($model, 'eventStatus')->textInput(['maxlength' => true]) ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

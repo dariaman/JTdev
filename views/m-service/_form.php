@@ -1,7 +1,8 @@
 <?php
+
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
-use kartik\select2\Select2;
+
 /* @var $this yii\web\View */
 /* @var $model app\models\MService */
 /* @var $form yii\widgets\ActiveForm */
@@ -16,24 +17,19 @@ use kartik\select2\Select2;
 
     <?= $form->field($model, 'serviceJudul')->textInput(['maxlength' => true]) ?>
 
-     <?php
+    <?php
     if(!$model->isNewRecord){
     ?>
 
-        <?= $form->field($model, 'serviceStatus')->widget(Select2::classname(), [
-        'data' => $data_status,
-        'options' => ['placeholder' => 'Select a ...'],
-        'pluginOptions' => [
-            'allowClear' => true
-        ],
-    ]) ?>
+    <?= $form->field($model, 'serviceStatus')->checkbox() ?>
 
     <?php
-        }
-    ?>
+    }
 
+    ?>
+    
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::submitButton($model->isNewRecord ? 'Simpan' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

@@ -1,13 +1,17 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\ArrayHelper;
 use yii\bootstrap\ActiveForm;
 use kartik\select2\Select2;
 use kartik\money\MaskMoney;
+use app\models\MServiceDetail;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\MKapasitasDetail */
 /* @var $form yii\widgets\ActiveForm */
+
+$dataservicedetail = ArrayHelper::map(MServiceDetail::find()->all(),'serviceDetailId','serviceDetailJudul');
 ?>
 
 <div class="mkapasitas-detail-form">
@@ -26,38 +30,29 @@ use kartik\money\MaskMoney;
         ]
     ]) ?>
 
-
     <?= $form->field($model, 'serviceDetailId')->widget(Select2::classname(), [
-        'data' => $data_service_detail,
-        'options' => ['placeholder' => 'Select a ...'],
+        'data' => $dataservicedetail,
+        'options' => ['placeholder' => '--Pilih Service Detail--'],
         'pluginOptions' => [
             'allowClear' => true
         ],
     ])->label('Service') ?>
 
     <?= $form->field($model, 'kapasitasDeskripsi')->textarea(['rows' => 6]) ?>
-
-      <?php
+        
+    <?php
     if(!$model->isNewRecord){
     ?>
 
-        <?= $form->field($model, 'kapasitasStatus')->widget(Select2::classname(), [
-        'data' => $data_status,
-        'options' => ['placeholder' => 'Select a ...'],
-        'pluginOptions' => [
-            'allowClear' => true
-        ],
-    ]) ?>
+    <?= $form->field($model, 'kapasitasStatus')->checkbox() ?>
 
     <?php
-        }
+    }
+
     ?>
 
-
-    
-
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::submitButton($model->isNewRecord ? 'Save' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

@@ -23,6 +23,7 @@ class MKapasitasDetail extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
+    public $serviceDetailJudul;
     public function rules()
     {
         return [

@@ -30,7 +30,6 @@ class MPromo extends \yii\db\ActiveRecord
      * @inheritdoc
      */
     public $pic;
-    
     public function rules()
     {
         return [
@@ -39,7 +38,8 @@ class MPromo extends \yii\db\ActiveRecord
             [['promoDeskripsi'], 'string'],
             [['promoTgl', 'promoDibuatTgl'], 'safe'],
             [['promoJudul'], 'string', 'max' => 100],
-            [['promoGambarUrl', 'promoDibuatOleh'], 'string', 'max' => 200],
+            [['promoDibuatOleh'], 'string', 'max' => 200],
+            [['promoGambarUrl'], 'safe'],
             [['promoStatus'], 'string', 'max' => 1],
             [['pic'], 'file'],
         ];

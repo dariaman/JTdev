@@ -23,6 +23,7 @@ class MServiceKategori extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
+    public $serviceJudul;
     public function rules()
     {
         return [

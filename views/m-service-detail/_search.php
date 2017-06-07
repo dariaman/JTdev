@@ -15,9 +15,15 @@ use yii\widgets\ActiveForm;
         'method' => 'get',
     ]); ?>
 
+    <?= $form->field($model, 'serviceDetailId') ?>
 
     <?= $form->field($model, 'serviceDetailJudul') ?>
 
+    <?= $form->field($model, 'serviceDetailDeskripsi') ?>
+
+    <?= $form->field($model, 'serviceDetailGambar') ?>
+
+    <?= $form->field($model, 'serviceKategoriId') ?>
 
     <?php // echo $form->field($model, 'serviceId') ?>
 

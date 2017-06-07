@@ -41,7 +41,11 @@ class MServiceKategoriSearch extends MServiceKategori
      */
     public function search($params)
     {
-        $query = MServiceKategori::find();
+        $query = MServiceKategori::find()
+                ->select('*')
+                ->from('m_service_kategori msk')
+                ->leftJoin('m_service ms','ms.serviceId = msk.serviceId')
+                ;
 
         // add conditions that should always apply here
 

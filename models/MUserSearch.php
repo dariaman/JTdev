@@ -41,7 +41,13 @@ class MUserSearch extends MUser
      */
     public function search($params)
     {
-        $query = MUser::find();
+        $query = MUser::find()
+                ->select('*')
+                ->from('m_user mu')
+                ->leftJoin('m_kota mk','mk.kotaId = mu.userKota')
+                ->leftJoin('m_kecamatan mkc','mkc.kecamatanId = mu.userKecamatan')
+                ->leftJoin('m_kelurahan mkl','mkl.kelurahanId = mu.userKelurahan')
+                ;
 
         // add conditions that should always apply here
 
@@ -68,9 +74,9 @@ class MUserSearch extends MUser
             ->andFilterWhere(['like', 'userKelamin', $this->userKelamin])
             ->andFilterWhere(['like', 'userPassword', $this->userPassword])
             ->andFilterWhere(['like', 'userAlamat', $this->userAlamat])
-            ->andFilterWhere(['like', 'userKota', $this->userKota])
-            ->andFilterWhere(['like', 'userKelurahan', $this->userKelurahan])
-            ->andFilterWhere(['like', 'userKecamatan', $this->userKecamatan])
+            ->andFilterWhere(['like', 'kotaNama', $this->userKota])
+            ->andFilterWhere(['like', 'kelurahanNama', $this->userKelurahan])
+            ->andFilterWhere(['like', 'kecamatanNama', $this->userKecamatan])
             ->andFilterWhere(['like', 'userDaerah', $this->userDaerah])
             ->andFilterWhere(['like', 'userKodePos', $this->userKodePos])
             ->andFilterWhere(['like', 'userNoTelp', $this->userNoTelp])

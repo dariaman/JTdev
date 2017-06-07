@@ -30,18 +30,9 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'kapasitasId',
             'kapasitasJudul',
-            // 'kapasitasHarga',
-             [
-                'label'=>'Harga',
-                'value'=>'RP '.number_format($model->kapasitasHarga,2)
-            ],
-            [
-                'label'=>'Status',
-                'format'=>'raw',
-                'value'=>$model->kapasitasStatus ? '<span class="glyphicon glyphicon-ok"></span':'<span class="glyphicon glyphicon-remove"></span'
-            ],
-            // 'kapasitasStatus',
-            'servicejuduldetail',
+            'kapasitasHarga',
+            'kapasitasStatus',
+            'serviceDetailId',
             'kapasitasDeskripsi:ntext',
         ],
     ]) ?>

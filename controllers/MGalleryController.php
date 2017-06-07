@@ -69,6 +69,7 @@ class MGalleryController extends Controller
         if ($model->load(Yii::$app->request->post())) {
             $model->galleriGambarUrl = UploadedFile::getInstance($model, 'galleriGambarUrl');
             $img = Yii::$app->security->generateRandomString();
+            
             $model->galleriGambarUrl->saveAs(Yii::$app->params['uploadGalery'] . $img . '.' . $model->galleriGambarUrl->extension);
             $model->galleriGambarUrl-> $img . '.' . $model->galleriGambarUrl->extension;
             echo var_dump($model);

@@ -146,10 +146,10 @@ Modal::end();
             [
                 'format' => 'raw',
                 'value' => function($data){
-                    return Html::a('sdf',['update','id' => $data['orderId']],['class' => 'popupEditHeader']);
+                    return Html::a('',['update','id' => $data['orderId']],['class' => 'popupEditHeader glyphicon glyphicon-pencil']);
                 }
             ],
-            ['class' => 'yii\grid\ActionColumn','template'=>'{update}'],
+//            ['class' => 'yii\grid\ActionColumn','template'=>'{update}'],
         ],
             
     ]);

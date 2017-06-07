@@ -24,6 +24,9 @@ class MServiceDetail extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
+    public $serviceJudul;
+    public $serviceKategoriJudul;
+    public $pic;
     public function rules()
     {
         return [
@@ -33,6 +36,7 @@ class MServiceDetail extends \yii\db\ActiveRecord
             [['serviceDetailJudul'], 'string', 'max' => 100],
             [['serviceDetailGambar'], 'string', 'max' => 200],
             [['serviceDetailStatus'], 'string', 'max' => 1],
+            [['pic'], 'file'],
         ];
     }
     
@@ -65,7 +69,6 @@ class MServiceDetail extends \yii\db\ActiveRecord
             'serviceDetailStatus' => 'Service Detail Status',
         ];
     }
-
     /**
      * @inheritdoc
      * @return MServiceDetailQuery the active query used by this AR class.

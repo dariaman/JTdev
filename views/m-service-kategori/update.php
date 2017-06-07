@@ -5,8 +5,8 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\MServiceKategori */
 
-$this->title = 'Update service Kategori: ' . $model->serviceKategoriId;
-$this->params['breadcrumbs'][] = ['label' => 'Mservice Kategoris', 'url' => ['index']];
+$this->title = 'Update Service Kategori: ' . $model->serviceKategoriId;
+$this->params['breadcrumbs'][] = ['label' => 'Service Kategori', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->serviceKategoriId, 'url' => ['view', 'id' => $model->serviceKategoriId]];
 $this->params['breadcrumbs'][] = 'Update';
 ?>
@@ -16,8 +16,6 @@ $this->params['breadcrumbs'][] = 'Update';
 
     <?= $this->render('_form', [
         'model' => $model,
-        'data_status'=>$data_status,
-        'data_service'=>$data_service
     ]) ?>
 
 </div>

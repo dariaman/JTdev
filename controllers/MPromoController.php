@@ -69,10 +69,9 @@ class MPromoController extends Controller
         if ($model->load(Yii::$app->request->post())) {
             $model->promoGambarUrl = UploadedFile::getInstance($model, 'pic');
             $img = Yii::$app->security->generateRandomString();
-
-            $nama = $img . '.' . $model->promoGambarUrl->extension;
-            $model->promoGambarUrl->saveAs(Yii::$app->params['GambarPromo'] .'images/'. $nama);
-            $model->promoGambarUrl = 'images/'.$nama;
+            
+            $model->promoGambarUrl->saveAs('../gbr/'.$img . '.' . $model->promoGambarUrl->extension);
+            $model->promoGambarUrl = 'images/'.$img . '.' . $model->promoGambarUrl->extension;
             $model->promoDibuatOleh = Yii::$app->user->identity->id;
             $model->promoDibuatTgl = date('Y-m-d');
             $model->save(false);
@@ -84,12 +83,6 @@ class MPromoController extends Controller
         }
     }
 
-    /**
-     * Updates an existing MPromo model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
-     * @return mixed
-     */
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
@@ -102,7 +95,7 @@ class MPromoController extends Controller
             $model->promoGambarUrl = UploadedFile::getInstance($model, 'pic');
             $img = Yii::$app->security->generateRandomString();
             $nama = $img . '.' . $model->promoGambarUrl->extension;
-            $model->promoGambarUrl->saveAs(Yii::$app->params['GambarPromo'].'images/'. $nama);
+            $model->promoGambarUrl->saveAs($nama);
             $model->promoGambarUrl = 'images/'.$nama;
             $model->save(false);
             return $this->redirect(['index']);

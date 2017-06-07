@@ -1,10 +1,12 @@
 <?php
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use kartik\select2\Select2;
 /* @var $this yii\web\View */
 /* @var $model app\models\MServiceKategori */
 /* @var $form yii\widgets\ActiveForm */
+$dataService = ArrayHelper::map(app\models\MService::find()->asArray()->all(), 'serviceId', 'serviceJudul');
 ?>
 
 <div class="mservice-kategori-form">
@@ -17,33 +19,29 @@ use kartik\select2\Select2;
     <?= $form->field($model, 'serviceKategoriJudul')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'serviceKategoriGambarUrl')->textInput(['maxlength' => true]) ?>
-
+    
+    <?= $form->field($model, 'serviceId')->widget(Select2::classname(), [
+        'data' => $dataService,
+        'options' => ['placeholder' => '--Pilih Service--'],
+        'pluginOptions' => [
+            'allowClear' => true
+        ],
+        ]) ?>
+    
     <?php
     if(!$model->isNewRecord){
     ?>
 
-        <?= $form->field($model, 'serviceKategoriStatus')->widget(Select2::classname(), [
-        'data' => $data_status,
-        'options' => ['placeholder' => 'Select a ...'],
-        'pluginOptions' => [
-            'allowClear' => true
-        ],
-    ]) ?>
+    <?= $form->field($model, 'serviceKategoriStatus')->checkbox() ?>
 
     <?php
-        }
-    ?>
+    }
 
-    <?= $form->field($model, 'serviceId')->widget(Select2::classname(), [
-	    'data' => $data_service,
-	    'options' => ['placeholder' => 'Select a ...'],
-	    'pluginOptions' => [
-	        'allowClear' => true
-	    ],
-	])->label('Service') ?>
+    ?>    
+    
 
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::submitButton($model->isNewRecord ? 'Simpan' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

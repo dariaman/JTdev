@@ -44,12 +44,6 @@ class MService extends \yii\db\ActiveRecord
             'serviceStatus' => 'Service Status',
         ];
     }
-     public static function getList(){
-        $data = static::find()->all();
-        $value = (count($data)<1)? [''=>'']: \yii\helpers\ArrayHelper::map($data, 'serviceId','serviceJudul');
-        return $value;
-    }
-
 
     /**
      * @inheritdoc

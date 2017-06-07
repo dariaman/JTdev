@@ -41,7 +41,12 @@ class MServiceDetailSearch extends MServiceDetail
      */
     public function search($params)
     {
-        $query = MServiceDetail::find();
+        $query = MServiceDetail::find()
+                ->select('*')
+                ->from('m_service_detail msd')
+                ->leftJoin('m_service ms','ms.serviceId = msd.serviceId')
+                ->leftJoin('m_service_kategori msk','msk.serviceKategoriId = msd.serviceKategoriId')
+                ;
 
         // add conditions that should always apply here
 

@@ -1,16 +1,14 @@
 <?php
+
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+
 /* @var $this yii\web\View */
 /* @var $model app\models\MServiceKategori */
+
 $this->title = $model->serviceKategoriId;
 $this->params['breadcrumbs'][] = ['label' => 'Mservice Kategoris', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
-if($model->serviceKategoriStatus){
-    $status = '<span class="glyphicon glyphicon-ok"></span';
-}else{
-    $status = '<span class="glyphicon glyphicon-reamove"></span';
-}
 ?>
 <div class="mservice-kategori-view">
 
@@ -33,13 +31,8 @@ if($model->serviceKategoriStatus){
             'serviceKategoriId',
             'serviceKategoriJudul',
             'serviceKategoriGambarUrl:url',
-            // 'serviceKategoriStatus',
-            [
-                'label'=>'Status',
-                'format'=>'raw',
-                'value'=>$status
-            ],
-            'serviceNama',
+            'serviceKategoriStatus',
+            'serviceId',
         ],
     ]) ?>
 

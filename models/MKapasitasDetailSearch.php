@@ -41,7 +41,11 @@ class MKapasitasDetailSearch extends MKapasitasDetail
      */
     public function search($params)
     {
-        $query = MKapasitasDetail::find();
+        $query = MKapasitasDetail::find()
+                ->select('*')
+                ->from('m_kapasitas_detail mkd')
+                ->leftJoin('m_service_detail msd','msd.serviceDetailId = mkd.serviceDetailId')
+                ;
 
         // add conditions that should always apply here
 

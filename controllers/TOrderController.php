@@ -194,6 +194,23 @@ class TOrderController extends Controller
             ]);
         }
     }
+    public function actionInbound()
+    {
+        $modelH = new TOrder();
+        $modelsD = [new TOrderDetail()];
+        $dropDownDataService = \yii\helpers\ArrayHelper::map(\app\models\MServiceDetail::find()->all(),'serviceDetailId','serviceDetailJudul');
+        $dataJam = \yii\helpers\ArrayHelper::map(\app\models\MOfficeHour::find()->all(),'officeHourId','officeHourTitle');
+
+        if (Yii::$app->request->isPost) {
+        } else {
+            return $this->render('Inbound', [
+                'modelH' => $modelH,
+                'modelsD' => (empty($modelsD)) ? [new TOrderDetail()] : $modelsD,
+                'dropDownDataService' => $dropDownDataService,
+                'dataJam' => $dataJam,
+            ]);
+        }
+    }
 
     public function actionWo()
     {

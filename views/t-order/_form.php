@@ -100,8 +100,10 @@ $dropDownDataKelurahan = ArrayHelper::map($allKel,'kelurahanId','kelurahanNama')
 
     <?= $form->field($model, 'orderBiayaTransport')->textInput(['maxlength' => true]) ?>
 
-    <?= Html::submitButton($model->isNewRecord ? 'Save' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
-
+    <div class="col-xs-12">
+        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Cancel', ['index'], ['class' => 'btn btn-primary']) ?>
+    </div>
 
     <?php ActiveForm::end(); ?>
 

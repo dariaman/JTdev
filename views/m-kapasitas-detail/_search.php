@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\MKapasitasDetailSearch */
+/* @var $model app\models\MKapastiasDetailSearch */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
@@ -15,10 +15,15 @@ use yii\widgets\ActiveForm;
         'method' => 'get',
     ]); ?>
 
-   
+    <?= $form->field($model, 'kapasitasId') ?>
 
     <?= $form->field($model, 'kapasitasJudul') ?>
 
+    <?= $form->field($model, 'kapasitasHarga') ?>
+
+    <?= $form->field($model, 'kapasitasStatus') ?>
+
+    <?= $form->field($model, 'serviceDetailId') ?>
 
     <?php // echo $form->field($model, 'kapasitasDeskripsi') ?>
 

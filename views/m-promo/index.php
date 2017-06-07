@@ -1,7 +1,7 @@
 <?php
 
 use yii\helpers\Html;
-use kartik\grid\GridView;
+use yii\grid\GridView;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\MPromoSearch */
@@ -15,6 +15,9 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
+    <p>
+        <?= Html::a('Create Promo', ['create'], ['class' => 'btn btn-success']) ?>
+    </p>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
@@ -25,25 +28,12 @@ $this->params['breadcrumbs'][] = $this->title;
             'promoJudul',
             'promoDeskripsi:ntext',
             'promoTgl',
-//            'promoGambarUrl:url',
-            [
-                'attribute' => 'promoGambarUrl',
-                'format' => 'html',
-                'label' => 'promoGambarUrl',
-                'value' => function ($data) {
-                    return Html::img('../'.Yii::$app->params['GambarPromo'].$data['promoGambarUrl'],
-                        ['width' => '200px']);
-                },
-            ],
+            'promoGambarUrl:url',
             // 'promoDibuatTgl',
             // 'promoDibuatOleh',
             // 'promoStatus',
 
-            ['class' => 'yii\grid\ActionColumn','template' => '{update}'],
+            ['class' => 'yii\grid\ActionColumn','template'=>'{update}'],
         ],
     ]); ?>
-    
-    <p>
-        <?= Html::a('Tambah Promo', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
 </div>
