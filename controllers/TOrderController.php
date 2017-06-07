@@ -11,7 +11,8 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use kartik\mpdf\Pdf;
 use yii\helpers\Json;
-use yii\web\Response;
+use app\models\Orderdetailtemp;
+use app\models\OrderdetailtempSearch;
 
 /**
  * TOrderController implements the CRUD actions for TOrder model.
@@ -194,20 +195,44 @@ class TOrderController extends Controller
             ]);
         }
     }
+    
+    protected function findModelDetail($id)
+    {
+        if (($model = Orderdetailtemp::findOne($id)) !== null) {
+            return $model;
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
+    }
+    
+    public function actionDeleteDetail($id)
+    {
+//        $model = TOrder::findOne($id);
+//        $model->delete();
+        $this->findModelDetail($id)->delete();
+
+        return $this->redirect(['inbound']);
+    }
+    
     public function actionInbound()
     {
         $modelH = new TOrder();
-        $modelsD = [new TOrderDetail()];
-        $dropDownDataService = \yii\helpers\ArrayHelper::map(\app\models\MServiceDetail::find()->all(),'serviceDetailId','serviceDetailJudul');
-        $dataJam = \yii\helpers\ArrayHelper::map(\app\models\MOfficeHour::find()->all(),'officeHourId','officeHourTitle');
+        $searchModel = new OrderdetailtempSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+//        $modelD = new TOrderDetail();
+//        $dropDownDataService = \yii\helpers\ArrayHelper::map(\app\models\MServiceDetail::find()->all(),'serviceDetailId','serviceDetailJudul');
+//        $dataJam = \yii\helpers\ArrayHelper::map(\app\models\MOfficeHour::find()->all(),'officeHourId','officeHourTitle');
 
         if (Yii::$app->request->isPost) {
         } else {
             return $this->render('Inbound', [
                 'modelH' => $modelH,
-                'modelsD' => (empty($modelsD)) ? [new TOrderDetail()] : $modelsD,
-                'dropDownDataService' => $dropDownDataService,
-                'dataJam' => $dataJam,
+//                'searchModel' => $searchModel,
+                'dataProvider' => $dataProvider,
+//                'modelD' => $modelD,
+//                'dropDownDataService' => $dropDownDataService,
+//                'dataJam' => $dataJam,
             ]);
         }
     }
@@ -334,7 +359,7 @@ class TOrderController extends Controller
             if ($parents != null) {
                 $model = \app\models\MKapasitasDetail::find()->where(['serviceDetailId'=>$parents[0]])->all();
                 foreach ($model as $key => $value) {
-                   $out[] = ['id'=>$value->kapasitasId,'name'=> $value->kapasitasJudul];
+                   $out[] = ['id'=>$value->kapasitasId,'name'=> $value->kapasitasJudul.' - '.$value->kapasitasHarga];
                 }
                 echo Json::encode(['output' => $out, 'selected' => '']);
                 return;

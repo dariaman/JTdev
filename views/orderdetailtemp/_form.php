@@ -43,61 +43,48 @@ $dropDownDataService = ArrayHelper::map($allService,'serviceId','serviceJudul');
 $dropDownDataServiceDetail = ArrayHelper::map($allServiceDetail,'serviceDetailId','serviceDetailJudul','serviceKategoriId');
 $dropDownDataKapasitasDetail = ArrayHelper::map($allKapasitasDetail,'kapasitasId','kapasitasJudul','serviceDetailId');
 $dropDownDataRekanJt = ArrayHelper::map($allRekanJT,'rekanId','rekanNamaLengkap');
+
 ?>
 
 <div class="torder-form">
+    <?php $form = ActiveForm::begin(['layout' => 'horizontal']); ?>
     
-    <?php $form = ActiveForm::begin(['action' => ['create-detail'],'layout' => 'horizontal']); ?>
-    
-    <?= Html::hiddenInput('orderId',$orderId); ?>
-    
-    <?= $form->field($model, 'serviceDetailId')->widget(Select2::classname(), [
-        'data' => $dropDownDataServiceDetail,
-        'options' => ['placeholder' => 'Pilih Service Detail...'],
-        'pluginOptions' => [
-            'allowClear' => true
-        ],
-    ]); ?>
-    
-    <?= $form->field($model, 'kapasitasId')->widget(Select2::classname(), [
-        'data' => $dropDownDataKapasitasDetail,
-        'options' => ['placeholder' => 'Pilih Kapasitas Detail...'],
-        'pluginOptions' => [
-            'allowClear' => true
-        ],
-    ]); ?>
-    
-    <?= $form->field($model, 'rekanId')->widget(Select2::classname(), [
-//        'data' => $dropDownDataRekanJt,
-        'data' => ['Adit' => 'Adit'],
-        'options' => ['placeholder' => 'Pilih Rekan JT...'],
-        'pluginOptions' => [
-            'allowClear' => true
-        ],
-    ]); ?>
-    
-    <?= $form->field($model, 'orderDetailTglKerja')->widget(DatePicker::classname(), [
+    <?= $form->field($model, 'serviceId')->dropDownList($dropDownDataService, ['id'=>'service-id','prompt' => '-- services --'])
+            ->label("Service") ?>
+    <?= $form->field($model, 'serviceDetailId')->widget(DepDrop::classname(), [
+            'options' => ['id'=>'service-detail-id'],
+            'pluginOptions'=>[
+                'depends'=>['service-id'],
+                'placeholder' => 'Select...',
+                'url' => Url::to(['/t-order/list-services-detail'])
+            ]
+        ])->label("Service Detail") ?>
+    <?= $form->field($model, 'kapasitasId')->widget(DepDrop::classname(), [
+            'options' => ['id'=>'kapasitas-id'],
+            'pluginOptions'=>[
+                'depends'=>['service-detail-id'],
+                'placeholder' => 'Select...',
+                'url' => Url::to(['/t-order/list-kapasitas'])
+            ]
+        ])->label("Harga Satuan") ?>
+
+    <?= $form->field($model, 'TglKerja')->widget(DatePicker::classname(), [
         'options' => ['placeholder' => 'Masukan Detil Kerja ...'],
         'pluginOptions' => [
             'autoclose'=>true,
             'todayHighlight' => true
         ]
     ]); ?>
+    <?= $form->field($model, 'WaktuKerja')->widget(TimePicker::classname(), []); ?>
+    <?= $form->field($model, 'QTY')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'DetailProperti')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'Keluhan')->textArea(['rows' => '4']) ?>
     
-    <?= $form->field($model, 'orderDetailWaktuKerja')->widget(TimePicker::classname(), []); ?>
     
-    <?= $form->field($model, 'orderDetailKeluhan')->textArea(['rows' => '4']) ?>
-    
-    <?= $form->field($model, 'orderDetailNote')->textArea(['rows' => '4']) ?>
-    
-    <?= $form->field($model, 'orderDetailQTY')->textInput(['maxlength' => true]) ?>
-    
-    <?= $form->field($model, 'orderDetailProperti')->textInput(['maxlength' => true]) ?>
-    
-    <?= $form->field($model, 'orderDetailStatus')->checkbox(['label' => 'Active']); ?>
-
-    <?= Html::submitButton($model->isNewRecord ? 'Save' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
-
+    <div class="col-xs-12">
+        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Cancel', ['index'], ['class' => 'btn btn-primary']) ?>
+    </div>
 
     <?php ActiveForm::end(); ?>
 
