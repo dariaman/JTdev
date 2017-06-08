@@ -20,7 +20,8 @@ use yii\bootstrap\ActiveForm;
     <?= $form->field($model, 'eventDeskripsi')->textarea(['rows' => 6])->label("Deskripsi") ?>
     
     <?= $form->field($model, 'pic')->fileInput()->label("Gambar") ?>
-
+    <?= (!$model->isNewRecord) ? "*kosongkan jika bagian gambar, jika tidak ingin diubah" :"" ?>
+<br><br>
     <div class="col-xs-12">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
         <?= Html::a('Cancel', ['index'], ['class' => 'btn btn-primary']) ?>
