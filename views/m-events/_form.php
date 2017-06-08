@@ -1,7 +1,7 @@
 <?php
 
 use yii\helpers\Html;
-use yii\widgets\ActiveForm;
+use yii\bootstrap\ActiveForm;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\MEvents */
@@ -10,26 +10,20 @@ use yii\widgets\ActiveForm;
 
 <div class="mevents-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin([
+        'options' => ['enctype' => 'multipart/form-data'],
+        'layout' => 'horizontal',]); ?>
 
-    <?= $form->field($model, 'eventId')->textInput() ?>
 
-    <?= $form->field($model, 'eventJudul')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'eventJudul')->textInput(['maxlength' => true])->label("Judul Event") ?>
 
-    <?= $form->field($model, 'eventDeskripsi')->textarea(['rows' => 6]) ?>
+    <?= $form->field($model, 'eventDeskripsi')->textarea(['rows' => 6])->label("Deskripsi") ?>
+    
+    <?= $form->field($model, 'pic')->fileInput()->label("Gambar") ?>
 
-    <?= $form->field($model, 'eventTgl')->textInput() ?>
-
-    <?= $form->field($model, 'eventGambarUrl')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'eventDibuatTgl')->textInput() ?>
-
-    <?= $form->field($model, 'eventDibuatOleh')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'eventStatus')->textInput(['maxlength' => true]) ?>
-
-    <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+    <div class="col-xs-12">
+        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Cancel', ['index'], ['class' => 'btn btn-primary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

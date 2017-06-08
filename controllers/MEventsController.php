@@ -8,7 +8,7 @@ use app\models\MEventsSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-
+use yii\web\UploadedFile;
 /**
  * MEventsController implements the CRUD actions for MEvents model.
  */
@@ -64,9 +64,14 @@ class MEventsController extends Controller
     public function actionCreate()
     {
         $model = new MEvents();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->eventId]);
+        if ($model->load(Yii::$app->request->post())) {
+            $randomString = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            $model->eventGambarUrl = UploadedFile::getInstance($model, 'pic');
+            $img = Yii::$app->security->generateRandomString(16,$randomString);
+            $model->eventGambarUrl->saveAs(Yii::$app->params['GambarEvent'] . $img . '.' . $model->eventGambarUrl->extension);
+            $model->eventGambarUrl= $img . '.' . $model->eventGambarUrl->extension;
+            $model->save(false);
+            return $this->redirect(['index']);
         } else {
             return $this->render('create', [
                 'model' => $model,
