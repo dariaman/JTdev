@@ -70,7 +70,7 @@ class MPromoController extends Controller
             $randomString = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
             $image = UploadedFile::getInstance($model, 'pic');
             $img = Yii::$app->security->generateRandomString(16,$randomString);
-            $image->saveAs(Yii::$app->params['GambarEvent'] . $img . '.' . $image->extension);
+            $image->saveAs(Yii::$app->params['GambarPromo'] . $img . '.' . $image->extension);
             $model->promoGambarUrl='images/Promotions/'. $img . '.' . $image->extension;
             $model->promoTgl = new yii\db\Expression('NOW()');
             $model->promoDibuatOleh = Yii::$app->user->identity->id;
@@ -104,7 +104,7 @@ class MPromoController extends Controller
                 $randomString = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
                 $img = Yii::$app->security->generateRandomString(16,$randomString);
                 $model->promoGambarUrl='images/Promotions/'. $img . '.' . $image->extension;
-                $image->saveAs(Yii::$app->params['GambarEvent'] . $img . '.' . $image->extension);
+                $image->saveAs(Yii::$app->params['GambarPromo'] . $img . '.' . $image->extension);
             }
             $model->save(FALSE);
             return $this->redirect(['index']);
