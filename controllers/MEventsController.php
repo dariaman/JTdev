@@ -89,8 +89,32 @@ class MEventsController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->eventId]);
+        if (Yii::$app->request->isPost) {
+            $dataPost =Yii::$app->request->post('MEvents');
+            $model->eventJudul = $dataPost["eventJudul"];
+            $model->eventDeskripsi = $dataPost["eventDeskripsi"];
+            
+            $image= UploadedFile::getInstance($model, 'pic');
+            if(!empty($image) && $image->size !== 0){
+//                delete file existing
+                if($model->eventGambarUrl != '' || $model->eventGambarUrl != null){
+                    $filegbr = pathinfo($model->eventGambarUrl,PATHINFO_FILENAME).'.'.pathinfo($model->eventGambarUrl, PATHINFO_EXTENSION);
+                }
+                $this->deleteFile($filegbr);
+                
+                $randomString = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+                $img = Yii::$app->security->generateRandomString(16,$randomString);
+                $model->eventGambarUrl= $img . '.' . $image->extension;
+//                echo var_dump(Yii::$app->params['GambarEvent']);
+//                echo var_dump($img);
+//                echo var_dump($image->extension);
+//                echo var_dump($model->eventGambarUrl);
+                $image->saveAs(Yii::$app->params['GambarEvent'] . $img . '.' . $image->extension);
+            }
+//            echo var_dump($model);
+//            die();;
+            $model->save(FALSE);
+            return $this->redirect(['index']);
         } else {
             return $this->render('update', [
                 'model' => $model,
@@ -106,8 +130,12 @@ class MEventsController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
-
+        $model = $this->findModel($id);
+        if($model->eventGambarUrl != '' || $model->eventGambarUrl != null){
+            $filegbr = pathinfo($model->eventGambarUrl,PATHINFO_FILENAME).'.'.pathinfo($model->eventGambarUrl, PATHINFO_EXTENSION);
+        }
+        $this->deleteFile($filegbr);
+        $model->delete();
         return $this->redirect(['index']);
     }
 
@@ -124,6 +152,12 @@ class MEventsController extends Controller
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
+        }
+    }
+    
+    private function deleteFile($filename){
+        if(file_exists(Yii::$app->params['GambarEvent'].$filename)){
+            unlink(Yii::$app->params['GambarEvent'].$filename);
         }
     }
 }
