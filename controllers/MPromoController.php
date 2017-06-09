@@ -67,13 +67,14 @@ class MPromoController extends Controller
         $model = new MPromo();
 
         if ($model->load(Yii::$app->request->post())) {
-            $model->promoGambarUrl = UploadedFile::getInstance($model, 'pic');
-            $img = Yii::$app->security->generateRandomString();
-            
-            $model->promoGambarUrl->saveAs('../gbr/'.$img . '.' . $model->promoGambarUrl->extension);
-            $model->promoGambarUrl = 'images/'.$img . '.' . $model->promoGambarUrl->extension;
+            $randomString = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            $image = UploadedFile::getInstance($model, 'pic');
+            $img = Yii::$app->security->generateRandomString(16,$randomString);
+            $image->saveAs(Yii::$app->params['GambarEvent'] . $img . '.' . $image->extension);
+            $model->promoGambarUrl='images/Promotions/'. $img . '.' . $image->extension;
+            $model->promoTgl = new yii\db\Expression('NOW()');
             $model->promoDibuatOleh = Yii::$app->user->identity->id;
-            $model->promoDibuatTgl = date('Y-m-d');
+            $model->promoDibuatTgl = new yii\db\Expression('NOW()');
             $model->save(false);
             return $this->redirect(['index']);
         } else {
@@ -88,16 +89,24 @@ class MPromoController extends Controller
         $model = $this->findModel($id);
         
         if (Yii::$app->request->isPost) {
-            if (file_exists(Yii::$app->params['GambarPromo'] . $model->promoGambarUrl)){
-                unlink(Yii::$app->params['GambarPromo'] . $model->promoGambarUrl);    
+            $dataPost =Yii::$app->request->post('MPromo');
+            $model->promoJudul = $dataPost["promoJudul"];
+            $model->promoDeskripsi = $dataPost["promoDeskripsi"];
+            
+            $image= UploadedFile::getInstance($model, 'pic');
+            if(!empty($image) && $image->size !== 0){
+//                delete file existing
+                if($model->promoGambarUrl != '' || $model->promoGambarUrl != null){
+                    $filegbr = pathinfo($model->promoGambarUrl,PATHINFO_FILENAME).'.'.pathinfo($model->promoGambarUrl, PATHINFO_EXTENSION);
+                }
+                $this->deleteFile($filegbr);
+                
+                $randomString = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+                $img = Yii::$app->security->generateRandomString(16,$randomString);
+                $model->promoGambarUrl='images/Promotions/'. $img . '.' . $image->extension;
+                $image->saveAs(Yii::$app->params['GambarEvent'] . $img . '.' . $image->extension);
             }
-            $model->load(Yii::$app->request->post());
-            $model->promoGambarUrl = UploadedFile::getInstance($model, 'pic');
-            $img = Yii::$app->security->generateRandomString();
-            $nama = $img . '.' . $model->promoGambarUrl->extension;
-            $model->promoGambarUrl->saveAs($nama);
-            $model->promoGambarUrl = 'images/'.$nama;
-            $model->save(false);
+            $model->save(FALSE);
             return $this->redirect(['index']);
         } else {
             return $this->render('update', [
@@ -114,8 +123,13 @@ class MPromoController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
-
+        $model = $this->findModel($id);
+        if($model->promoGambarUrl != '' || $model->promoGambarUrl != null){
+            $filegbr = pathinfo($model->promoGambarUrl,PATHINFO_FILENAME).'.'.pathinfo($model->promoGambarUrl, PATHINFO_EXTENSION);
+        }
+        $this->deleteFile($filegbr);
+        $model->delete();
+        
         return $this->redirect(['index']);
     }
 
@@ -134,4 +148,10 @@ class MPromoController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+    private function deleteFile($filename){
+        if(file_exists(Yii::$app->params['GambarEvent'].$filename)){
+            unlink(Yii::$app->params['GambarEvent'].$filename);
+        }
+    }
+    
 }
