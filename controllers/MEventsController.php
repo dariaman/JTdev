@@ -70,6 +70,7 @@ class MEventsController extends Controller
             $img = Yii::$app->security->generateRandomString(16,$randomString);
             $model->eventGambarUrl->saveAs(Yii::$app->params['GambarEvent'] . $img . '.' . $model->eventGambarUrl->extension);
             $model->eventGambarUrl= $img . '.' . $model->eventGambarUrl->extension;
+            $model->eventTgl = new yii\db\Expression('NOW()');
             $model->save(false);
             return $this->redirect(['index']);
         } else {
@@ -105,14 +106,8 @@ class MEventsController extends Controller
                 $randomString = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
                 $img = Yii::$app->security->generateRandomString(16,$randomString);
                 $model->eventGambarUrl= $img . '.' . $image->extension;
-//                echo var_dump(Yii::$app->params['GambarEvent']);
-//                echo var_dump($img);
-//                echo var_dump($image->extension);
-//                echo var_dump($model->eventGambarUrl);
                 $image->saveAs(Yii::$app->params['GambarEvent'] . $img . '.' . $image->extension);
             }
-//            echo var_dump($model);
-//            die();;
             $model->save(FALSE);
             return $this->redirect(['index']);
         } else {
