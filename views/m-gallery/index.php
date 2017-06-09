@@ -28,14 +28,14 @@ $this->params['breadcrumbs'][] = $this->title;
             'galleriJudul',
             'galleriDeskripsi:ntext',
             'galleriTgl',
-//            'galleriGambarUrl:url',
-            [
-                'header' => 'Gambar',
-                'format' => 'raw',
-                'value' => function($data){
-                    return Html::a('',['#'],['class'=>'glyphicon glyphicon-camera']);
-                }
-            ],
+            'galleriGambarUrl:url',
+//            [
+//                'header' => 'Gambar',
+//                'format' => 'raw',
+//                'value' => function($data){
+//                    return Html::a('',['#'],['class'=>'glyphicon glyphicon-camera']);
+//                }
+//            ],
 //            'galleriStatus',
 
             ['class' => 'yii\grid\ActionColumn','template'=>'{update}{delete}'],

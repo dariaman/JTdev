@@ -15,17 +15,10 @@ use kartik\widgets\DatePicker;
         'options' => ['enctype' => 'multipart/form-data'],
         'layout' => 'horizontal',]); ?>
 
-    <?= $form->field($model, 'galleriJudul')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'galleriJudul')->textInput(['maxlength' => true])->label('Judul') ?>
 
-    <?= $form->field($model, 'galleriDeskripsi')->textarea(['rows' => 6]) ?>
+    <?= $form->field($model, 'galleriDeskripsi')->textarea(['rows' => 6])->label('Deskripsi') ?>
 
-<?= $form->field($model, 'galleriTgl')->widget(DatePicker::classname(), [
-        'options' => ['placeholder' => 'Tgl Galery'],
-        'type' => DatePicker::TYPE_INPUT,
-        'pluginOptions' => [
-            'autoclose'=>true,
-            'format' => 'yyyy-mm-d'
-    ]])?>
     <?= $form->field($model, 'pic')->fileInput()->label("Gambar") ?>
 
     <div class="col-xs-12">

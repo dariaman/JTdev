@@ -67,12 +67,14 @@ class MGalleryController extends Controller
         $model = new MGallery();
 
         if ($model->load(Yii::$app->request->post())) {
-            $model->galleriGambarUrl = UploadedFile::getInstance($model, 'galleriGambarUrl');
-            $img = Yii::$app->security->generateRandomString();
-            
-            $model->galleriGambarUrl->saveAs(Yii::$app->params['uploadGalery'] . $img . '.' . $model->galleriGambarUrl->extension);
-            $model->galleriGambarUrl-> $img . '.' . $model->galleriGambarUrl->extension;
-            echo var_dump($model);
+            $randomString = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            $image = UploadedFile::getInstance($model, 'pic');
+            $img = Yii::$app->security->generateRandomString(16,$randomString);
+            $image->saveAs(Yii::$app->params['uploadGalery'] . $img . '.' . $image->extension);
+            $model->galleriGambarUrl='images/Gallery/'. $img . '.' . $image->extension;
+            $model->galleriTgl = new yii\db\Expression('NOW()');
+            $model->galleriDibuatOleh = Yii::$app->user->identity->id;
+            $model->galleriDibuatTgl = new yii\db\Expression('NOW()');
             $model->save(false);
             return $this->redirect(['index']);
         } else {
@@ -81,33 +83,26 @@ class MGalleryController extends Controller
             ]);
         }
     }
-
-    /**
-     * Updates an existing MGallery model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionUpdate($id)
-    {
+    
+    public function actionUpdate($id){
         $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post())) {
-            $model->pic = UploadedFile::getInstance($model, 'pic');
-            $img = Yii::$app->security->generateRandomString();
-//            echo var_dump(Yii::$app->request->post());
-//            die();
-//            if ($model->file = MGallery::getInstance($model,'galleriGambarUrl')) {
-                $model->pic->saveAs( Yii::getAlias('@webroot') . '../../gbr/'.$img.'.'.$model->pic->extension );
-//            }
-//            $model->galleriGambarUrl->saveAs(Yii::$app->params['uploadGalery'] . $img . '.' . $model->galleriGambarUrl->extension);
-            
-//            echo var_dump($img);
-//            echo var_dump($model->pic->extension);
-//            die();
-            $name = $img.'.'.$model->pic->extension;
-            $model->galleriGambarUrl-> $name;
-            $model->save(false);
+        if (Yii::$app->request->isPost) {
+            $dataPost =Yii::$app->request->post('MGallery');
+            $model->galleriJudul = $dataPost["galleriJudul"];
+            $model->galleriDeskripsi = $dataPost["galleriDeskripsi"];
+            $image= UploadedFile::getInstance($model, 'pic');
+            if(!empty($image) && $image->size !== 0){
+//                delete file existing
+                if($model->galleriGambarUrl != '' || $model->galleriGambarUrl != null){
+                    $filegbr = pathinfo($model->galleriGambarUrl,PATHINFO_FILENAME).'.'.pathinfo($model->galleriGambarUrl, PATHINFO_EXTENSION);
+                }
+                $this->deleteFile($filegbr);
+                $randomString = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+                $img = Yii::$app->security->generateRandomString(16,$randomString);
+                $model->galleriGambarUrl='images/Gallery/'. $img . '.' . $image->extension;
+                $image->saveAs(Yii::$app->params['uploadGalery'] . $img . '.' . $image->extension);
+            }
+            $model->save(FALSE);
             return $this->redirect(['index']);
         } else {
             return $this->render('update', [
@@ -115,20 +110,31 @@ class MGalleryController extends Controller
             ]);
         }
     }
-
-    /**
-     * Finds the MGallery model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id
-     * @return MGallery the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
+    
+    public function actionDelete($id)
+    {
+        $model = $this->findModel($id);
+        if($model->galleriGambarUrl != '' || $model->galleriGambarUrl != null){
+            $filegbr = pathinfo($model->galleriGambarUrl,PATHINFO_FILENAME).'.'.pathinfo($model->galleriGambarUrl, PATHINFO_EXTENSION);
+        }
+        $this->deleteFile($filegbr);
+        $model->delete();
+        
+        return $this->redirect(['index']);
+    }
+    
     protected function findModel($id)
     {
         if (($model = MGallery::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
+        }
+    }
+    
+    private function deleteFile($filename){
+        if(file_exists(Yii::$app->params['uploadGalery'].$filename)){
+            unlink(Yii::$app->params['uploadGalery'].$filename);
         }
     }
 }
