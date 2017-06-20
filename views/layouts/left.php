@@ -39,7 +39,6 @@
                     ['label' => 'Rekan Tukang', 'url' => ['/m-rekan-jt'], "icon" => "files-o"],
                     ['label' => 'Customer', 'url' => ['/m-user'], "icon" => "files-o"],
                     ['label' => 'Order', 'url' => ['/t-order'], "icon" => "files-o"],
-                    ['label' => 'Inbound Order', 'url' => ['/t-order/inbound'], "icon" => "files-o"],
 //                    ['label' => 'Work Order', 'url' => ['/t-order/wo'], "icon" => "files-o"],
                     [
                         "label" => "Service",
@@ -49,7 +48,7 @@
                             ['label' => 'Service', 'url' => ['/m-service']],
                             ['label' => 'Service Kategori', 'url' => ['/m-service-kategori']],
                             ['label' => 'Service Detail', 'url' => ['/m-service-detail']],
-                            ['label' => 'Kapasitas Detail', 'url' => ['/m-kapasitas-detail']],
+                            ['label' => 'Harga Satuan', 'url' => ['/m-kapasitas-detail']],
                         ],
                     ],
                     [
@@ -67,7 +66,6 @@
                         "url" => "#",
                         "icon" => "table",
                         "items" => [
-                            ['label' => 'Promo', 'url' => ['/m-promo']],
                             ['label' => 'tips', 'url' => ['/m-tips']],
                             ['label' => 'testimoni', 'url' => ['/m-testimoni']],
 //                            ['label' => 'Faq', 'url' => ['/m-faq']]
