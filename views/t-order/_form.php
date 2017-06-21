@@ -13,6 +13,7 @@ use app\models\MKecamatan;
 use app\models\MKecamatanQuery;
 use app\models\MKelurahan;
 use app\models\MKelurahanQuery;
+use app\models\MUser;
 /* @var $this yii\web\View */
 /* @var $model app\models\TOrder */
 /* @var $form yii\widgets\ActiveForm */
@@ -32,19 +33,21 @@ $allKel = $queryKelurahan->all();
 $dropDownDataKota = ArrayHelper::map($allKota,'kotaId','kotaNama');
 $dropDownDataKecamatan = ArrayHelper::map($allKec,'kecamatanId','kecamatanNama');
 $dropDownDataKelurahan = ArrayHelper::map($allKel,'kelurahanId','kelurahanNama');
+
+$cust = ArrayHelper::map(MUser::find()->aktif()->all(),'userId','userNamaDepan');
 ?>
 
 <div class="torder-form">
     
     <?php $form = ActiveForm::begin(['layout' => 'horizontal']); ?>
-
-    <?= $form->field($model, 'orderTgl')->widget(DatePicker::classname(), [
-        'options' => ['placeholder' => 'Masukan Tanggal Order ...'],
+    
+    <?= $form->field($model, 'userId')->widget(Select2::classname(), [
+        'data' => $cust,
+        'options' => ['id' => 'cat-ixd','placeholder' => 'Customer Order'],
         'pluginOptions' => [
-            'autoclose'=>true,
-            'todayHighlight' => true
-        ]
-    ]); ?>
+            'allowClear' => true
+        ],
+    ])->label("Customer"); ?>
 
     <?= $form->field($model, 'orderJenisBayar')->widget(Select2::classname(), [
         'data' => ['1' => 'Tunai','2' => 'Transfer','3' => 'Kartu Kredit'],
@@ -81,24 +84,7 @@ $dropDownDataKelurahan = ArrayHelper::map($allKel,'kelurahanId','kelurahanNama')
         ],
     ]);
     ?>
-
-    <?=
-    $form->field($model, 'orderDaerah')->widget(Select2::classname(), [
-        'data' => ['1' => 'Bogor'],
-        'options' => ['placeholder' => 'Pilih Daerah ...'],
-        'pluginOptions' => [
-            'allowClear' => true
-        ],
-    ]);
-    ?>
-
     <?= $form->field($model, 'orderKodePos')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'orderAlamatNote')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'orderGpsKoordinat')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'orderBiayaTransport')->textInput(['maxlength' => true]) ?>
 
     <div class="col-xs-12">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>

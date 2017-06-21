@@ -15,7 +15,7 @@ class TOrder extends \yii\db\ActiveRecord
     {
         return [
             [['orderTgl'], 'safe'],
-            [['orderJenisBayar', 'orderAlamat', 'orderBiayaTransport', 'orderStatus'], 'required'],
+            [['orderJenisBayar', 'orderAlamat', 'orderStatus','userId'], 'required'],
             [['orderBiayaTransport', 'orderAlamatTambahanId', 'userId'], 'integer'],
             [['orderJenisBayar', 'orderStatus'], 'string', 'max' => 1],
             [['orderAlamat'], 'string', 'max' => 500],

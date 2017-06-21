@@ -14,10 +14,13 @@ class MUserQuery extends \yii\db\ActiveQuery
         return $this->andWhere('[[status]]=1');
     }*/
 
-    /**
-     * @inheritdoc
-     * @return MUser[]|array
-     */
+    public function aktif()
+    {
+        $this->andWhere(['=', 'userStatus', '1']);
+
+        return $this;
+    }
+    
     public function all($db = null)
     {
         return parent::all($db);

@@ -11,7 +11,6 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use kartik\mpdf\Pdf;
 use yii\helpers\Json;
-use yii\web\Response;
 
 /**
  * TOrderController implements the CRUD actions for TOrder model.
@@ -70,16 +69,7 @@ class TOrderController extends Controller
         $model = new TOrder();
 
         if ($model->load(Yii::$app->request->post())) {
-            $request = Yii::$app->request->post('TOrder');
-
-            $postTgl = $request['orderTgl'];
-            $saveTgl = date('Y-m-d',strtotime($postTgl));
-            $seconds = date('h:i:s');
-            $userid = Yii::$app->user->id;
-            
-            $model->orderTgl = $saveTgl.' '.$seconds;
-            $model->userId = $userid;
-            $model->save();
+            $model->save(false);
             return $this->redirect(['create-detail','id' => $model->orderId]);
         } else {
             return $this->render('create', [

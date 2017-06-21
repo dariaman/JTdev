@@ -94,10 +94,10 @@ $dropDownDataRekanJt = ArrayHelper::map($allRekanJT,'rekanId','rekanNamaLengkap'
     
     <?= $form->field($model, 'orderDetailProperti')->textInput(['maxlength' => true]) ?>
     
-    <?= $form->field($model, 'orderDetailStatus')->checkbox(['label' => 'Active']); ?>
-
-    <?= Html::submitButton($model->isNewRecord ? 'Save' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
-
+    <div class="col-xs-12">
+        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Cancel', ['index'], ['class' => 'btn btn-primary']) ?>
+    </div>
 
     <?php ActiveForm::end(); ?>
 

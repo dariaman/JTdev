@@ -28,14 +28,13 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'orderDetailNote')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'orderDetailStatus')->textInput(['maxlength' => true]) ?>
-
     <?= $form->field($model, 'orderDetailQTY')->textInput() ?>
 
     <?= $form->field($model, 'orderDetailProperti')->textInput(['maxlength' => true]) ?>
 
-    <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+    <div class="col-xs-12">
+        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Cancel', ['index'], ['class' => 'btn btn-primary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>
