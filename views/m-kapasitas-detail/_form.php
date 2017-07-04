@@ -22,13 +22,7 @@ $dataservicedetail = ArrayHelper::map(MServiceDetail::find()->all(),'serviceDeta
     ]); ?>
 
     <?= $form->field($model, 'kapasitasJudul')->textInput(['maxlength' => true]) ?>
-
-   <?=  $form->field($model, 'kapasitasHarga')->widget(MaskMoney::classname(), [
-        'pluginOptions' => [
-            'prefix' => 'RP ',
-            'allowNegative' => false
-        ]
-    ]) ?>
+    <?= $form->field($model, 'kapasitasHarga')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'serviceDetailId')->widget(Select2::classname(), [
         'data' => $dataservicedetail,
