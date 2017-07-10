@@ -32,16 +32,18 @@ function Status($model){
 //            'serviceDetailId',
             'serviceDetailJudul',
             'serviceDetailDeskripsi:ntext',
-            [
-                'attribute' => 'serviceDetailGambar',
-                'format' => 'html',
-                'label' => 'serviceDetailGambar',
-                'value' => 'serviceDetailGambar'
-//                'value' => function ($data) {
-//                    return Html::img('../'.Yii::$app->params['GambarServiceDetail'].$data['serviceDetailGambar'],
-//                        ['width' => '200px']);
-//                },
-            ],
+            'serviceDetailGambar:url',
+//            [
+//                'attribute' => 'serviceDetailGambar',
+//                'format' => 'html',
+//                'label' => 'serviceDetailGambar',
+//                'value' => 'serviceDetailGambar'
+//                'galleriGambarUrl:url',
+////                'value' => function ($data) {
+////                    return Html::img('../'.Yii::$app->params['GambarServiceDetail'].$data['serviceDetailGambar'],
+////                        ['width' => '200px']);
+////                },
+//            ],
             [
                 'header' => 'Service Kategori',
                 'attribute' => 'serviceKategoriId',
