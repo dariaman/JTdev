@@ -35,7 +35,6 @@ class DailySalesController extends Controller
     public function actionIndex()
     {
         $searchModel = new DailySalesSearch();
-        echo var_dump(date("Y-m-d"));
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
