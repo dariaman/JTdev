@@ -71,6 +71,14 @@
 //                            ['label' => 'Faq', 'url' => ['/m-faq']]
                         ],
                     ],
+                    [
+                        "label" => "Report",
+                        "url" => "#",
+                        "icon" => "table",
+                        "items" => [
+                            ['label' => 'Daily Sales', 'url' => ['/daily-sales']],
+                        ],
+                    ],
 //                    ['label' => 'Menu Yii2', 'options' => ['class' => 'header']],
 //                    ['label' => 'Gii', 'icon' => 'file-code-o', 'url' => ['/gii']],
 //                    ['label' => 'Debug', 'icon' => 'dashboard', 'url' => ['/debug']],
