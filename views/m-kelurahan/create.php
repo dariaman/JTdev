@@ -6,7 +6,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\MKelurahan */
 
-$this->title = 'Create kelurahan';
+$this->title = 'Create Mkelurahan';
 $this->params['breadcrumbs'][] = ['label' => 'Mkelurahans', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -16,7 +16,6 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= $this->render('_form', [
         'model' => $model,
-        'data_kecamatan'=>$data_kecamatan
     ]) ?>
 
 </div>

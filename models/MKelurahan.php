@@ -34,14 +34,6 @@ class MKelurahan extends \yii\db\ActiveRecord
         ];
     }
 
-    public function getKecamatanTbl(){
-            return $this->hasOne(MKecamatan::className(), ['kecamatanId' => 'kecamatanId']);
-    }
-
-     public function getNamaKecamatan(){
-         return $this->kecamatanTbl != '' ? $this->kecamatanTbl->kecamatanNama : 'none';
-    }
-
     /**
      * @inheritdoc
      */

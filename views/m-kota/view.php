@@ -30,6 +30,9 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'kotaId',
             'kotaNama',
+            'Ongkir',
+            'DateCrt',
+            'DateUpdate',
         ],
     ]) ?>
 

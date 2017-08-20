@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use app\models\Mkota;
 
 /**
  * This is the model class for table "m_kecamatan".
@@ -24,12 +25,13 @@ class MKecamatan extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
+
     public function rules()
     {
         return [
             [['kecamatanNama', 'kotaId'], 'required'],
             [['kotaId'], 'integer'],
-            [['kecamatanNama'], 'string', 'max' => 100],
+            [['kecamatanNama',], 'string', 'max' => 100],
         ];
     }
 
@@ -45,12 +47,9 @@ class MKecamatan extends \yii\db\ActiveRecord
         ];
     }
 
-     public function getKotaTbl(){
-            return $this->hasOne(MKota::className(), ['kotaId' => 'kotaId']);
-    }
-
-     public function getNamaKota(){
-         return $this->kotaTbl != '' ? $this->kotaTbl->kotaNama : 'none';
+    public function getKota()
+    {
+        return $this->hasOne(Mkota::className(), ['kotaId' => 'kotaId']);
     }
 
     /**

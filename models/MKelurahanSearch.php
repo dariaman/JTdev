@@ -47,7 +47,6 @@ class MKelurahanSearch extends MKelurahan
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-            'sort' =>false
         ]);
 
         $this->load($params);

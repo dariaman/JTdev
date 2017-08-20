@@ -3,22 +3,19 @@
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 
-/* @var $this yii\web\View */
-/* @var $model app\models\MKota */
-/* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="kota-form">
+<div class="mkota-form">
 
-   <?php $form = ActiveForm::begin([
-        'id'=>$model->formName(),
-        'layout' => 'horizontal'
-    ]); ?>
+    <?php $form = ActiveForm::begin(['layout' => 'horizontal']); ?>
 
-    <?= $form->field($model, 'kotaNama')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'kotaNama')->textInput(['maxlength' => false]) ?>
+    <?= $form->field($model, 'Ongkir')->textInput(['type' => 'number','maxlength' => false]) ?>
+
 
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Cancel', ['index'], ['class' => 'btn btn-primary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

@@ -37,7 +37,6 @@ class MKotaController extends Controller
     {
         $searchModel = new MKotaSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        $dataProvider->pagination->pageSize=10;
 
         return $this->render('index', [
             'searchModel' => $searchModel,
@@ -50,12 +49,12 @@ class MKotaController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionView($id)
-    {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
-    }
+    // public function actionView($id)
+    // {
+    //     return $this->render('view', [
+    //         'model' => $this->findModel($id),
+    //     ]);
+    // }
 
     /**
      * Creates a new MKota model.
@@ -67,12 +66,13 @@ class MKotaController extends Controller
         $model = new MKota();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->kotaId]);
+            // return $this->redirect(['view', 'id' => $model->kotaId]);
         } else {
             return $this->render('create', [
                 'model' => $model,
             ]);
         }
+        return $this->redirect(['index']);
     }
 
     /**
@@ -85,13 +85,16 @@ class MKotaController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->kotaId]);
+        if (Yii::$app->request->IsPost)
+        {
+            $model->load(Yii::$app->request->post());
+            $model->save();
         } else {
             return $this->render('update', [
                 'model' => $model,
             ]);
         }
+        return $this->redirect(['index']);
     }
 
     /**

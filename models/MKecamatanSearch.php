@@ -18,8 +18,8 @@ class MKecamatanSearch extends MKecamatan
     public function rules()
     {
         return [
-            [['kecamatanId', 'kotaId'], 'integer'],
-            [['kecamatanNama'], 'safe'],
+            [['kecamatanId'], 'integer'],
+            [['kecamatanNama','kotaId'], 'safe'],
         ];
     }
 
@@ -42,12 +42,12 @@ class MKecamatanSearch extends MKecamatan
     public function search($params)
     {
         $query = MKecamatan::find();
+        $query->joinWith('kota');
 
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-            'sort'=>false
         ]);
 
         $this->load($params);
@@ -61,10 +61,12 @@ class MKecamatanSearch extends MKecamatan
         // grid filtering conditions
         $query->andFilterWhere([
             'kecamatanId' => $this->kecamatanId,
-            'kotaId' => $this->kotaId,
+            // 'kota.kotaNama' => $this->kotaId,
+            // 'kotaNama' => $this->kota.kotaNama,
         ]);
 
-        $query->andFilterWhere(['like', 'kecamatanNama', $this->kecamatanNama]);
+        $query->andFilterWhere(['like', 'kecamatanNama', $this->kecamatanNama])
+                ->andFilterWhere(['like', 'm_kota.kotaNama', $this->kotaId]);
 
         return $dataProvider;
     }

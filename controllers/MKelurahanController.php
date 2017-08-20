@@ -8,8 +8,6 @@ use app\models\MKelurahanSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use yii\helpers\ArrayHelper;
-use app\models\MKecamatan;
 
 /**
  * MKelurahanController implements the CRUD actions for MKelurahan model.
@@ -39,7 +37,6 @@ class MKelurahanController extends Controller
     {
         $searchModel = new MKelurahanSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        $dataProvider->pagination->pageSize=10;
 
         return $this->render('index', [
             'searchModel' => $searchModel,
@@ -59,10 +56,6 @@ class MKelurahanController extends Controller
         ]);
     }
 
-      public function ary_kecamatan(){
-        return ArrayHelper::map(MKecamatan::find()->all(),'kecamatanId','kecamatanNama');
-    }
-
     /**
      * Creates a new MKelurahan model.
      * If creation is successful, the browser will be redirected to the 'view' page.
@@ -77,7 +70,6 @@ class MKelurahanController extends Controller
         } else {
             return $this->render('create', [
                 'model' => $model,
-                'data_kecamatan'=>self::ary_kecamatan()
             ]);
         }
     }
@@ -97,7 +89,6 @@ class MKelurahanController extends Controller
         } else {
             return $this->render('update', [
                 'model' => $model,
-                'data_kecamatan'=>self::ary_kecamatan()
             ]);
         }
     }

@@ -9,6 +9,9 @@ use Yii;
  *
  * @property integer $kotaId
  * @property string $kotaNama
+ * @property string $Ongkir
+ * @property string $DateCrt
+ * @property string $DateUpdate
  */
 class MKota extends \yii\db\ActiveRecord
 {
@@ -27,8 +30,21 @@ class MKota extends \yii\db\ActiveRecord
     {
         return [
             [['kotaNama'], 'required'],
+            // [['Ongkir'], 'number'],
+
+            [['Ongkir'], 'number', 'numberPattern' => '/^\s*[-+]?[0-9]*[.,]?[0-9]+([eE][-+]?[0-9]+)?\s*$/'],
+            [['DateCrt', 'DateUpdate'], 'safe'],
             [['kotaNama'], 'string', 'max' => 100],
         ];
+    }
+    
+    public function beforeSave($insert) {
+        if (parent::beforeSave($insert)) {
+            $this->Ongkir = str_replace(",", ".", $this->Ongkir);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -39,6 +55,9 @@ class MKota extends \yii\db\ActiveRecord
         return [
             'kotaId' => 'Kota ID',
             'kotaNama' => 'Kota Nama',
+            'Ongkir' => 'Ongkir',
+            'DateCrt' => 'Date Crt',
+            'DateUpdate' => 'Date Update',
         ];
     }
 

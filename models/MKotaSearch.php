@@ -19,7 +19,8 @@ class MKotaSearch extends MKota
     {
         return [
             [['kotaId'], 'integer'],
-            [['kotaNama'], 'safe'],
+            [['kotaNama', 'DateCrt', 'DateUpdate'], 'safe'],
+            [['Ongkir'], 'number'],
         ];
     }
 
@@ -47,7 +48,6 @@ class MKotaSearch extends MKota
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-            'sort'=>false
         ]);
 
         $this->load($params);
@@ -61,6 +61,9 @@ class MKotaSearch extends MKota
         // grid filtering conditions
         $query->andFilterWhere([
             'kotaId' => $this->kotaId,
+            'Ongkir' => $this->Ongkir,
+            'DateCrt' => $this->DateCrt,
+            'DateUpdate' => $this->DateUpdate,
         ]);
 
         $query->andFilterWhere(['like', 'kotaNama', $this->kotaNama]);
