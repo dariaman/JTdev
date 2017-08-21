@@ -18,8 +18,8 @@ class MKelurahanSearch extends MKelurahan
     public function rules()
     {
         return [
-            [['kelurahanId', 'kecamatanId', 'hargaDaerah'], 'integer'],
-            [['kelurahanNama'], 'safe'],
+            [['kelurahanId',  'hargaDaerah'], 'integer'],
+            [['kelurahanNama','kecamatanId','kotaId'], 'safe'],
         ];
     }
 
@@ -42,6 +42,9 @@ class MKelurahanSearch extends MKelurahan
     public function search($params)
     {
         $query = MKelurahan::find();
+        $query->innerJoin("m_kecamatan", "m_kelurahan.kecamatanId=m_kecamatan.kecamatanId");
+        $query->innerJoin("m_kota", "m_kecamatan.kotaId=m_kota.kotaId");
+        // $query->joinWith('kecamatan')->joinWith(['comments', 'comments.fan']);
 
         // add conditions that should always apply here
 
@@ -60,11 +63,13 @@ class MKelurahanSearch extends MKelurahan
         // grid filtering conditions
         $query->andFilterWhere([
             'kelurahanId' => $this->kelurahanId,
-            'kecamatanId' => $this->kecamatanId,
-            'hargaDaerah' => $this->hargaDaerah,
+            // 'kecamatanId' => $this->kecamatanId,
+            // 'hargaDaerah' => $this->hargaDaerah,
         ]);
 
         $query->andFilterWhere(['like', 'kelurahanNama', $this->kelurahanNama]);
+        $query->andFilterWhere(['like', 'm_kecamatan.kecamatanNama', $this->kecamatanId]);
+        $query->andFilterWhere(['like', 'm_kota.kotaNama', $this->kotaId]);
 
         return $dataProvider;
     }

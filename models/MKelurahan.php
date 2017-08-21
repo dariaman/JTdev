@@ -3,7 +3,7 @@
 namespace app\models;
 
 use Yii;
-
+use app\models\MKecamatan;
 /**
  * This is the model class for table "m_kelurahan".
  *
@@ -25,10 +25,11 @@ class MKelurahan extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
+    public $kotaId;
     public function rules()
     {
         return [
-            [['kelurahanNama', 'kecamatanId', 'hargaDaerah'], 'required'],
+            [['kelurahanNama', 'kecamatanId'], 'required'],
             [['kecamatanId', 'hargaDaerah'], 'integer'],
             [['kelurahanNama'], 'string', 'max' => 100],
         ];
@@ -45,6 +46,11 @@ class MKelurahan extends \yii\db\ActiveRecord
             'kecamatanId' => 'Kecamatan ID',
             'hargaDaerah' => 'Harga Daerah',
         ];
+    }
+
+    public function getKecamatan()
+    {
+        return $this->hasOne(MKecamatan::className(), ['kecamatanId' => 'kecamatanId']);
     }
 
     /**

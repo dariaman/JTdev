@@ -3,7 +3,7 @@
 namespace app\models;
 
 use Yii;
-use app\models\Mkota;
+use app\models\MKota;
 
 /**
  * This is the model class for table "m_kecamatan".
@@ -49,7 +49,7 @@ class MKecamatan extends \yii\db\ActiveRecord
 
     public function getKota()
     {
-        return $this->hasOne(Mkota::className(), ['kotaId' => 'kotaId']);
+        return $this->hasOne(MKota::className(), ['kotaId' => 'kotaId']);
     }
 
     /**

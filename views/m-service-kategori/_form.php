@@ -29,13 +29,10 @@ $dataService = ArrayHelper::map(app\models\MService::find()->asArray()->all(), '
         ]) ?>
     
     <?php
-    if(!$model->isNewRecord){
-    ?>
 
-    <?= $form->field($model, 'serviceKategoriStatus')->checkbox() ?>
-
-    <?php
-    }
+        if(!$model->isNewRecord){
+            echo $form->field($model, 'serviceKategoriStatus')->checkbox()->label("Status");
+        }
 
     ?>    
     

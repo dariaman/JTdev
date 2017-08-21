@@ -6,8 +6,8 @@ use yii\helpers\Html;
 /* @var $model app\models\MKota */
 
 $this->title = 'Update Kota : ' . $model->kotaNama;
-$this->params['breadcrumbs'][] = ['label' => 'Mkotas', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->kotaId, 'url' => ['view', 'id' => $model->kotaId]];
+$this->params['breadcrumbs'][] = ['label' => 'Kota', 'url' => ['index']];
+// $this->params['breadcrumbs'][] = ['label' => $model->kotaId, 'url' => ['view', 'id' => $model->kotaId]];
 $this->params['breadcrumbs'][] = 'Update';
 ?>
 <div class="mkota-update">

@@ -4,11 +4,12 @@ namespace app\controllers;
 
 use Yii;
 use app\models\MKelurahan;
+use app\models\MKecamatan;
 use app\models\MKelurahanSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-
+use yii\helpers\Json;
 /**
  * MKelurahanController implements the CRUD actions for MKelurahan model.
  */
@@ -66,12 +67,13 @@ class MKelurahanController extends Controller
         $model = new MKelurahan();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->kelurahanId]);
+            // return $this->redirect(['view', 'id' => $model->kelurahanId]);
         } else {
             return $this->render('create', [
                 'model' => $model,
             ]);
         }
+        return $this->redirect(['index']);
     }
 
     /**
@@ -83,14 +85,18 @@ class MKelurahanController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $modelKec = MKecamatan::findOne($model->kecamatanId);
+        $model->kotaId = $modelKec->kotaId;
+        // $model->kecamatanId = $modelKec->kecamatanId;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->kelurahanId]);
+            // return $this->redirect(['view', 'id' => $model->kelurahanId]);
         } else {
             return $this->render('update', [
                 'model' => $model,
             ]);
         }
+        return $this->redirect(['index']);
     }
 
     /**
@@ -99,11 +105,28 @@ class MKelurahanController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionDelete($id)
-    {
-        $this->findModel($id)->delete();
+    // public function actionDelete($id)
+    // {
+    //     $this->findModel($id)->delete();
 
-        return $this->redirect(['index']);
+    //     return $this->redirect(['index']);
+    // }
+
+    public function actionListKec() {
+        $out = [];
+        if (isset($_POST['depdrop_parents'])) {
+            $parents = $_POST['depdrop_parents'];
+            if ($parents != null) {
+                $kota_id = $parents[0];
+                $model = \app\models\MKecamatan::find()->where(['kotaId'=>$parents[0]])->all();
+                foreach ($model as $key => $value) {
+                   $out[] = ['id'=>$value->kecamatanId,'name'=> $value->kecamatanNama];
+                }
+                echo Json::encode(['output'=>$out, 'selected'=>'']);
+                return;
+            }
+        }
+        echo Json::encode(['output'=>'', 'selected'=>'']);
     }
 
     /**

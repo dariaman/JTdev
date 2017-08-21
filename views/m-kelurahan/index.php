@@ -24,7 +24,16 @@ $this->params['breadcrumbs'][] = $this->title;
                 'contentOptions' => ['Align' => 'right','style' => 'width: 30px;'],
             ],
             'kelurahanNama',
-            'kecamatanId',
+            [
+                'header' => 'Nama Kecamatan',
+                'attribute' => 'kecamatanId',
+                'value' => 'kecamatan.kecamatanNama',
+            ],
+            [
+                'header' => 'Nama Kota',
+                'attribute' => 'kotaId',
+                'value' => 'kecamatan.kota.kotaNama',
+            ],
             [
                 'class' => 'yii\grid\ActionColumn','template'=>'{update}',
                 'contentOptions' => ['Align' => 'right','style' => 'width: 50px;'],

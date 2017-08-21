@@ -6,8 +6,8 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\MKota */
 
-$this->title = 'Create Mkota';
-$this->params['breadcrumbs'][] = ['label' => 'Mkotas', 'url' => ['index']];
+$this->title = 'Create Kota';
+$this->params['breadcrumbs'][] = ['label' => 'Kota', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="mkota-create">

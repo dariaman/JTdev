@@ -5,9 +5,9 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\MKelurahan */
 
-$this->title = 'Update Mkelurahan: ' . $model->kelurahanId;
-$this->params['breadcrumbs'][] = ['label' => 'Mkelurahans', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->kelurahanId, 'url' => ['view', 'id' => $model->kelurahanId]];
+$this->title = 'Update Kelurahan : ' . $model->kelurahanNama;
+$this->params['breadcrumbs'][] = ['label' => 'Kelurahan', 'url' => ['index']];
+// $this->params['breadcrumbs'][] = ['label' => $model->kelurahanId, 'url' => ['view', 'id' => $model->kelurahanId]];
 $this->params['breadcrumbs'][] = 'Update';
 ?>
 <div class="mkelurahan-update">
