@@ -35,6 +35,13 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value' => 'kecamatan.kota.kotaNama',
             ],
             [
+                'header' => 'Ongkos Kirim',
+                'attribute' => 'hargaDaerah',
+                'format' => ['decimal',0] ,
+                'contentOptions' => ['Align' => 'right'],
+            ],
+            
+            [
                 'class' => 'yii\grid\ActionColumn','template'=>'{update}',
                 'contentOptions' => ['Align' => 'right','style' => 'width: 50px;'],
             ],

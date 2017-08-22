@@ -5,6 +5,7 @@ namespace app\controllers;
 use Yii;
 use app\models\MKelurahan;
 use app\models\MKecamatan;
+use app\models\MKota;
 use app\models\MKelurahanSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -50,12 +51,12 @@ class MKelurahanController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionView($id)
-    {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
-    }
+    // public function actionView($id)
+    // {
+    //     return $this->render('view', [
+    //         'model' => $this->findModel($id),
+    //     ]);
+    // }
 
     /**
      * Creates a new MKelurahan model.
@@ -66,8 +67,15 @@ class MKelurahanController extends Controller
     {
         $model = new MKelurahan();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            // return $this->redirect(['view', 'id' => $model->kelurahanId]);
+        if (Yii::$app->request->IsPost)
+        {
+            $model->load(Yii::$app->request->post());
+
+            $PosKel = Yii::$app->request->post("MKelurahan","0");
+            $modelKota = MKota::find()->where(['=', 'kotaId', $PosKel["kotaId"]])->all();
+            $model->hargaDaerah = $modelKota[0]->Ongkir;
+
+            $model->save(false);
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -89,7 +97,16 @@ class MKelurahanController extends Controller
         $model->kotaId = $modelKec->kotaId;
         // $model->kecamatanId = $modelKec->kecamatanId;
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        // if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if(Yii::$app->request->IsPost)
+        {
+            $model->load(Yii::$app->request->post());
+
+            $PosKel = Yii::$app->request->post("MKelurahan","0");
+            $modelKota = MKota::find()->where(['=', 'kotaId', $PosKel["kotaId"]])->all();
+            $model->hargaDaerah = $modelKota[0]->Ongkir;
+
+            $model->save(false);
             // return $this->redirect(['view', 'id' => $model->kelurahanId]);
         } else {
             return $this->render('update', [
@@ -98,19 +115,6 @@ class MKelurahanController extends Controller
         }
         return $this->redirect(['index']);
     }
-
-    /**
-     * Deletes an existing MKelurahan model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
-     * @return mixed
-     */
-    // public function actionDelete($id)
-    // {
-    //     $this->findModel($id)->delete();
-
-    //     return $this->redirect(['index']);
-    // }
 
     public function actionListKec() {
         $out = [];

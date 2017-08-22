@@ -85,8 +85,14 @@ class MKecamatanController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            // return $this->redirect(['view', 'id' => $model->kecamatanId]);
+        if (Yii::$app->request->IsPost)
+        {
+            $model->load(Yii::$app->request->post());
+            $model->save();
+
+            $execsp = Yii::$app->db->createCommand("CALL OngkirKecUpdate(:idKec)");
+            $execsp->bindValue(':idKec', $id);
+            $execsp->execute();
         } else {
             return $this->render('update', [
                 'model' => $model,
