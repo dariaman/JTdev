@@ -49,12 +49,12 @@ class MRekanJtController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionView($id)
-    {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
-    }
+    // public function actionView($id)
+    // {
+    //     return $this->render('view', [
+    //         'model' => $this->findModel($id),
+    //     ]);
+    // }
 
     /**
      * Creates a new MRekanJt model.
@@ -65,13 +65,15 @@ class MRekanJtController extends Controller
     {
         $model = new MRekanJt();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->rekanId]);
+        if (Yii::$app->request->IsPost){
+            $model->load(Yii::$app->request->post());
+            $model->save(false);
         } else {
             return $this->render('create', [
                 'model' => $model,
             ]);
         }
+        return $this->redirect(['index']);
     }
 
     /**
@@ -84,13 +86,15 @@ class MRekanJtController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->rekanId]);
+        if (Yii::$app->request->IsPost){
+            $model->load(Yii::$app->request->post());
+            $model->save(false);
         } else {
             return $this->render('update', [
                 'model' => $model,
             ]);
         }
+        return $this->redirect(['index']);
     }
 
     /**

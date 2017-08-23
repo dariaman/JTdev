@@ -65,8 +65,10 @@ class MKecamatanController extends Controller
     {
         $model = new MKecamatan();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            // return $this->redirect(['view', 'id' => $model->kecamatanId]);
+        if (Yii::$app->request->IsPost)
+        {
+            $model->load(Yii::$app->request->post());
+            $model->save(false);
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -88,7 +90,7 @@ class MKecamatanController extends Controller
         if (Yii::$app->request->IsPost)
         {
             $model->load(Yii::$app->request->post());
-            $model->save();
+            $model->save(false);
 
             $execsp = Yii::$app->db->createCommand("CALL OngkirKecUpdate(:idKec)");
             $execsp->bindValue(':idKec', $id);

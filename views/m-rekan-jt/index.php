@@ -1,7 +1,7 @@
 <?php
 
 use yii\helpers\Html;
-use yii\grid\GridView;
+use kartik\grid\GridView;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\MRekanJtSearch */
@@ -15,7 +15,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
-    <p>
+    <p align="right">
         <?= Html::a('Create', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
     <?= GridView::widget([
@@ -23,12 +23,29 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
+            [
+                'header' => 'ID',
+                'width' => '60px',
+                'attribute' => 'rekanId',
+            ],
+            [
+                'header' => 'Nama Rekan Tukang',
+                'attribute' => 'rekanNamaLengkap',
+            ],
+            [
+                'header' => 'Jenis Kelamin',
+                'attribute'=>'rekanKelamin',
+                'value'=>function ($model) {
+                    if($model->rekanKelamin == 'P')
+                        return 'Perempuan';
+                    else return 'Laki-laki';
+                },
+            ],
+            [
+                'header' => 'Spesialisasi',
+                'attribute' => 'rekanSpesifikasi',
+            ],
 
-            'rekanId',
-            'rekanNamaLengkap',
-            'rekanKelamin',
-            'rekanSpesifikasi',
-            'rekanAlamat',
             // 'rekanEmail:email',
             // 'rekanWebsite',
             // 'rekanKota',
@@ -36,12 +53,19 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'rekanKecamatan',
             // 'rekanDaerah',
             // 'rekanKodePos',
-            // 'rekanNoHp',
+            'rekanNoHp',
             // 'rekanKendaraan',
             // 'rekanKendaraanNopol',
-            // 'rekanStatus',
+            'rekanAlamat',
+            [
+                'label' => 'IsAktive',
+                'width' => '100px',
+                'hAlign' => 'center',
+                'class' => 'kartik\grid\BooleanColumn',
+                'attribute' => 'rekanStatus',
+            ],
 
-            ['class' => 'yii\grid\ActionColumn','template'=>'{update}{delete}'],
+            ['class' => 'yii\grid\ActionColumn','template'=>'{update}'],
         ],
     ]); ?>
 </div>

@@ -7,7 +7,7 @@ use yii\helpers\Html;
 /* @var $model app\models\MRekanJt */
 
 $this->title = 'Create Rekan Tukang';
-$this->params['breadcrumbs'][] = ['label' => 'Mrekan Jts', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Rekan Tukang', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="mrekan-jt-create">

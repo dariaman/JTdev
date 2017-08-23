@@ -133,6 +133,23 @@ class MKelurahanController extends Controller
         echo Json::encode(['output'=>'', 'selected'=>'']);
     }
 
+    public function actionListKel() {
+        $out = [];
+        if (isset($_POST['depdrop_parents'])) {
+            $parents = $_POST['depdrop_parents'];
+            if ($parents != null) {
+                $kota_id = $parents[0];
+                $model = \app\models\MKelurahan::find()->where(['kelurahanId'=>$parents[0]])->all();
+                foreach ($model as $key => $value) {
+                   $out[] = ['id'=>$value->kelurahanId,'name'=> $value->kelurahanNama];
+                }
+                echo Json::encode(['output'=>$out, 'selected'=>'']);
+                return;
+            }
+        }
+        echo Json::encode(['output'=>'', 'selected'=>'']);
+    }
+
     /**
      * Finds the MKelurahan model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.

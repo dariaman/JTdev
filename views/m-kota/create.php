@@ -6,7 +6,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\MKota */
 
-$this->title = 'Create Kota';
+$this->title = 'Tambah Kota';
 $this->params['breadcrumbs'][] = ['label' => 'Kota', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>

@@ -67,7 +67,7 @@ class MKotaController extends Controller
 
         if (Yii::$app->request->IsPost){
             $model->load(Yii::$app->request->post());
-            $model->save();
+            $model->save(false);
             // $execsp = Yii::$app->db->createCommand("CALL KotaInsert(:nama, :ongkos)");
             // $execsp->bindValue(':nama', $model->kotaNama);
             // $execsp->bindValue(':ongkos', $model->Ongkir);
@@ -93,7 +93,7 @@ class MKotaController extends Controller
         if (Yii::$app->request->IsPost)
         {
             $model->load(Yii::$app->request->post());
-            $model->save();
+            $model->save(false);
 
             $execsp = Yii::$app->db->createCommand("CALL OngkirKotaUpdate(:idkota)");
             $execsp->bindValue(':idkota', $id);

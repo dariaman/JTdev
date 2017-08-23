@@ -40,15 +40,15 @@ class MRekanJt extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['rekanNamaLengkap', 'rekanKelamin', 'rekanSpesifikasi', 'rekanAlamat', 'rekanKelurahan', 'rekanKecamatan', 'rekanDaerah', 'rekanKodePos', 'rekanNoHp', 'rekanKendaraan', 'rekanKendaraanNopol', 'rekanStatus'], 'required'],
+            [['rekanNamaLengkap', 'rekanKelamin', 'rekanSpesifikasi', 'rekanAlamat', 'rekanNoHp'], 'required'],
             [['rekanNamaLengkap', 'rekanSpesifikasi', 'rekanEmail', 'rekanWebsite'], 'string', 'max' => 200],
             [['rekanKelamin', 'rekanStatus'], 'string', 'max' => 1],
-            [['rekanAlamat'], 'string', 'max' => 500],
+            [['rekanAlamat'], 'string'],
             [['rekanKota', 'rekanKelurahan', 'rekanKecamatan', 'rekanDaerah'], 'string', 'max' => 100],
-            [['rekanKodePos'], 'string', 'max' => 10],
-            [['rekanNoHp'], 'string', 'max' => 20],
-            [['rekanKendaraan'], 'string', 'max' => 50],
-            [['rekanKendaraanNopol'], 'string', 'max' => 12],
+            [['rekanKodePos'], 'string'],
+            [['rekanNoHp'], 'string'],
+            [['rekanKendaraan'], 'string'],
+            [['rekanKendaraanNopol'], 'string'],
         ];
     }
 
