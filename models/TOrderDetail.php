@@ -42,7 +42,7 @@ class TOrderDetail extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['orderId', 'serviceDetailId', 'kapasitasId', 'rekanId', 'orderDetailTglKerja', 'orderDetailWaktuKerja', 'orderDetailStatus'], 'required'],
+            [['serviceDetailId', 'kapasitasId', 'orderDetailTglKerja','orderDetailQTY', 'orderDetailWaktuKerja'], 'required'],
             [['orderId', 'serviceDetailId', 'kapasitasId', 'rekanId', 'orderDetailQTY'], 'integer'],
             [['orderDetailTglKerja'], 'safe'],
             [['orderDetailWaktuKerja'], 'string', 'max' => 15],
@@ -71,6 +71,7 @@ class TOrderDetail extends \yii\db\ActiveRecord
             'orderDetailWaktuKerja' => 'Order Detail Waktu Kerja',
             'orderDetailKeluhan' => 'Order Detail Keluhan',
             'orderDetailNote' => 'Order Detail Note',
+            'HargaSatuan' => 'Harga Satuan', 
             'orderDetailStatus' => 'Order Detail Status',
             'orderDetailQTY' => 'Order Detail Qty',
             'orderDetailProperti' => 'Order Detail Properti',
@@ -104,7 +105,7 @@ class TOrderDetail extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getServiceDetail()
+    public function getServicedetail()
     {
         return $this->hasOne(MServiceDetail::className(), ['serviceDetailId' => 'serviceDetailId']);
     }

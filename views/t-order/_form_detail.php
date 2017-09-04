@@ -22,7 +22,7 @@ use app\models\MRekanJtQuery;
 /* @var $model app\models\TOrder */
 /* @var $form yii\widgets\ActiveForm */
 
-$orderId = Yii::$app->request->get('id','xxx');
+$orderId = Yii::$app->request->get('id', 'xxx');
 
 $dbService = new MService();
 $dbServiceDetail = new MServiceDetail();
@@ -39,64 +39,71 @@ $allServiceDetail = $queryServiceDetail->all();
 $allKapasitasDetail = $queryKapasitasDetail->all();
 $allRekanJT = $queryRekanJt->all();
 
-$dropDownDataService = ArrayHelper::map($allService,'serviceId','serviceJudul');
-$dropDownDataServiceDetail = ArrayHelper::map($allServiceDetail,'serviceDetailId','serviceDetailJudul','serviceKategoriId');
-$dropDownDataKapasitasDetail = ArrayHelper::map($allKapasitasDetail,'kapasitasId','kapasitasJudul','serviceDetailId');
-$dropDownDataRekanJt = ArrayHelper::map($allRekanJT,'rekanId','rekanNamaLengkap');
+$dropDownDataService = ArrayHelper::map($allService, 'serviceId', 'serviceJudul');
+$dropDownDataServiceDetail = ArrayHelper::map($allServiceDetail, 'serviceDetailId', 'serviceDetailJudul', 'serviceKategoriId');
+$dropDownDataKapasitasDetail = ArrayHelper::map($allKapasitasDetail, 'kapasitasId', 'kapasitasJudul', 'serviceDetailId');
+$dropDownDataRekanJt = ArrayHelper::map($allRekanJT, 'rekanId', 'rekanNamaLengkap');
 ?>
 
 <div class="torder-form">
-    
-    <?php $form = ActiveForm::begin(['action' => ['create-detail'],'layout' => 'horizontal']); ?>
-    
-    <?= Html::hiddenInput('orderId',$orderId); ?>
-    
-    <?= $form->field($model, 'serviceDetailId')->widget(Select2::classname(), [
+
+    <?php $form = ActiveForm::begin(['action' => ['create-detail'], 'layout' => 'horizontal']); ?>
+
+    <?= Html::hiddenInput('orderId', $orderId); ?>
+
+    <?=
+    $form->field($model, 'serviceDetailId')->widget(Select2::classname(), [
         'data' => $dropDownDataServiceDetail,
         'options' => ['placeholder' => 'Pilih Service Detail...'],
         'pluginOptions' => [
             'allowClear' => true
         ],
-    ]); ?>
-    
-    <?= $form->field($model, 'kapasitasId')->widget(Select2::classname(), [
+    ])->label('Service Product');
+    ?>
+
+    <?=
+    $form->field($model, 'kapasitasId')->widget(Select2::classname(), [
         'data' => $dropDownDataKapasitasDetail,
         'options' => ['placeholder' => 'Pilih Kapasitas Detail...'],
         'pluginOptions' => [
             'allowClear' => true
         ],
-    ]); ?>
-    
-    <?= $form->field($model, 'rekanId')->widget(Select2::classname(), [
+    ])->label('Satuan');
+    ?>
+
+    <?=
+    $form->field($model, 'rekanId')->widget(Select2::classname(), [
 //        'data' => $dropDownDataRekanJt,
         'data' => ['Adit' => 'Adit'],
         'options' => ['placeholder' => 'Pilih Rekan JT...'],
         'pluginOptions' => [
             'allowClear' => true
         ],
-    ]); ?>
-    
-    <?= $form->field($model, 'orderDetailTglKerja')->widget(DatePicker::classname(), [
+    ])->label('Rekan Tukang');
+    ?>
+
+    <?=
+    $form->field($model, 'orderDetailTglKerja')->widget(DatePicker::classname(), [
         'options' => ['placeholder' => 'Masukan Detil Kerja ...'],
         'pluginOptions' => [
-            'autoclose'=>true,
+            'autoclose' => true,
             'todayHighlight' => true
         ]
-    ]); ?>
-    
-    <?= $form->field($model, 'orderDetailWaktuKerja')->widget(TimePicker::classname(), []); ?>
-    
-    <?= $form->field($model, 'orderDetailKeluhan')->textArea(['rows' => '4']) ?>
-    
-    <?= $form->field($model, 'orderDetailNote')->textArea(['rows' => '4']) ?>
-    
-    <?= $form->field($model, 'orderDetailQTY')->textInput(['maxlength' => true]) ?>
-    
-    <?= $form->field($model, 'orderDetailProperti')->textInput(['maxlength' => true]) ?>
-    
+    ])->label('Tgl Pengerjaan');
+    ?>
+
+    <?= $form->field($model, 'orderDetailWaktuKerja')->widget(TimePicker::classname(), [])->label('Waktu Pengerjaan'); ?>
+    <?= $form->field($model, 'orderDetailProperti')->textInput(['maxlength' => true])->label('Properti') ?>
+
+    <?= $form->field($model, 'orderDetailKeluhan')->textArea(['rows' => '2'])->label('Keluhan') ?>
+
+    <?= $form->field($model, 'orderDetailQTY')->textInput(['maxlength' => true])->label('Qty') ?>
+    <?= $form->field($model, 'HargaSatuan')->textInput(['maxlength' => true])->label('Harga Satuan') ?>
+
+
     <div class="col-xs-12">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
-        <?= Html::a('Cancel', ['index'], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Cancel', ['detail','id'=>$orderId], ['class' => 'btn btn-primary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

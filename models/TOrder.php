@@ -9,7 +9,9 @@ class TOrder extends \yii\db\ActiveRecord
     public static function tableName()
     {
         return 't_order';
-    }    
+    }
+    
+    public $total;
 
     public function rules()
     {
@@ -51,7 +53,24 @@ class TOrder extends \yii\db\ActiveRecord
    public function getMuser() 
    { 
        return $this->hasOne(MUser::className(), ['userId' => 'userId']); 
-   } 
+   }
+   
+   
+   
+   public function getKota() 
+   { 
+       return $this->hasOne(MKota::className(), ['kotaId' => 'orderKota']); 
+   }
+   
+   public function getKec() 
+   { 
+       return $this->hasOne(MKecamatan::className(), ['kecamatanId' => 'orderKota']); 
+   }
+   
+   public function getKel() 
+   { 
+       return $this->hasOne(MKelurahan::className(), ['kelurahanId' => 'orderKota']); 
+   }
 
    public function getTOrderDetails() 
    { 

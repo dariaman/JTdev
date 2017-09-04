@@ -8,6 +8,7 @@ use app\models\TOrderSearch;
 use app\models\TOrderDetail;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+use yii\data\ActiveDataProvider;
 use yii\filters\VerbFilter;
 use kartik\mpdf\Pdf;
 use yii\helpers\Json;
@@ -132,18 +133,42 @@ class TOrderController extends Controller
         if (($model = TOrderDetail::findOne($id)) !== null) {
             return $model;
         } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
+            return new TOrderDetail();
         }
+    }
+    
+    protected function findOrderDetailList($id)
+    {
+        $model = TOrderDetail::find()->where(['=', 'orderId', $id]);
+//        if (($model = TOrderDetail::find()->where(['=', 'orderId', $id])) != null) {
+            return $model;
+//        } else {
+//            return new TOrderDetail();
+//        }
     }
     
     public function actionDetail($id)
     {
-        $searchModel = new TOrderSearch();
-        $dataProvider = $searchModel->searchDetail($id);
+//        Yii::$app->session->setFlash('success', 'Model has been saved');
+        
+        $subQuery = TOrderDetail::find()->select('orderId, SUM(`HargaSatuan` * `orderDetailQTY`) as total ')->where(['orderId' => $id]);
+        $modelh = TOrder::find($id)->select([ 't_order.*', 'T.total', ])
+                ->leftJoin(['T' => $subQuery], 'T.orderId = t_order.orderId')
+                ->where(['t_order.orderId' => $id])
+                ->one();
+        
+        $dataProvider = new ActiveDataProvider([
+            'query' => TOrderDetail::find()
+                        ->where(['=', 'orderId', $id]),
+            'sort'=> ['defaultOrder' => ['orderDetailId'=>SORT_ASC]]
+        ]);
+        
+//        echo var_dump($modelh);
+//        die();
 
         return $this->render('detail', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
+            'modelh' => $modelh,
+            'modeld' => $dataProvider,
         ]);
     }
     
@@ -158,7 +183,7 @@ class TOrderController extends Controller
             $model->orderId = Yii::$app->request->post('orderId');
             $model->orderDetailTglKerja = $toDate;
             
-            $model->save();
+            $model->save(false);
             return $this->redirect(['detail','id' => $model->orderId]);
         } else {
             return $this->render('create-detail', [
