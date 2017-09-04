@@ -55,8 +55,6 @@ class TOrder extends \yii\db\ActiveRecord
        return $this->hasOne(MUser::className(), ['userId' => 'userId']); 
    }
    
-   
-   
    public function getKota() 
    { 
        return $this->hasOne(MKota::className(), ['kotaId' => 'orderKota']); 
@@ -64,15 +62,15 @@ class TOrder extends \yii\db\ActiveRecord
    
    public function getKec() 
    { 
-       return $this->hasOne(MKecamatan::className(), ['kecamatanId' => 'orderKota']); 
+       return $this->hasOne(MKecamatan::className(), ['kecamatanId' => 'orderKecamatan']); 
    }
    
    public function getKel() 
    { 
-       return $this->hasOne(MKelurahan::className(), ['kelurahanId' => 'orderKota']); 
+       return $this->hasOne(MKelurahan::className(), ['kelurahanId' => 'orderKelurahan']); 
    }
 
-   public function getTOrderDetails() 
+   public function getOrderdetail() 
    { 
        return $this->hasMany(TOrderDetail::className(), ['orderId' => 'orderId']); 
    }

@@ -2,9 +2,20 @@
 
 use yii\helpers\Html;
 use kartik\grid\GridView;
+use yii\bootstrap\Modal;
+use yii\helpers\Url; 
 
 $this->title = 'Order Detail';
 $this->params['breadcrumbs'][] = $this->title;
+
+Modal::begin([
+        'header'=>'Order',
+        'id' => 'modal',
+        'size'=>'modal-lg'
+    ]);
+echo "<div id=modalcontent></div>";
+Modal::end();
+
 ?>
 <div class="torder-index">
 
@@ -27,7 +38,7 @@ $this->params['breadcrumbs'][] = $this->title;
         </tr>
         <tr>
             <td><b>Jenis Pembayaran</b></td>
-            <td>: <?= ($modelh->orderJenisBayar == '1' ? 'Tunai' : ($modelh->orderJenisBayar == '2' ? 'EDC' : 'Transfer')) ?></td>
+            <td>: <?= ($modelh->orderJenisBayar == '1' ? 'Tunai' : ($modelh->orderJenisBayar == '2' ? 'Transfer' : 'EDC')) ?></td>
         </tr>
         <tr>
             <td><b>Total Tagihan</b></td>
@@ -58,9 +69,16 @@ $this->params['breadcrumbs'][] = $this->title;
             <td>: <?= $modelh->orderKodePos ?></td>
         </tr>
     </table>
+<p align="left">
+    <?= Html::button('Ubah Order Header', ['value' => Url::to(['update', 'id'=>$modelh->orderId]), 
+    'id' => 'btnEditHeaderModal','class' => 'btn btn-success']); ?>
+
+</p>
+
+<hr style="border: solid 1px; " />
     <h3>Order Detail</h3>
     <p align="right">
-        <?= Html::a('Tambah Order Detail', ['create-detail', 'id' => Yii::$app->request->get('id')], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Tambah Order Detail', ['create-detail', 'id' => $modelh->orderId], ['class' => 'btn btn-success']) ?>
     </p>
     <?=
     GridView::widget([
@@ -98,6 +116,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'header' => 'Harga Satuan',
+                'format'=>'decimal',
                 'attribute' => 'HargaSatuan',
             ],
 //            [
@@ -126,3 +145,19 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
 </div>
+<?php
+
+$script = <<<SKRIPT
+        
+$('#btnEditHeaderModal').click(function(){
+    $('#modal').modal('show')
+        .find('#modalcontent')
+        .load($(this).attr('value'));        
+});        
+
+
+
+SKRIPT;
+
+$this->registerJs($script);
+

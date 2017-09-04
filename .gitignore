@@ -1,6 +1,9 @@
 /nbproject
 /runtime/*.*
 /runtime/*
+/vendor/*.*
+/vendor/*
+/vendor
 /web/assets/*
 /web/assets/*.*
 /gbr

@@ -3,9 +3,9 @@
 namespace app\models;
 
 /**
- * This is the ActiveQuery class for [[TOrderDetail]].
+ * This is the ActiveQuery class for [[TOrder]].
  *
- * @see TOrderDetail
+ * @see TOrder
  */
 class TOrderQuery extends \yii\db\ActiveQuery
 {
@@ -16,7 +16,7 @@ class TOrderQuery extends \yii\db\ActiveQuery
 
     /**
      * @inheritdoc
-     * @return TOrderDetail[]|array
+     * @return TOrder[]|array
      */
     public function all($db = null)
     {
@@ -25,7 +25,7 @@ class TOrderQuery extends \yii\db\ActiveQuery
 
     /**
      * @inheritdoc
-     * @return TOrderDetail|array|null
+     * @return TOrder|array|null
      */
     public function one($db = null)
     {

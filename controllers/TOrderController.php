@@ -90,10 +90,12 @@ class TOrderController extends Controller
         $this->layout ='blank';
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->orderId]);
+        if (Yii::$app->request->IsPost){
+            $model->load(Yii::$app->request->post());
+            $model->save(false);
+            return $this->redirect(['detail', 'id' => $model->orderId]);
         } else {
-            return $this->render('update', [
+            return $this->renderAjax('update', [
                 'model' => $model,
             ]);
         }
