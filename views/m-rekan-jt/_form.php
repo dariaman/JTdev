@@ -2,7 +2,7 @@
 
 use yii\helpers\Html;
 use yii\helpers\ArrayHelper;
-use yii\bootstrap\ActiveForm;
+use kartik\widgets\ActiveForm;
 use yii\helpers\Url;
 use kartik\select2\Select2;
 use kartik\widgets\DepDrop;
@@ -10,19 +10,24 @@ use kartik\widgets\DepDrop;
 $dataKota = ArrayHelper::map(app\models\MKota::find()->asArray()->all(), 'kotaId', 'kotaNama');
 $dataKec = ArrayHelper::map(app\models\MKecamatan::find()->asArray()->all(), 'kecamatanId', 'kecamatanNama');
 $dataKel = ArrayHelper::map(app\models\MKelurahan::find()->asArray()->all(), 'kelurahanId', 'kelurahanNama');
+
+$list = ['L'=>'Laki-laki','P'=>'Perempuan'];
 ?>
 
 <div class="mrekan-jt-form">
 
-    <?php $form = ActiveForm::begin(['layout' => 'horizontal']); ?>
+    <?php $form = ActiveForm::begin([
+                        'type' => ActiveForm::TYPE_HORIZONTAL,
+                        'formConfig' => ['labelSpan' => 3, 'deviceSize' => ActiveForm::SIZE_SMALL]
+                    ]); ?>
 
-    <?= $form->field($model, 'rekanNamaLengkap')->textInput(['maxlength' => true])->label("Nama Lengkap") ?>
+    <?= $form->field($model, 'rekanNamaLengkap')->textInput()->label("Nama Lengkap") ?>
 
-    <?= $form->field($model, 'rekanKelamin')->radioList(array('L'=>'Laki-laki','P'=>'Perempuan'))->label("Jenis Kelamin"); ?>
+    <?= $form->field($model, 'rekanKelamin')->radioList($list,['inline'=>true])->label("Jenis Kelamin"); ?>
 
     <?= $form->field($model, 'rekanSpesifikasi')->textInput(['maxlength' => false])->label("Spesialisasi") ?>
 
-    <?= $form->field($model, 'rekanNoHp')->textInput(['type' => 'number','maxlength' => 20])->label("No HP") ?>
+    <?= $form->field($model, 'rekanNoHp')->input('number')->label("No HP") ?>
     <?= $form->field($model, 'rekanEmail')->textInput(['maxlength' => false])->label("Email") ?>
     <?= $form->field($model, 'rekanAlamat')->textarea(['rows' => 2])->label("Alamat") ?>
 
