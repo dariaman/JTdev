@@ -106,6 +106,11 @@ class TOrderDetail extends \yii\db\ActiveRecord
     {
         return $this->hasOne(MServiceDetail::className(), ['serviceDetailId' => 'serviceDetailId']);
     }
+    
+    public function getServicekapasitas()
+    {
+        return $this->hasOne(MServiceKategori::className(), ['serviceDetailId' => 'serviceDetailId']);
+    }
 
     /**
      * @inheritdoc

@@ -99,6 +99,12 @@ class TOrderController extends Controller {
     public function actionUpdateDetail($id) {
         $this->layout = 'blank';
         $model = $this->findOrderDetail($id);
+        $model2 = \app\models\MServiceDetail::findOne($model->serviceDetailId);
+        $model3 = \app\models\MServiceKategori::findOne($model2->serviceKategoriId);
+        $model->kategoriID =
+        
+//        echo var_dump($model2->serviceKategoriId);
+//        echo var_dump($model3);
 
         if (Yii::$app->request->IsPost) {
             $model->load(Yii::$app->request->post());
@@ -111,13 +117,6 @@ class TOrderController extends Controller {
         }
     }
 
-    /**
-     * Finds the TOrder model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id
-     * @return TOrder the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
     protected function findModel($id) {
         if (($model = TOrder::findOne($id)) !== null) {
             return $model;
@@ -135,7 +134,7 @@ class TOrderController extends Controller {
         $model = TOrderDetail::find()->where(['=', 'orderId', $id]);
         return $model;
     }
-
+ 
     public function actionDetail($id) {
 //        Yii::$app->session->setFlash('success', 'Model has been saved');
 

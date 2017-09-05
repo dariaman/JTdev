@@ -157,7 +157,6 @@ Modal::end();
                 return  Html::a(Yii::t('app', ' {modelClass}', [
                           'modelClass' => 'Edit',
                           ]), ['update-detail','id'=>$data->orderDetailId], ['class' => 'btn btn-success popupModal']);      
-//                    return Html::a('<span class="glyphicon glyphicon-pencil"></span>', ['update-detail', 'id' => $data['orderDetailId']]);
                 }
             ],
         ],
