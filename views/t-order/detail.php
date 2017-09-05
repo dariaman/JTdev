@@ -3,24 +3,22 @@
 use yii\helpers\Html;
 use kartik\grid\GridView;
 use yii\bootstrap\Modal;
-use yii\helpers\Url; 
+use yii\helpers\Url;
 
 $this->title = 'Order Detail';
 $this->params['breadcrumbs'][] = $this->title;
 
 Modal::begin([
-        'header'=>'Order',
-        'id' => 'modal',
-        'size'=>'modal-lg'
-    ]);
+    'id' => 'modal',
+    'size' => 'modal-md'
+]);
 echo "<div id=modalcontent></div>";
 Modal::end();
-
 ?>
 <div class="torder-index">
 
     <h1>Order Header</h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]);  ?>
+    <?php // echo $this->render('_search', ['model' => $searchModel]);   ?>
     <table class="table table-striped table-bordered">
         <tr style="width: 50%;">
             <td style="width: 150px"><b>Order ID</b></td> 
@@ -45,21 +43,22 @@ Modal::end();
             <td>: <?= Yii::$app->formatter->format($modelh->total, 'decimal') ?></td>
 
             <td><b>Kota</b></td>
-            <td>: <?= $modelh->kota->kotaNama ?></td>
+            <td>: <?= ($modelh->kota->kotaNama ?? '') ?></td>
         </tr>
         <tr>
             <td><b>Status Pembayaran</b></td>
             <td>: <?= ($modelh->StatusBayar == 'P' ? 'Lunas' : 'Belum Lunas') ?></td>
 
             <td><b>Kecamatan</b></td>
-            <td>: <?= $modelh->kec->kecamatanNama ?></td>
+            <td>: <?= ($modelh->kec->kecamatanNama ?? '') ?></td>
         </tr>
         <tr>
-            <td><b></b></td>
-            <td></td>
+            <td><b>Status Aktif</b></td>
+            <td>: <?= ($modelh->orderStatus == '1' ? html::label('<span class="glyphicon glyphicon-ok"></span>', '', ['style' => ['color' => 'green']]) 
+                    : html::label('<span class="glyphicon glyphicon-remove"></span>', '', ['style' => ['color' => 'red']])) ?></td>
 
             <td><b>Kelurahan</b></td>
-            <td>: <?= $modelh->kel->kelurahanNama ?></td>
+            <td>: <?= ($modelh->kel->kelurahanNama ?? '') ?></td>
         </tr>
         <tr>
             <td><b></b></td>
@@ -69,16 +68,19 @@ Modal::end();
             <td>: <?= $modelh->orderKodePos ?></td>
         </tr>
     </table>
-<p align="left">
-    <?= Html::button('Ubah Order Header', ['value' => Url::to(['update', 'id'=>$modelh->orderId]), 
-    'id' => 'btnEditHeaderModal','class' => 'btn btn-success']); ?>
+    <p align="left">
+        <?= Html::button('Ubah Order Header', ['value' => Url::to(['update', 'id' => $modelh->orderId]),
+            'id' => 'btnEditHeaderModal', 'class' => 'btn btn-success']);
+        ?>
 
-</p>
+    </p>
 
-<hr style="border: solid 1px; " />
+    <hr style="border: solid 1px; " />
     <h3>Order Detail</h3>
     <p align="right">
-        <?= Html::a('Tambah Order Detail', ['create-detail', 'id' => $modelh->orderId], ['class' => 'btn btn-success']) ?>
+        <?= Html::button('Tambah Order Detail', ['value' => Url::to(['create-detail', 'id' => $modelh->orderId]),
+            'id' => 'btnaddDetailModal', 'class' => 'btn btn-success']);
+        ?>
     </p>
     <?=
     GridView::widget([
@@ -86,7 +88,11 @@ Modal::end();
 //        'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-            'orderDetailId',
+            [
+                'header' => 'ID Detail',
+                'contentOptions' => ['Align' => 'right','style' => 'width: 50px;'],
+                'attribute' => 'orderDetailId',
+            ],
             [
                 'header' => 'Jadwal Pengerjaan',
                 'contentOptions' => ['style' => 'width: 150px;'],
@@ -116,7 +122,7 @@ Modal::end();
             ],
             [
                 'header' => 'Harga Satuan',
-                'format'=>'decimal',
+                'format' => 'decimal',
                 'attribute' => 'HargaSatuan',
             ],
 //            [
@@ -146,10 +152,15 @@ Modal::end();
 
 </div>
 <?php
-
 $script = <<<SKRIPT
         
 $('#btnEditHeaderModal').click(function(){
+    $('#modal').modal('show')
+        .find('#modalcontent')
+        .load($(this).attr('value'));        
+});        
+
+$('#btnaddDetailModal').click(function(){
     $('#modal').modal('show')
         .find('#modalcontent')
         .load($(this).attr('value'));        

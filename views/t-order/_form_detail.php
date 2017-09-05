@@ -18,31 +18,12 @@ use app\models\MKapasitasDetailQuery;
 use app\models\MRekanJt;
 use app\models\MRekanJtQuery;
 
-/* @var $this yii\web\View */
-/* @var $model app\models\TOrder */
-/* @var $form yii\widgets\ActiveForm */
-
 $orderId = Yii::$app->request->get('id', 'xxx');
 
-$dbService = new MService();
-$dbServiceDetail = new MServiceDetail();
-$dbKapasitas = new MKapasitasDetail();
-$dbRekan = new MRekanJt();
-
-$queryService = new MServiceQuery($dbService);
-$queryServiceDetail = new MServiceDetailQuery($dbServiceDetail);
-$queryKapasitasDetail = new MKapasitasDetailQuery($dbKapasitas);
-$queryRekanJt = new MRekanJtQuery($dbRekan);
-
-$allService = $queryService->all();
-$allServiceDetail = $queryServiceDetail->all();
-$allKapasitasDetail = $queryKapasitasDetail->all();
-$allRekanJT = $queryRekanJt->all();
-
-$dropDownDataService = ArrayHelper::map($allService, 'serviceId', 'serviceJudul');
-$dropDownDataServiceDetail = ArrayHelper::map($allServiceDetail, 'serviceDetailId', 'serviceDetailJudul', 'serviceKategoriId');
-$dropDownDataKapasitasDetail = ArrayHelper::map($allKapasitasDetail, 'kapasitasId', 'kapasitasJudul', 'serviceDetailId');
-$dropDownDataRekanJt = ArrayHelper::map($allRekanJT, 'rekanId', 'rekanNamaLengkap');
+$dropDownDataService = ArrayHelper::map(MService::find()->all(), 'serviceId', 'serviceJudul');
+$dropDownDataServiceDetail = ArrayHelper::map(MServiceDetail::find()->all(), 'serviceDetailId', 'serviceDetailJudul', 'serviceKategoriId');
+$dropDownDataKapasitasDetail = ArrayHelper::map(MKapasitasDetail::find()->all(), 'kapasitasId', 'kapasitasJudul', 'serviceDetailId');
+$dropDownDataRekanJt = ArrayHelper::map(MRekanJt::find()->all(), 'rekanId', 'rekanNamaLengkap');
 ?>
 
 <div class="torder-form">
@@ -73,8 +54,7 @@ $dropDownDataRekanJt = ArrayHelper::map($allRekanJT, 'rekanId', 'rekanNamaLengka
 
     <?=
     $form->field($model, 'rekanId')->widget(Select2::classname(), [
-//        'data' => $dropDownDataRekanJt,
-        'data' => ['Adit' => 'Adit'],
+       'data' => $dropDownDataRekanJt,
         'options' => ['placeholder' => 'Pilih Rekan JT...'],
         'pluginOptions' => [
             'allowClear' => true

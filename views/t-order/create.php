@@ -7,7 +7,7 @@ use yii\helpers\Html;
 /* @var $model app\models\TOrder */
 
 $this->title = 'Buat Order';
-$this->params['breadcrumbs'][] = ['label' => 'Torders', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Order', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="torder-create">
