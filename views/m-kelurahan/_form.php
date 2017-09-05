@@ -7,12 +7,8 @@ use kartik\select2\Select2;
 use kartik\widgets\DepDrop;
 use yii\helpers\Url;
 
-/* @var $this yii\web\View */
-/* @var $model app\models\MKelurahan */
-/* @var $form yii\widgets\ActiveForm */
-
-$dataKota = ArrayHelper::map(app\models\MKota::find()->asArray()->all(), 'kotaId', 'kotaNama');
-$dataKec = ArrayHelper::map(app\models\MKecamatan::find()->asArray()->all(), 'kecamatanId', 'kecamatanNama');
+$dataKota = ArrayHelper::map(app\models\MKota::find()->all(), 'kotaId', 'kotaNama');
+$dataKec = ArrayHelper::map(app\models\MKecamatan::find()->all(), 'kecamatanId', 'kecamatanNama');
 ?>
 
 <div class="mkelurahan-form">

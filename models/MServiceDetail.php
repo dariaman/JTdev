@@ -1,6 +1,9 @@
 <?php
+
 namespace app\models;
+
 use Yii;
+
 /**
  * This is the model class for table "m_service_detail".
  *
@@ -12,23 +15,23 @@ use Yii;
  * @property integer $serviceId
  * @property string $serviceDetailStatus
  */
-class MServiceDetail extends \yii\db\ActiveRecord
-{
+class MServiceDetail extends \yii\db\ActiveRecord {
+
     /**
      * @inheritdoc
      */
-    public static function tableName()
-    {
+    public static function tableName() {
         return 'm_service_detail';
     }
+
     /**
      * @inheritdoc
      */
     public $serviceJudul;
     public $serviceKategoriJudul;
     public $pic;
-    public function rules()
-    {
+
+    public function rules() {
         return [
             [['serviceDetailJudul', 'serviceKategoriId', 'serviceId', 'serviceDetailStatus'], 'required'],
             [['serviceDetailDeskripsi'], 'string'],
@@ -39,26 +42,25 @@ class MServiceDetail extends \yii\db\ActiveRecord
             [['pic'], 'file'],
         ];
     }
-    
-     public function getKategoriTbl(){
+
+    public function getKategoriTbl() {
         return $this->hasOne(MServiceKategori::className(), ['serviceKategoriId' => 'serviceKategoriId']);
     }
-    public function getServiceTbl(){
-            return $this->hasOne(MService::className(), ['serviceId' => 'serviceId'])
-            ->via('kategoriTbl');
-        }
-    public function getServicejudulheader(){
-              return $this->serviceTbl != '' ? $this->serviceTbl->serviceJudul : 'none';
+
+    public function getServiceTbl() {
+        return $this->hasOne(MService::className(), ['serviceId' => 'serviceId'])
+                        ->via('kategoriTbl');
     }
-     public function getServiceJudul(){
-         return $this->kategoriTbl != '' ? $this->kategoriTbl->serviceKategoriJudul : 'none';
+
+    public function getServicejudulheader() {
+        return $this->serviceTbl != '' ? $this->serviceTbl->serviceJudul : 'none';
+    }
+
+    public function getServiceJudul() {
+        return $this->kategoriTbl != '' ? $this->kategoriTbl->serviceKategoriJudul : 'none';
     }
     
-    /**
-     * @inheritdoc
-     */
-    public function attributeLabels()
-    {
+    public function attributeLabels() {
         return [
             'serviceDetailId' => 'Service Detail ID',
             'serviceDetailJudul' => 'Service Detail Judul',
@@ -69,12 +71,13 @@ class MServiceDetail extends \yii\db\ActiveRecord
             'serviceDetailStatus' => 'Service Detail Status',
         ];
     }
+
     /**
      * @inheritdoc
      * @return MServiceDetailQuery the active query used by this AR class.
      */
-    public static function find()
-    {
+    public static function find() {
         return new MServiceDetailQuery(get_called_class());
     }
+
 }

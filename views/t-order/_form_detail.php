@@ -7,7 +7,7 @@ use kartik\widgets\DatePicker;
 use kartik\widgets\TimePicker;
 use kartik\widgets\Select2;
 use kartik\checkbox\CheckboxX;
-use kartik\depdrop\DepDrop;
+use kartik\widgets\DepDrop;
 use yii\helpers\Url;
 use app\models\MService;
 use app\models\MServiceDetail;
@@ -20,9 +20,11 @@ use app\models\MRekanJtQuery;
 
 $orderId = Yii::$app->request->get('id', 'xxx');
 
+$KategoriData = ArrayHelper::map(app\models\MServiceKategori::find()->all(), 'serviceKategoriId', 'serviceKategoriJudul');
 $dropDownDataService = ArrayHelper::map(MService::find()->all(), 'serviceId', 'serviceJudul');
-$dropDownDataServiceDetail = ArrayHelper::map(MServiceDetail::find()->all(), 'serviceDetailId', 'serviceDetailJudul', 'serviceKategoriId');
-$dropDownDataKapasitasDetail = ArrayHelper::map(MKapasitasDetail::find()->all(), 'kapasitasId', 'kapasitasJudul', 'serviceDetailId');
+$ServiceDetailData = ArrayHelper::map(MServiceDetail::find()->all(), 'serviceDetailId', 'serviceDetailJudul');
+$KapasitasDetailData = ArrayHelper::map(MKapasitasDetail::find()->all(), 'kapasitasId', 'kapasitasJudul');
+
 $dropDownDataRekanJt = ArrayHelper::map(MRekanJt::find()->all(), 'rekanId', 'rekanNamaLengkap');
 ?>
 
@@ -33,28 +35,41 @@ $dropDownDataRekanJt = ArrayHelper::map(MRekanJt::find()->all(), 'rekanId', 'rek
     <?= Html::hiddenInput('orderId', $orderId); ?>
 
     <?=
-    $form->field($model, 'serviceDetailId')->widget(Select2::classname(), [
-        'data' => $dropDownDataServiceDetail,
-        'options' => ['placeholder' => 'Pilih Service Detail...'],
-        'pluginOptions' => [
-            'allowClear' => true
-        ],
-    ])->label('Service Product');
+    $form->field($model, 'kategoriID')->dropDownList($KategoriData, [
+        'id' => 'Kategori-id',
+        'prompt' => '-- Kategori Service --'
+    ])->label("Kategori Service")
     ?>
 
     <?=
-    $form->field($model, 'kapasitasId')->widget(Select2::classname(), [
-        'data' => $dropDownDataKapasitasDetail,
-        'options' => ['placeholder' => 'Pilih Kapasitas Detail...'],
+    $form->field($model, 'serviceDetailId')->widget(DepDrop::classname(), [
+        'data' => $ServiceDetailData,
+        'options' => ['id' => 'detail-id'],
         'pluginOptions' => [
-            'allowClear' => true
-        ],
-    ])->label('Satuan');
+            'depends' => ['Kategori-id'],
+            'initialize' => true,
+            'placeholder' => '-- Service Detail --',
+            'url' => Url::to(['t-order/list-services-detail'])
+        ]
+    ])->label("Service Detail")
+    ?>
+    
+    <?=
+    $form->field($model, 'kapasitasId')->widget(DepDrop::classname(), [
+        'data' => $KapasitasDetailData,
+        'options' => ['id' => 'kapasitas-id'],
+        'pluginOptions' => [
+            'depends' => ['detail-id'],
+            'initialize' => true,
+            'placeholder' => '-- Satuan Harga --',
+            'url' => Url::to(['t-order/list-kapasitas'])
+        ]
+    ])->label("Satuan Harga")
     ?>
 
     <?=
     $form->field($model, 'rekanId')->widget(Select2::classname(), [
-       'data' => $dropDownDataRekanJt,
+        'data' => $dropDownDataRekanJt,
         'options' => ['placeholder' => 'Pilih Rekan JT...'],
         'pluginOptions' => [
             'allowClear' => true
@@ -78,13 +93,10 @@ $dropDownDataRekanJt = ArrayHelper::map(MRekanJt::find()->all(), 'rekanId', 'rek
     <?= $form->field($model, 'orderDetailKeluhan')->textArea(['rows' => '2'])->label('Keluhan') ?>
 
     <?= $form->field($model, 'orderDetailQTY')->textInput(['maxlength' => true])->label('Qty') ?>
-    <?= $form->field($model, 'HargaSatuan')->textInput(['maxlength' => true])->label('Harga Satuan') ?>
 
 
-    <div class="col-xs-12">
-        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
-        <?= Html::a('Cancel', ['detail','id'=>$orderId], ['class' => 'btn btn-primary']) ?>
-    </div>
+    <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+    <?= Html::a('Cancel', ['detail', 'id' => $orderId], ['class' => 'btn btn-primary']) ?>
 
     <?php ActiveForm::end(); ?>
 

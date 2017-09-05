@@ -35,10 +35,7 @@ class TOrderDetail extends \yii\db\ActiveRecord
         return 't_order_detail';
     }
     public $serviceId;
-
-    /**
-     * @inheritdoc
-     */
+    public $kategoriID;
     public function rules()
     {
         return [

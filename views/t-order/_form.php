@@ -3,94 +3,90 @@
 use yii\helpers\Html;
 use yii\helpers\ArrayHelper;
 use yii\bootstrap\ActiveForm;
-use kartik\widgets\DatePicker;
+//use kartik\widgets\DatePicker;
 use kartik\widgets\Select2;
-use kartik\depdrop\DepDrop;
+//use kartik\depdrop\DepDrop;
+use kartik\widgets\DepDrop;
 use yii\helpers\Url;
-use app\models\MKota;
-use app\models\MKotaQuery;
-use app\models\MKecamatan;
-use app\models\MKecamatanQuery;
-use app\models\MKelurahan;
-use app\models\MKelurahanQuery;
+//use app\models\MKota;
+//use app\models\MKotaQuery;
+//use app\models\MKecamatan;
+//use app\models\MKecamatanQuery;
+//use app\models\MKelurahan;
+//use app\models\MKelurahanQuery;
 use app\models\MUser;
-/* @var $this yii\web\View */
-/* @var $model app\models\TOrder */
-/* @var $form yii\widgets\ActiveForm */
 
-$dbKota = new MKota();
-$dbKecamatan = new MKecamatan();
-$dbKelurahan = new MKelurahan();
+$cust = ArrayHelper::map(MUser::find()->aktif()->all(), 'userId', 'userNamaDepan');
 
-$queryKota = new MKotaQuery($dbKota);
-$queryKecamatan = new MKecamatanQuery($dbKecamatan);
-$queryKelurahan = new MKelurahanQuery($dbKelurahan);
-
-$allKota = $queryKota->all();
-$allKec = $queryKecamatan->all();
-$allKel = $queryKelurahan->all();
-
-$dropDownDataKota = ArrayHelper::map($allKota,'kotaId','kotaNama');
-$dropDownDataKecamatan = ArrayHelper::map($allKec,'kecamatanId','kecamatanNama');
-$dropDownDataKelurahan = ArrayHelper::map($allKel,'kelurahanId','kelurahanNama');
-
-$cust = ArrayHelper::map(MUser::find()->aktif()->all(),'userId','userNamaDepan');
+$dataKota = ArrayHelper::map(app\models\MKota::find()->all(), 'kotaId', 'kotaNama');
+$dataKec = ArrayHelper::map(app\models\MKecamatan::find()->all(), 'kecamatanId', 'kecamatanNama');
+$dataKel = ArrayHelper::map(app\models\MKelurahan::find()->all(), 'kelurahanId', 'kelurahanNama');
 ?>
 
 <div class="torder-form">
-    
+
     <?php $form = ActiveForm::begin(['layout' => 'horizontal']); ?>
-    
-    <?= $form->field($model, 'userId')->widget(Select2::classname(), [
-        'data' => $cust,
-        'options' => ['id' => 'cat-ixd','placeholder' => 'Customer Order'],
-        'pluginOptions' => [
-            'allowClear' => true
-        ],
-    ])->label("Customer"); ?>
-
-    <?= $form->field($model, 'orderJenisBayar')->widget(Select2::classname(), [
-        'data' => ['1' => 'Tunai','2' => 'Transfer','3' => 'Kartu Kredit'],
-        'options' => ['placeholder' => 'Pilih Jenis Bayar ...'],
-        'pluginOptions' => [
-            'allowClear' => true
-        ],
-    ]); ?>
-
-    <?= $form->field($model, 'orderAlamat')->textArea(['rows' => '6']) ?>
-
-    <?= $form->field($model, 'orderKota')->widget(Select2::classname(), [
-        'data' => $dropDownDataKota,
-        'options' => ['id' => 'cat-id','placeholder' => 'Pilih Kota ...'],
-        'pluginOptions' => [
-            'allowClear' => true
-        ],
-    ]); ?>
-
-    <?= $form->field($model, 'orderKecamatan')->widget(Select2::classname(), [
-        'data' => $dropDownDataKecamatan,
-        'options' => ['placeholder' => 'Pilih Kecamatan ...'],
-        'pluginOptions' => [
-            'allowClear' => true
-        ],
-    ]); ?>
 
     <?=
-    $form->field($model, 'orderKelurahan')->widget(Select2::classname(), [
-        'data' => $dropDownDataKelurahan,
-        'options' => ['placeholder' => 'Pilih Kelurahan ...'],
+    $form->field($model, 'userId')->widget(Select2::classname(), [
+        'data' => $cust,
+        'options' => ['id' => 'cat-ixd', 'placeholder' => 'Customer Order'],
+        'pluginOptions' => [
+            'allowClear' => true
+        ],
+    ])->label("Customer");
+    ?>
+
+    <?=
+    $form->field($model, 'orderJenisBayar')->widget(Select2::classname(), [
+        'data' => ['1' => 'Tunai', '2' => 'Transfer', '3' => 'Kartu Kredit'],
+        'options' => ['placeholder' => 'Pilih Jenis Bayar ...'],
         'pluginOptions' => [
             'allowClear' => true
         ],
     ]);
     ?>
+
+    <?= $form->field($model, 'orderAlamat')->textArea(['rows' => '6']) ?>
+
+    <?=
+    $form->field($model, 'orderKota')->dropDownList($dataKota, [
+        'id' => 'kota-id',
+        'prompt' => '-- Pilih Kota --'
+    ])->label("Kota")
+    ?>
+
+    <?=
+    $form->field($model, 'orderKecamatan')->widget(DepDrop::classname(), [
+        'data' => $dataKec,
+        'options' => ['id' => 'kec-id'],
+        'pluginOptions' => [
+            'depends' => ['kota-id'],
+            'initialize' => true,
+            'placeholder' => '-- Pilih Kecamatan --',
+            'url' => Url::to(['t-order/list-kec'])
+        ]
+    ])->label("Kecamatan")
+    ?>
+
+    <?=
+    $form->field($model, 'orderKelurahan')->widget(DepDrop::classname(), [
+        'data' => $dataKel,
+        'options' => ['id' => 'kel-id'],
+        'pluginOptions' => [
+            'depends' => ['kec-id'],
+            'initialize' => true,
+            'placeholder' => '-- Pilih Kelurahan --',
+            'url' => Url::to(['t-order/list-kel'])
+        ]
+    ])->label("Kelurahan")
+    ?>
+
     <?= $form->field($model, 'orderKodePos')->textInput(['maxlength' => true]) ?>
 
-    <div class="col-xs-12">
-        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
-        <?= Html::a('Cancel', ['detail','id'=>$model->orderId], ['class' => 'btn btn-primary']) ?>
-    </div>
+    <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+    <?= Html::a('Cancel', ['detail', 'id' => $model->orderId], ['class' => 'btn btn-primary']) ?>
 
-    <?php ActiveForm::end(); ?>
+<?php ActiveForm::end(); ?>
 
 </div>
