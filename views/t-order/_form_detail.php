@@ -6,17 +6,17 @@ use yii\bootstrap\ActiveForm;
 use kartik\widgets\DatePicker;
 use kartik\widgets\TimePicker;
 use kartik\widgets\Select2;
-use kartik\checkbox\CheckboxX;
+//use kartik\checkbox\CheckboxX;
 use kartik\widgets\DepDrop;
 use yii\helpers\Url;
 use app\models\MService;
 use app\models\MServiceDetail;
-use app\models\MServiceQuery;
-use app\models\MServiceDetailQuery;
+//use app\models\MServiceQuery;
+//use app\models\MServiceDetailQuery;
 use app\models\MKapasitasDetail;
-use app\models\MKapasitasDetailQuery;
+//use app\models\MKapasitasDetailQuery;
 use app\models\MRekanJt;
-use app\models\MRekanJtQuery;
+//use app\models\MRekanJtQuery;
 
 $orderId = Yii::$app->request->get('id', 'xxx');
 
@@ -26,13 +26,15 @@ $ServiceDetailData = ArrayHelper::map(MServiceDetail::find()->all(), 'serviceDet
 $KapasitasDetailData = ArrayHelper::map(MKapasitasDetail::find()->all(), 'kapasitasId', 'kapasitasJudul');
 
 $dropDownDataRekanJt = ArrayHelper::map(MRekanJt::find()->all(), 'rekanId', 'rekanNamaLengkap');
+
+$model->orderId = Yii::$app->request->get('id');
 ?>
 
 <div class="torder-form">
 
-    <?php $form = ActiveForm::begin(['action' => ['create-detail'], 'layout' => 'horizontal']); ?>
-
-    <?= Html::hiddenInput('orderId', $orderId); ?>
+    <?php $form = ActiveForm::begin(['layout' => 'horizontal']); ?>
+    
+    <?= $form->field($model, 'orderId')->hiddenInput()->label(false) ?>
 
     <?=
     $form->field($model, 'kategoriID')->dropDownList($KategoriData, [
@@ -94,6 +96,10 @@ $dropDownDataRekanJt = ArrayHelper::map(MRekanJt::find()->all(), 'rekanId', 'rek
 
     <?= $form->field($model, 'orderDetailQTY')->textInput(['maxlength' => true])->label('Qty') ?>
 
+        <?php if(!$model->isNewRecord){
+            echo $form->field($model, 'orderDetailStatus')->checkbox()->label("Status Aktif");
+        }
+    ?>
 
     <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
     <?= Html::a('Cancel', ['detail', 'id' => $orderId], ['class' => 'btn btn-primary']) ?>

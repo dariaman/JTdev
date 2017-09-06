@@ -46,16 +46,16 @@ class TOrderController extends Controller {
         ]);
     }
 
-    /**
-     * Displays a single TOrder model.
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionView($id) {
-        return $this->render('view', [
-                    'model' => $this->findModel($id),
-        ]);
-    }
+//    /**
+//     * Displays a single TOrder model.
+//     * @param integer $id
+//     * @return mixed
+//     */
+//    public function actionView($id) {
+//        return $this->render('view', [
+//                    'model' => $this->findModel($id),
+//        ]);
+//    }
 
     /**
      * Creates a new TOrder model.
@@ -67,7 +67,8 @@ class TOrderController extends Controller {
 
         if ($model->load(Yii::$app->request->post())) {
             $model->save(false);
-            return $this->redirect(['create-detail', 'id' => $model->orderId]);
+            return $this->redirect(['detail', 'id' => $model->orderId]);
+//            return $this->redirect(['create-detail', 'id' => $model->orderId]);
         } else {
             return $this->render('create', [
                         'model' => $model,
@@ -100,11 +101,7 @@ class TOrderController extends Controller {
         $this->layout = 'blank';
         $model = $this->findOrderDetail($id);
         $model2 = \app\models\MServiceDetail::findOne($model->serviceDetailId);
-        $model3 = \app\models\MServiceKategori::findOne($model2->serviceKategoriId);
-        $model->kategoriID =
-        
-//        echo var_dump($model2->serviceKategoriId);
-//        echo var_dump($model3);
+        $model->kategoriID =$model2->serviceKategoriId;
 
         if (Yii::$app->request->IsPost) {
             $model->load(Yii::$app->request->post());
@@ -138,7 +135,8 @@ class TOrderController extends Controller {
     public function actionDetail($id) {
 //        Yii::$app->session->setFlash('success', 'Model has been saved');
 
-        $subQuery = TOrderDetail::find()->select('orderId, SUM(`HargaSatuan` * `orderDetailQTY`) as total ')->where(['orderId' => $id]);
+        $subQuery = TOrderDetail::find()->select('orderId, SUM(`HargaSatuan` * `orderDetailQTY`) as total ')
+                ->where(['orderId' => $id,'orderDetailStatus'=>'1']);
         $modelh = TOrder::find($id)->select(['t_order.*', 'T.total',])
                 ->leftJoin(['T' => $subQuery], 'T.orderId = t_order.orderId')
                 ->where(['t_order.orderId' => $id])
@@ -150,9 +148,6 @@ class TOrderController extends Controller {
             'sort' => ['defaultOrder' => ['orderDetailId' => SORT_ASC]]
         ]);
 
-//        echo var_dump($modelh);
-//        die();
-
         return $this->render('detail', [
                     'modelh' => $modelh,
                     'modeld' => $dataProvider,
@@ -162,12 +157,17 @@ class TOrderController extends Controller {
     public function actionCreateDetail() {
         $this->layout = 'blank';
         $model = new TOrderDetail();
+//        $model->orderId = Yii::$app->request->get('id');
 
         if ($model->load(Yii::$app->request->post())) {
+//            echo var_dump(Yii::$app->request->post());
+//            echo var_dump($model);
+//            die();
+            
             $request = Yii::$app->request->post('TOrderDetail');
             $orderDetailTgl = $request['orderDetailTglKerja'];
             $toDate = date('Y-m-d', strtotime($orderDetailTgl));
-            $model->orderId = Yii::$app->request->post('orderId');
+//            $model->orderId = Yii::$app->request->post('orderId');
             $model->orderDetailTglKerja = $toDate;
 
             $model->save(false);
@@ -350,7 +350,7 @@ class TOrderController extends Controller {
         if (isset($_POST['depdrop_parents'])) {
             $parents = $_POST['depdrop_parents'];
             if ($parents != null) {
-                $model = \app\models\MServiceDetail::find()->where(['serviceId' => $parents[0]])->all();
+                $model = \app\models\MServiceDetail::find()->where(['serviceKategoriId' => $parents[0]])->all();
                 foreach ($model as $key => $value) {
                     $out[] = ['id' => $value->serviceDetailId, 'name' => $value->serviceDetailJudul];
                 }

@@ -89,7 +89,6 @@ class MKotaController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
         if (Yii::$app->request->IsPost)
         {
             $model->load(Yii::$app->request->post());
@@ -105,13 +104,7 @@ class MKotaController extends Controller
         }
         return $this->redirect(['index']);
     }
-
-    /**
-     * Deletes an existing MKota model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
-     * @return mixed
-     */
+    
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();

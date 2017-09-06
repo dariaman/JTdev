@@ -38,12 +38,46 @@ yii\bootstrap\Modal::end();
               },
 
             ],
-            'orderTgl',
-            'orderJenisBayar',
-            'orderAlamat',
-            'StatusBayar',
+            [
+                'header' => 'Customer',
+                'value' => function($data){
+                    return $data['muser']['userNamaDepan'] . ' ' . $data['muser']['userNamaBelakang'];
 
-            ['class' => 'yii\grid\ActionColumn'],
+                // => 'muser.userNamaDepan'.' '.'muser.userNamaBelakang',
+                }
+            ],
+            // 'userId',
+            'orderTgl',
+            [
+                'header' => 'Jenis Bayar',
+                'value' => function($data){
+                    return (($data['orderJenisBayar']=='1') ? 'Tunai' : (($data['muser']=='P') ? 'Lunas' : 'Belum Lunas'));
+
+                    if($data['orderJenisBayar']=='P'){
+                        return 'Lunas';
+                    }else{
+                        return 'Belum Lunas';
+                    }
+                }
+            ],
+            'orderAlamat',
+            [
+                'header' => 'StatusBayar',
+                'value' => function($data){
+                    return (($data['muser']=='P') ? 'Lunas' : 'Belum Lunas');
+                }
+            ],
+            [
+                'header' => 'Invoice',
+                'format' => 'raw',
+                'contentOptions' => ['Align' => 'center','style' => 'width: 50px;'],
+                'headerOptions' => ['style' => 'text-align:center'],
+                'value' => function($data){
+                    return Html::a('',['print-inv','orderid' => $data['orderId']],['class'=>'glyphicon glyphicon-print']);
+                }
+            ],
+
+            // ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
 <?php Pjax::end(); ?></div>
