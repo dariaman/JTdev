@@ -22,6 +22,9 @@ function Status($model){
 
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+    <p style="text-align: right;">
+    <?= Html::a('Tambah Service Kategori', ['create'], ['class' => 'btn btn-success']) ?>
+    </p>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -49,7 +52,4 @@ function Status($model){
         ],
     ]); ?>
     
-    <p>
-        <?= Html::a('Tambah Service Kategori', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
 </div>

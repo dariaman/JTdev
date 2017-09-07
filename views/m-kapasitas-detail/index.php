@@ -6,7 +6,7 @@ use kartik\grid\GridView;
 /* @var $searchModel app\models\MKapastiasDetailSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Kapasitas Detail';
+$this->title = 'Harga Satuan';
 $this->params['breadcrumbs'][] = $this->title;
 
 function Status($model){
@@ -21,20 +21,28 @@ function Status($model){
 
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
+<p style="text-align: right;">
+    <?= Html::a('Tambah Harga Satuan', ['create'], ['class' => 'btn btn-success']) ?>
+    </p>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
-//            'kapasitasId',
-            'kapasitasJudul',
-            'kapasitasHarga',
             [
                 'header' => 'Service Detail',
                 'attribute' => 'serviceDetailId',
                 'value' => 'serviceDetailJudul'
+            ],
+            [
+                'header' => 'Harga Satuan',
+                'format' => 'decimal',
+                'contentOptions' => ['Align' => 'right'],
+                'attribute' => 'kapasitasHarga',
+            ],
+            [
+                'header' => 'Keterangan Satuan',
+                'attribute' => 'kapasitasJudul',
             ],
             [
                 'label'=>'Status',
@@ -44,13 +52,9 @@ function Status($model){
                         return Status($model);
                 },
             ],
-            // 'kapasitasDeskripsi:ntext',
+             'kapasitasDeskripsi:ntext',
 
             ['class' => 'yii\grid\ActionColumn','template' => '{update}'],
         ],
     ]); ?>
-    
-    <p>
-        <?= Html::a('Tambah Kapasitas Detail', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
 </div>

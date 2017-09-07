@@ -266,7 +266,7 @@ class TOrderController extends Controller {
             // any css to be embedded if required
             'cssInline' => '.kv-heading-1{font-size:18px}',
             // set mPDF properties on the fly
-            'options' => ['title' => 'Work Order'],
+            'options' => ['title' => 'Work Order #'.$orderid],
             // call mPDF methods on the fly
             'methods' => [
                 'SetHeader' => ['Jago Tukang'],
@@ -302,7 +302,7 @@ class TOrderController extends Controller {
             // any css to be embedded if required
             'cssInline' => '.kv-heading-1{font-size:18px}',
             // set mPDF properties on the fly
-            'options' => ['title' => 'Work Order'],
+            'options' => ['title' => 'Invoice #'.$orderid],
             // call mPDF methods on the fly
             'methods' => [
                 'SetHeader' => ['Jago Tukang'],

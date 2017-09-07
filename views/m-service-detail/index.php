@@ -2,12 +2,13 @@
 
 use yii\helpers\Html;
 use kartik\grid\GridView;
+use yii\widgets\Pjax;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\MServiceDetailSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Service Detail';
+$this->title = 'Service Product';
 $this->params['breadcrumbs'][] = $this->title;
 
 function Status($model){
@@ -22,38 +23,29 @@ function Status($model){
 
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-    
+    <p style="text-align: right;">
+        <?= Html::a('Tambah Service Product', ['create'], ['class' => 'btn btn-success']) ?>
+    </p>
+    <?php Pjax::begin(); ?>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-//            'serviceDetailId',
             'serviceDetailJudul',
-            'serviceDetailDeskripsi:ntext',
-            'serviceDetailGambar:url',
-//            [
-//                'attribute' => 'serviceDetailGambar',
-//                'format' => 'html',
-//                'label' => 'serviceDetailGambar',
-//                'value' => 'serviceDetailGambar'
-//                'galleriGambarUrl:url',
-////                'value' => function ($data) {
-////                    return Html::img('../'.Yii::$app->params['GambarServiceDetail'].$data['serviceDetailGambar'],
-////                        ['width' => '200px']);
-////                },
-//            ],
             [
                 'header' => 'Service Kategori',
                 'attribute' => 'serviceKategoriId',
                 'value' => 'serviceKategoriJudul'
             ],
-            [
-                'header' => 'Service',
-                'attribute' => 'serviceId',
-                'value' => 'serviceJudul'
-            ],
+            'serviceDetailGambar:url',
+            'serviceDetailDeskripsi:ntext',
+//            [
+//                'header' => 'Service',
+//                'attribute' => 'serviceId',
+//                'value' => 'serviceJudul'
+//            ],
             [
                 'label'=>'Status',
                 'attribute'=>'serviceDetailStatus',
@@ -66,8 +58,5 @@ function Status($model){
             ['class' => 'yii\grid\ActionColumn','template' => '{update} '],
         ],
     ]); ?>
-    
-    <p>
-        <?= Html::a('Tambah Service Detail', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
+<?php Pjax::end(); ?>
 </div>

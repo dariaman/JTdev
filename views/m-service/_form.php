@@ -27,10 +27,8 @@ use yii\bootstrap\ActiveForm;
     }
 
     ?>
-    
-    <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Simpan' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
-    </div>
+    <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+    <?= Html::a('Cancel', ['index'], ['class' => 'btn btn-primary']) ?>
 
     <?php ActiveForm::end(); ?>
 

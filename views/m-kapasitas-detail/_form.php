@@ -20,19 +20,18 @@ $dataservicedetail = ArrayHelper::map(MServiceDetail::find()->all(),'serviceDeta
         'id'=>$model->formName(),
         'layout' => 'horizontal',
     ]); ?>
-
-    <?= $form->field($model, 'kapasitasJudul')->textInput(['maxlength' => true]) ?>
-    <?= $form->field($model, 'kapasitasHarga')->textInput(['maxlength' => true]) ?>
-
+    
     <?= $form->field($model, 'serviceDetailId')->widget(Select2::classname(), [
         'data' => $dataservicedetail,
         'options' => ['placeholder' => '--Pilih Service Detail--'],
         'pluginOptions' => [
             'allowClear' => true
         ],
-    ])->label('Service') ?>
+    ])->label('Service Detail') ?>
+    <?= $form->field($model, 'kapasitasHarga')->textInput(['maxlength' => true])->label('Harga Satuan') ?>
+    <?= $form->field($model, 'kapasitasJudul')->textInput(['maxlength' => true])->label('Keterangan Satuan') ?>
 
-    <?= $form->field($model, 'kapasitasDeskripsi')->textarea(['rows' => 6]) ?>
+    <?= $form->field($model, 'kapasitasDeskripsi')->textarea(['rows' => 6])->label('Deskripsi') ?>
         
     <?php
     if(!$model->isNewRecord){
@@ -44,10 +43,9 @@ $dataservicedetail = ArrayHelper::map(MServiceDetail::find()->all(),'serviceDeta
     }
 
     ?>
-
-    <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Save' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
-    </div>
+    
+    <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+    <?= Html::a('Cancel', ['index'], ['class' => 'btn btn-primary']) ?>
 
     <?php ActiveForm::end(); ?>
 
