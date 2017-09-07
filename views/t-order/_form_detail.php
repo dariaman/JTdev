@@ -6,19 +6,12 @@ use yii\bootstrap\ActiveForm;
 use kartik\widgets\DatePicker;
 use kartik\widgets\TimePicker;
 use kartik\widgets\Select2;
-//use kartik\checkbox\CheckboxX;
 use kartik\widgets\DepDrop;
 use yii\helpers\Url;
 use app\models\MService;
 use app\models\MServiceDetail;
-//use app\models\MServiceQuery;
-//use app\models\MServiceDetailQuery;
 use app\models\MKapasitasDetail;
-//use app\models\MKapasitasDetailQuery;
 use app\models\MRekanJt;
-//use app\models\MRekanJtQuery;
-
-$orderId = Yii::$app->request->get('id', 'xxx');
 
 $KategoriData = ArrayHelper::map(app\models\MServiceKategori::find()->all(), 'serviceKategoriId', 'serviceKategoriJudul');
 $dropDownDataService = ArrayHelper::map(MService::find()->all(), 'serviceId', 'serviceJudul');
@@ -27,7 +20,9 @@ $KapasitasDetailData = ArrayHelper::map(MKapasitasDetail::find()->all(), 'kapasi
 
 $dropDownDataRekanJt = ArrayHelper::map(MRekanJt::find()->all(), 'rekanId', 'rekanNamaLengkap');
 
-$model->orderId = Yii::$app->request->get('id');
+//$orderId = Yii::$app->request->get('id', 'xxx');
+
+//$model->orderId = Yii::$app->request->get('id', 'xxx');
 ?>
 
 <div class="torder-form">
@@ -102,7 +97,7 @@ $model->orderId = Yii::$app->request->get('id');
     ?>
 
     <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
-    <?= Html::a('Cancel', ['detail', 'id' => $orderId], ['class' => 'btn btn-primary']) ?>
+    <?= Html::a('Cancel', ['detail', 'id' => $model->orderId], ['class' => 'btn btn-primary']) ?>
 
     <?php ActiveForm::end(); ?>
 

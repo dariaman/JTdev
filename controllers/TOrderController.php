@@ -31,11 +31,7 @@ class TOrderController extends Controller {
             ],
         ];
     }
-
-    /**
-     * Lists all TOrder models.
-     * @return mixed
-     */
+    
     public function actionIndex() {
         $searchModel = new TOrderSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
@@ -46,22 +42,6 @@ class TOrderController extends Controller {
         ]);
     }
 
-//    /**
-//     * Displays a single TOrder model.
-//     * @param integer $id
-//     * @return mixed
-//     */
-//    public function actionView($id) {
-//        return $this->render('view', [
-//                    'model' => $this->findModel($id),
-//        ]);
-//    }
-
-    /**
-     * Creates a new TOrder model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
-     */
     public function actionCreate() {
         $model = new TOrder();
 
@@ -76,12 +56,6 @@ class TOrderController extends Controller {
         }
     }
 
-    /**
-     * Updates an existing TOrder model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
-     * @return mixed
-     */
     public function actionUpdate($id) {
         $this->layout = 'blank';
         $model = $this->findModel($id);
@@ -157,17 +131,12 @@ class TOrderController extends Controller {
     public function actionCreateDetail() {
         $this->layout = 'blank';
         $model = new TOrderDetail();
-//        $model->orderId = Yii::$app->request->get('id');
+        $model->orderId = Yii::$app->request->get('id');
 
         if ($model->load(Yii::$app->request->post())) {
-//            echo var_dump(Yii::$app->request->post());
-//            echo var_dump($model);
-//            die();
-            
             $request = Yii::$app->request->post('TOrderDetail');
             $orderDetailTgl = $request['orderDetailTglKerja'];
             $toDate = date('Y-m-d', strtotime($orderDetailTgl));
-//            $model->orderId = Yii::$app->request->post('orderId');
             $model->orderDetailTglKerja = $toDate;
 
             $model->save(false);
