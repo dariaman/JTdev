@@ -259,7 +259,7 @@ class TOrderController extends Controller {
             'destination' => Pdf::DEST_BROWSER,
             // your html content input
             'content' => $content,
-            'filename' => 'WO',
+            'filename' => $orderid .$rekanid. 'WO',
             // format content from your own css file if needed or use the
             // enhanced bootstrap css built by Krajee for mPDF formatting 
             'cssFile' => '@vendor/kartik-v/yii2-mpdf/assets/kv-mpdf-bootstrap.min.css',
@@ -295,7 +295,7 @@ class TOrderController extends Controller {
             'destination' => Pdf::DEST_BROWSER,
             // your html content input
             'content' => $content,
-            'filename' => 'WO',
+            'filename' => $orderid.'Invoice',
             // format content from your own css file if needed or use the
             // enhanced bootstrap css built by Krajee for mPDF formatting 
             'cssFile' => '@vendor/kartik-v/yii2-mpdf/assets/kv-mpdf-bootstrap.min.css',

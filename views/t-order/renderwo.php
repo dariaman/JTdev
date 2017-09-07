@@ -59,14 +59,14 @@ $detail = (new \yii\db\Query())
                 <h3>Rincian Jasa</h3>
             </div>
         <div class="col-xs-12 table-responsive">
-          <table class="table table-striped">
+            <table class="table table-striped">
             <thead>
                 <tr>
-                    <th>No. </th>
+                    <th style="text-align: right;width:25px">No. </th>
                     <th style="width:200px;">Jasa</th>
-                    <th>Kuantitas</th>
-                    <th>Harga Satuan</th>
-                    <th>Total</th>
+                    <th style="text-align: center;">Kuantitas</th>
+                    <th style="text-align: center;">Harga Satuan</th>
+                    <th style="text-align: center;">Total</th>
                 </tr>
             </thead>
             <?php $i=1; 
@@ -75,50 +75,41 @@ $detail = (new \yii\db\Query())
                 <tr>
                     <td><?= $i ?></td>
                     <td><?= $val['serviceKategoriJudul'].' Jasa '.$val['serviceDetailJudul'].' '.$val['kapasitasJudul'] ?></td>
-                    <td><?= $val['orderDetailQTY'] ?></td>
-                    <td><?= number_format($val['kapasitasHarga']) ?></td>
-                    <td><?= number_format($val['orderDetailQTY'] * $val['kapasitasHarga']); ?></td>
+                    <td style="text-align: right;width:100px;"><?= $val['orderDetailQTY'] ?></td>
+                    <td style="text-align: right;width:120px;"><?= number_format($val['kapasitasHarga']) ?></td>
+                    <td style="text-align: right;width:100px;"><?= number_format($val['orderDetailQTY'] * $val['kapasitasHarga']); ?></td>
                 </tr>
             <?php $i++; 
                 $sub += $val['orderDetailQTY'] * $val['kapasitasHarga'];
                 }?>
+            <tr><td colspan="5"><hr/></td></tr>
+            <tr>
+                <th style="text-align: right;" colspan="4">Subtotal : </th> 
+                <td style="text-align: right;"> <?= number_format($sub); ?></td>
+            </tr>
+            <tr>
+                <th style="text-align: right;" colspan="4">Transportasi : </th> 
+                <td style="text-align: right;"> <?= number_format($header[0]['orderBiayaTransport']); ?></td>
+            </tr>
+            <tr>
+                <th style="text-align: right;" colspan="4">Total : </th> 
+                <td style="text-align: right;"> <?= number_format($sub + $header[0]['orderBiayaTransport'] ); ?></td>
+            </tr>
           </table>
         </div>
         <!-- /.col -->
       </div>
       <!-- /.row -->
       
-      <div class="row" style="margin-bottom:-100px;">
-        <!-- /.col -->
-        <div class="col-xs-6" style="margin-left:415px;">
-          <div class="table-responsive">
-            <table class="table">
-              <tr>
-                <th style="width:150px">Subtotal</th>
-                <td> : <?= number_format($sub); ?></td>
-              </tr>
-              <tr>
-                <th>Transportasi</th>
-                <td> : <?= number_format($header[0]['orderBiayaTransport']) ?></td>
-              </tr>              
-              <tr>
-                <th>Total</th>
-                <td> : <?= number_format($sub + $header[0]['orderBiayaTransport'] ); ?></td>
-              </tr>
-            </table>
-          </div>
-        </div>
-        <!-- /.col -->
-      </div>
       <div class="row">
         <div class="col-xs-12 table-responsive">
         <div>
-            <h3>Catatan Order</h3>
+            <h4>Catatan Order</h4>
         </div>
           <table class="table table-bordered">            
             <tbody>
                 <tr>
-                    <td style="width:680px;"> Kolom komentar</td>
+                    <td style="width:680px;"> <br/></td>
                 </tr>
             </tbody>
           </table>
@@ -128,12 +119,12 @@ $detail = (new \yii\db\Query())
       <div class="row">
         <div class="col-xs-12 table-responsive">
         <div>
-            <h3>Catatan Teknisi</h3>
+            <h4>Catatan Teknisi</h4>
         </div>
             <table class="table table-bordered">            
             <tbody>
                 <tr>
-                    <td style="width:680px; height:100px;"></td>
+                    <td style="width:680px; height:50px;"></td>
                 </tr>
             </tbody>
           </table>

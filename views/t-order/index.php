@@ -73,7 +73,7 @@ yii\bootstrap\Modal::end();
                 'contentOptions' => ['Align' => 'center','style' => 'width: 50px;'],
                 'headerOptions' => ['style' => 'text-align:center'],
                 'value' => function($data){
-                    return Html::a('',['print-inv','orderid' => $data['orderId']],['class'=>'glyphicon glyphicon-print']);
+                    return Html::a('',['print-inv','orderid' => $data['orderId']],['class'=>'glyphicon glyphicon-print','target'=>'_blank','data-pjax' => '0']);
                 }
             ],
 

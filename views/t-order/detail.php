@@ -15,14 +15,13 @@ Modal::begin([
 echo "<div id=modalcontent></div>";
 Modal::end();
 
-Modal::begin(['id' =>'modalGrid']);
+Modal::begin(['id' => 'modalGrid']);
 Modal::end();
-
 ?>
 <div class="torder-index">
 
     <h1>Order Header</h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]);   ?>
+    <?php // echo $this->render('_search', ['model' => $searchModel]);    ?>
     <table class="table table-striped table-bordered">
         <tr style="width: 50%;">
             <td style="width: 150px"><b>Order ID</b></td> 
@@ -76,6 +75,9 @@ Modal::end();
         <?=
         Html::button('Ubah Order Header', ['value' => Url::to(['update', 'id' => $modelh->orderId]),
             'id' => 'btnEditHeaderModal', 'class' => 'btn btn-success']);
+        ?>
+
+        <?= Html::a('<i class="glyphicon glyphicon-print"></i>  Print Invoice', ['print-inv', 'orderid' => $modelh->orderId], ['class' => 'btn btn-primary', 'target' => '_blank'])
         ?>
 
     </p>
@@ -154,11 +156,21 @@ Modal::end();
                 'header' => '',
                 'format' => 'raw',
                 'value' => function($data) {
-                return  Html::a(Yii::t('app', ' {modelClass}', [
-                          'modelClass' => 'Edit',
-                          ]), ['update-detail','id'=>$data->orderDetailId], ['class' => 'btn btn-success popupModal']);      
+                    return Html::a('', ['update-detail', 'id' => $data->orderDetailId], ['class' => 'glyphicon glyphicon-pencil popupModal']);
                 }
             ],
+            [
+                'header' => 'Print WO',
+                'contentOptions' => ['Align' => 'center'],
+                'format' => 'raw',
+                'value' => function($data) {
+                    if ($data->rekanId != '') {
+                        return Html::a('', ['print-wo', 'rekanid' => $data['rekanId'], 'orderid' => $data['orderId']], ['class' => 'glyphicon glyphicon-print', 'target' => '_blank', 'data-pjax' => '0']);
+                    } else {
+                        return '';
+                    }
+                }
+            ]
         ],
     ]);
     ?>

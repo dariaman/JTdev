@@ -59,11 +59,11 @@ $detail = (new \yii\db\Query())
           <table class="table table-striped">
             <thead>
                 <tr>
-                    <th>No. </th>
-                    <th style="width:200px;">Jasa</th>
-                    <th>Kuantitas</th>
-                    <th>Harga Satuan</th>
-                    <th>Total</th>
+                    <th style="text-align: right;width:25px">No. </th>
+                    <th>Jasa</th>
+                    <th style="text-align: center;">Kuantitas</th>
+                    <th style="text-align: center;">Harga Satuan</th>
+                    <th style="text-align: center;">Total</th>
                 </tr>
             </thead>
             <tbody>
@@ -73,38 +73,38 @@ $detail = (new \yii\db\Query())
                 <tr>
                     <td><?= $i ?></td>
                     <td><?= $val['serviceKategoriJudul'].' Jasa '.$val['serviceDetailJudul'].' '.$val['kapasitasJudul'] ?></td>
-                    <td><?= $val['orderDetailQTY'] ?></td>
-                    <td><?= number_format($val['kapasitasHarga']) ?></td>
-                    <td><?= number_format($val['orderDetailQTY'] * $val['kapasitasHarga']); ?></td>
+                    <td style="text-align: right;width:100px;"><?= $val['orderDetailQTY'] ?></td>
+                    <td style="text-align: right;width:125px;"><?= number_format($val['kapasitasHarga']) ?></td>
+                    <td style="text-align: right;width:100px;"><?= number_format($val['orderDetailQTY'] * $val['kapasitasHarga']); ?></td>
                 </tr>
             <?php $i++; 
                 $sub += $val['orderDetailQTY'] * $val['kapasitasHarga'];
                 }?>
             </tbody>
+            <tr><td colspan="5"><hr/></td></tr>
+            <tr>
+                <th style="text-align: right;" colspan="4">Subtotal : </th> 
+                <td style="text-align: right;"> <?= number_format($sub); ?></td>
+            </tr>
+            <tr>
+                <th style="text-align: right;" colspan="4">Transportasi : </th> 
+                <td style="text-align: right;"> <?= number_format($header[0]['orderBiayaTransport']); ?></td>
+            </tr>
+            <tr>
+                <th style="text-align: right;" colspan="4">Total : </th> 
+                <td style="text-align: right;"> <?= number_format($sub + $header[0]['orderBiayaTransport'] ); ?></td>
+            </tr>
           </table>
         </div>
         <!-- /.col -->
       </div>
       <!-- /.row -->
       
-      <div class="row" style="margin-bottom:-100px;">
+      <div class="row" style="margin-top: 100px;">
         <!-- /.col -->
         <div class="col-xs-6" style="margin-left:415px;">
           <div class="table-responsive">
-            <table class="table">
-              <tr>
-                <th style="width:150px">Subtotal</th>
-                <td> : <?= number_format($sub); ?></td>
-              </tr>
-              <tr>
-                <th>Transportasi</th>
-                <td> : <?= $header[0]['orderBiayaTransport'] ?></td>
-              </tr>              
-              <tr>
-                <th>Total</th>
-                <td> : <?= number_format($sub + $header[0]['orderBiayaTransport'] ); ?></td>
-              </tr>
-            </table>
+          
           </div>
         </div>
         <!-- /.col -->
