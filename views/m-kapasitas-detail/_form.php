@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\helpers\ArrayHelper;
 use yii\bootstrap\ActiveForm;
 use kartik\select2\Select2;
-use kartik\money\MaskMoney;
+use kartik\file\FileInput;
 use app\models\MServiceDetail;
 
 /* @var $this yii\web\View */
@@ -17,7 +17,7 @@ $dataservicedetail = ArrayHelper::map(MServiceDetail::find()->all(),'serviceDeta
 <div class="mkapasitas-detail-form">
 
     <?php $form = ActiveForm::begin([
-        'id'=>$model->formName(),
+        'options' => ['enctype' => 'multipart/form-data'],
         'layout' => 'horizontal',
     ]); ?>
     
@@ -32,14 +32,15 @@ $dataservicedetail = ArrayHelper::map(MServiceDetail::find()->all(),'serviceDeta
     <?= $form->field($model, 'kapasitasJudul')->textInput(['maxlength' => true])->label('Keterangan Satuan') ?>
 
     <?= $form->field($model, 'kapasitasDeskripsi')->textarea(['rows' => 6])->label('Deskripsi') ?>
+    <?= $form->field($model, 'pic')->widget(FileInput::classname(), [
+            'options' => ['accept' => 'image/*'],
+            'pluginOptions' => ['showUpload' => false]
+        ])->label('Gambar Product')
+    ?>
         
     <?php
     if(!$model->isNewRecord){
-    ?>
-
-    <?= $form->field($model, 'kapasitasStatus')->checkbox() ?>
-
-    <?php
+        echo $form->field($model, 'kapasitasStatus')->checkbox();
     }
 
     ?>

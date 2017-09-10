@@ -8,6 +8,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
 use app\models\MServiceDetail;
+use yii\web\UploadedFile;
 /**
  * MKapasitasDetailController implements the CRUD actions for MKapasitasDetail model.
  */
@@ -41,17 +42,6 @@ class MKapasitasDetailController extends Controller
             'dataProvider' => $dataProvider,
         ]);
     }
-    /**
-     * Displays a single MKapasitasDetail model.
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionView($id)
-    {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
-    }
 
       public function ary_service_detail(){
         return ArrayHelper::map(MServiceDetail::find()->all(),'serviceDetailId','serviceDetailJudul');
@@ -72,8 +62,16 @@ class MKapasitasDetailController extends Controller
     public function actionCreate()
     {
         $model = new MKapasitasDetail();
-        if ($model->load(Yii::$app->request->post()) && $model->save(false)) {
-            return $this->redirect(['view', 'id' => $model->kapasitasId]);
+        if (Yii::$app->request->IsPost)
+        {
+            $model->load(Yii::$app->request->post());
+            $randomString = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            $image = UploadedFile::getInstance($model, 'pic');
+            $img = Yii::$app->security->generateRandomString(16,$randomString);
+            $image->saveAs(Yii::$app->params['GambarProduct'] . $img . '.' . $image->extension);
+            $model->kapasitasGambar='images/Product/'. $img . '.' . $image->extension;            
+            $model->save(false);
+            return $this->redirect(['index']);
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -90,8 +88,11 @@ class MKapasitasDetailController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        if ($model->load(Yii::$app->request->post()) && $model->save(false)) {
-            return $this->redirect(['view', 'id' => $model->kapasitasId]);
+        if (Yii::$app->request->IsPost)
+        {
+            $model->load(Yii::$app->request->post());
+            $model->save(false);
+            return $this->redirect(['index']);
         } else {
             return $this->render('update', [
                 'model' => $model,

@@ -1,6 +1,5 @@
 <?php
 namespace app\models;
-use Yii;
 /**
  * This is the model class for table "m_kapasitas_detail".
  *
@@ -24,6 +23,7 @@ class MKapasitasDetail extends \yii\db\ActiveRecord
      * @inheritdoc
      */
     public $serviceDetailJudul;
+    public $pic;
     public function rules()
     {
         return [
