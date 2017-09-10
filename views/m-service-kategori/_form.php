@@ -12,13 +12,11 @@ $dataService = ArrayHelper::map(app\models\MService::find()->asArray()->all(), '
 <div class="mservice-kategori-form">
 
      <?php $form = ActiveForm::begin([
-        'id'=>$model->formName(),
         'layout' => 'horizontal'
     ]); ?>
 
     <?= $form->field($model, 'serviceKategoriJudul')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'serviceKategoriGambarUrl')->textInput(['maxlength' => true]) ?>
     
     <?= $form->field($model, 'serviceId')->widget(Select2::classname(), [
         'data' => $dataService,

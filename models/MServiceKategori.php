@@ -27,7 +27,7 @@ class MServiceKategori extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['serviceKategoriJudul', 'serviceKategoriGambarUrl', 'serviceKategoriStatus', 'serviceId'], 'required'],
+            [['serviceKategoriJudul', 'serviceKategoriStatus', 'serviceId'], 'required'],
             [['serviceId'], 'integer'],
             [['serviceKategoriJudul'], 'string', 'max' => 100],
             [['serviceKategoriGambarUrl'], 'string', 'max' => 200],

@@ -6,7 +6,7 @@ use kartik\grid\GridView;
 /* @var $searchModel app\models\MKapastiasDetailSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Harga Satuan';
+$this->title = 'Service Product';
 $this->params['breadcrumbs'][] = $this->title;
 
 function Status($model){
@@ -44,16 +44,12 @@ function Status($model){
                 'header' => 'Keterangan Satuan',
                 'attribute' => 'kapasitasJudul',
             ],
+            'kapasitasDeskripsi:ntext',
             [
                 'label'=>'Status',
                 'attribute'=>'kapasitasStatus',
-                'format'=>'raw',
-                'value'=>function($model){
-                        return Status($model);
-                },
+                'class' => 'kartik\grid\BooleanColumn',
             ],
-             'kapasitasDeskripsi:ntext',
-
             ['class' => 'yii\grid\ActionColumn','template' => '{update}'],
         ],
     ]); ?>

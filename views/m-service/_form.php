@@ -11,7 +11,6 @@ use yii\bootstrap\ActiveForm;
 <div class="mservice-form">
 
     <?php $form = ActiveForm::begin([
-        'id'=>$model->formName(),
         'layout' => 'horizontal'
     ]); ?>
 

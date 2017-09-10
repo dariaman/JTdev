@@ -40,33 +40,14 @@ class MServiceController extends Controller
             'dataProvider' => $dataProvider,
         ]);
     }
-    /**
-     * Displays a single MService model.
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionView($id)
-    {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
-    }
-     public function ary_status(){
-        $ary_status =[['id'=>'1', 'status'=> 'Active'],
-            ['id'=>'0', 'status'=> 'InActive']
-        ];
-        return ArrayHelper::map($ary_status,'id','status');
-    }
-    /**
-     * Creates a new MService model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
-     */
+    
     public function actionCreate()
     {
         $model = new MService();
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->serviceId]);
+        if (Yii::$app->request->IsPost){
+            $model->load(Yii::$app->request->post());
+            $model->save(false);
+            return $this->redirect(['index']);
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -82,12 +63,13 @@ class MServiceController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->serviceId]);
+        if (Yii::$app->request->IsPost){
+            $model->load(Yii::$app->request->post());
+            $model->save(false);
+            return $this->redirect(['index']);
         } else {
             return $this->render('update', [
                 'model' => $model,
-                'data_status'=>self::ary_status()
             ]);
         }
     }

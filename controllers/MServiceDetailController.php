@@ -70,6 +70,8 @@ class MServiceDetailController extends Controller
         if (Yii::$app->request->IsPost)
         {
             $model->load(Yii::$app->request->post());
+            $modelservice = \app\models\MServiceKategori::findOne($model->serviceKategoriId);
+            $model->serviceId = $modelservice->serviceId;
             $model->save(false);
             return $this->redirect(['index']);
         } else {
@@ -85,6 +87,8 @@ class MServiceDetailController extends Controller
         if (Yii::$app->request->IsPost)
         {
             $model->load(Yii::$app->request->post());
+            $modelservice = \app\models\MServiceKategori::findOne($model->serviceKategoriId);
+            $model->serviceId = $modelservice->serviceId;
             $model->save(false);
             return $this->redirect(['index']);
         } else {

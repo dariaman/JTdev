@@ -79,25 +79,32 @@ class MKapasitasDetailController extends Controller
             ]);
         }
     }
-    /**
-     * Updates an existing MKapasitasDetail model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
-     * @return mixed
-     */
+    
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
         if (Yii::$app->request->IsPost)
         {
             $model->load(Yii::$app->request->post());
+            $image= UploadedFile::getInstance($model, 'pic');
+            if(!empty($image) && $image->size !== 0){
+//                delete file existing
+                if($model->kapasitasGambar != '' || $model->kapasitasGambar != null){
+                    $filegbr = pathinfo($model->kapasitasGambar,PATHINFO_FILENAME).'.'.pathinfo($model->kapasitasGambar, PATHINFO_EXTENSION);
+                    $this->deleteFile($filegbr);
+                }
+                $randomString = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+                $img = Yii::$app->security->generateRandomString(16,$randomString);
+                $model->kapasitasGambar='images/Product/'. $img . '.' . $image->extension;
+                $image->saveAs(Yii::$app->params['GambarProduct'] . $img . '.' . $image->extension);
+            }
             $model->save(false);
             return $this->redirect(['index']);
         } else {
             return $this->render('update', [
                 'model' => $model,
-                'data_status'=>self::ary_status(),
-                'data_service_detail'=>self::ary_service_detail()
+//                'data_status'=>self::ary_status(),
+//                'data_service_detail'=>self::ary_service_detail()
             ]);
         }
     }

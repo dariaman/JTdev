@@ -64,13 +64,12 @@ class MServiceKategoriSearch extends MServiceKategori
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'serviceKategoriId' => $this->serviceKategoriId,
-            'serviceId' => $this->serviceId,
+            'msk.serviceKategoriId' => $this->serviceKategoriId,
+            'msk.serviceId' => $this->serviceId,
         ]);
 
-        $query->andFilterWhere(['like', 'serviceKategoriJudul', $this->serviceKategoriJudul])
-            ->andFilterWhere(['like', 'serviceKategoriGambarUrl', $this->serviceKategoriGambarUrl])
-            ->andFilterWhere(['like', 'serviceKategoriStatus', $this->serviceKategoriStatus]);
+        $query->andFilterWhere(['like', 'msk.serviceKategoriJudul', $this->serviceKategoriJudul])
+            ->andFilterWhere(['like', 'msk.serviceKategoriStatus', $this->serviceKategoriStatus]);
 
         return $dataProvider;
     }

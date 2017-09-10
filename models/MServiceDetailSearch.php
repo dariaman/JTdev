@@ -65,15 +65,14 @@ class MServiceDetailSearch extends MServiceDetail
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'serviceDetailId' => $this->serviceDetailId,
-            'serviceKategoriId' => $this->serviceKategoriId,
-            'serviceId' => $this->serviceId,
+            'msd.serviceDetailId' => $this->serviceDetailId,
+            'msd.serviceKategoriId' => $this->serviceKategoriId,
+            'msd.serviceId' => $this->serviceId,
         ]);
 
-        $query->andFilterWhere(['like', 'serviceDetailJudul', $this->serviceDetailJudul])
-            ->andFilterWhere(['like', 'serviceDetailDeskripsi', $this->serviceDetailDeskripsi])
-            ->andFilterWhere(['like', 'serviceDetailGambar', $this->serviceDetailGambar])
-            ->andFilterWhere(['like', 'serviceDetailStatus', $this->serviceDetailStatus]);
+        $query->andFilterWhere(['like', 'msd.serviceDetailJudul', $this->serviceDetailJudul])
+            ->andFilterWhere(['like', 'msd.serviceDetailDeskripsi', $this->serviceDetailDeskripsi])
+            ->andFilterWhere(['like', 'msd.serviceDetailStatus', $this->serviceDetailStatus]);
 
         return $dataProvider;
     }

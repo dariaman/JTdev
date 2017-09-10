@@ -6,8 +6,8 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\MServiceDetail */
 
-$this->title = 'Tambah Service Product';
-$this->params['breadcrumbs'][] = ['label' => 'Service Product', 'url' => ['index']];
+$this->title = 'Tambah Service Detail';
+$this->params['breadcrumbs'][] = ['label' => 'Service Detail', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="mservice-detail-create">

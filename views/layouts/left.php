@@ -48,7 +48,7 @@
                             ['label' => 'Service', 'url' => ['/m-service']],
                             ['label' => 'Service Kategori', 'url' => ['/m-service-kategori']],
                             ['label' => 'Service Detail', 'url' => ['/m-service-detail']],
-                            ['label' => 'Harga Satuan', 'url' => ['/m-kapasitas-detail']],
+                            ['label' => 'Service Product', 'url' => ['/m-kapasitas-detail']],
                         ],
                     ],
                     [

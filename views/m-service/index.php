@@ -37,10 +37,7 @@ function Status($model) {
             [
                 'label' => 'Status',
                 'attribute' => 'serviceStatus',
-                'format' => 'raw',
-                'value' => function($model) {
-                    return Status($model);
-                },
+                'class' => 'kartik\grid\BooleanColumn',
             ],
             ['class' => 'yii\grid\ActionColumn', 'template' => '{update}'],
         ],

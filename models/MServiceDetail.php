@@ -29,7 +29,6 @@ class MServiceDetail extends \yii\db\ActiveRecord {
      */
     public $serviceJudul;
     public $serviceKategoriJudul;
-    public $pic;
 
     public function rules() {
         return [

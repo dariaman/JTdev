@@ -3,12 +3,13 @@
 use yii\helpers\Html;
 use kartik\grid\GridView;
 use yii\widgets\Pjax;
+use yii\helpers\ArrayHelper;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\MServiceDetailSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Service Product';
+$this->title = 'Service Detail';
 $this->params['breadcrumbs'][] = $this->title;
 
 function Status($model){
@@ -24,7 +25,7 @@ function Status($model){
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
     <p style="text-align: right;">
-        <?= Html::a('Tambah Service Product', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Tambah Service Detail', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
     <?php Pjax::begin(); ?>
     <?= GridView::widget([
@@ -37,22 +38,22 @@ function Status($model){
             [
                 'header' => 'Service Kategori',
                 'attribute' => 'serviceKategoriId',
-                'value' => 'serviceKategoriJudul'
+                'value' => 'serviceKategoriJudul',
+                'filterType' => GridView::FILTER_SELECT2,
+                'filter' => ArrayHelper::map(\app\models\MServiceKategori::find()
+                        ->orderBy('serviceKategoriId')->asArray()->all(), 'serviceKategoriId', 'serviceKategoriJudul'),
+                'filterWidgetOptions' => [
+                    'pluginOptions' => ['allowClear' => true],
+                ],
+                'filterInputOptions' => ['placeholder' => 'Service ... '],
+                'contentOptions' => ['Align' => 'center','style' => 'width: 200px;'],
+                'format' => 'raw'
             ],
-            'serviceDetailGambar:url',
             'serviceDetailDeskripsi:ntext',
-//            [
-//                'header' => 'Service',
-//                'attribute' => 'serviceId',
-//                'value' => 'serviceJudul'
-//            ],
             [
                 'label'=>'Status',
                 'attribute'=>'serviceDetailStatus',
-                'format'=>'raw',
-                'value'=>function($model){
-                        return Status($model);
-                },
+                'class' => 'kartik\grid\BooleanColumn',
             ],
 
             ['class' => 'yii\grid\ActionColumn','template' => '{update} '],

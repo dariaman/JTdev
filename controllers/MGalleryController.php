@@ -85,8 +85,9 @@ class MGalleryController extends Controller
 //                delete file existing
                 if($model->galleriGambarUrl != '' || $model->galleriGambarUrl != null){
                     $filegbr = pathinfo($model->galleriGambarUrl,PATHINFO_FILENAME).'.'.pathinfo($model->galleriGambarUrl, PATHINFO_EXTENSION);
+                    $this->deleteFile($filegbr);
                 }
-                $this->deleteFile($filegbr);
+                
                 $randomString = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
                 $img = Yii::$app->security->generateRandomString(16,$randomString);
                 $model->galleriGambarUrl='images/Gallery/'. $img . '.' . $image->extension;
