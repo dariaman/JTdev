@@ -3,17 +3,9 @@
 use yii\helpers\Html;
 use yii\helpers\ArrayHelper;
 use yii\bootstrap\ActiveForm;
-//use kartik\widgets\DatePicker;
 use kartik\widgets\Select2;
-//use kartik\depdrop\DepDrop;
 use kartik\widgets\DepDrop;
 use yii\helpers\Url;
-//use app\models\MKota;
-//use app\models\MKotaQuery;
-//use app\models\MKecamatan;
-//use app\models\MKecamatanQuery;
-//use app\models\MKelurahan;
-//use app\models\MKelurahanQuery;
 use app\models\MUser;
 
 $cust = ArrayHelper::map(MUser::find()->aktif()->all(), 'userId', 'userNamaDepan');
@@ -26,7 +18,9 @@ $dataKel = ArrayHelper::map(app\models\MKelurahan::find()->all(), 'kelurahanId',
 <div class="torder-form">
 
     <?php $form = ActiveForm::begin(['layout' => 'horizontal']); ?>
-
+    <p align="right">
+        <?= Html::a('New Customer', ['m-user/create-order'], ['class' => 'btn btn-success']) ?>
+    </p>
     <?=
     $form->field($model, 'userId')->widget(Select2::classname(), [
         'data' => $cust,
@@ -36,6 +30,7 @@ $dataKel = ArrayHelper::map(app\models\MKelurahan::find()->all(), 'kelurahanId',
         ],
     ])->label("Customer");
     ?>
+
 
     <?=
     $form->field($model, 'orderJenisBayar')->widget(Select2::classname(), [
@@ -87,6 +82,6 @@ $dataKel = ArrayHelper::map(app\models\MKelurahan::find()->all(), 'kelurahanId',
     <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
     <?= Html::a('Cancel', ['detail', 'id' => $model->orderId], ['class' => 'btn btn-primary']) ?>
 
-<?php ActiveForm::end(); ?>
+    <?php ActiveForm::end(); ?>
 
 </div>

@@ -74,6 +74,20 @@ class MUserController extends Controller
             ]);
         }
     }
+    
+    public function actionCreateOrder()
+    {
+        $model = new MUser();
+
+        if ($model->load(Yii::$app->request->post()) ) {
+            $model->save();
+            return $this->redirect(['t-order/create']);
+        } else {
+            return $this->render('create', [
+                'model' => $model,
+            ]);
+        }
+    }
 
     /**
      * Updates an existing MUser model.
