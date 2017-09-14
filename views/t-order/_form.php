@@ -18,9 +18,11 @@ $dataKel = ArrayHelper::map(app\models\MKelurahan::find()->all(), 'kelurahanId',
 <div class="torder-form">
 
     <?php $form = ActiveForm::begin(['layout' => 'horizontal']); ?>
+    <?php if($model->isNewRecord){ ?>
     <p align="right">
         <?= Html::a('New Customer', ['m-user/create-order'], ['class' => 'btn btn-success']) ?>
     </p>
+    <?php } ?>
     <?=
     $form->field($model, 'userId')->widget(Select2::classname(), [
         'data' => $cust,
