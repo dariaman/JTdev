@@ -83,7 +83,6 @@ $dataKel = ArrayHelper::map(app\models\MKelurahan::find()->all(), 'kelurahanId',
     
     <?php if(!$model->isNewRecord){ ?>
         <?= $form->field($model, 'StatusBayar')->dropDownList(['P'=>'Lunas','U'=>'Belum Lunas'], [
-            'prompt'=>'-- Status Bayar --'
         ])->label("Status Bayar") ?>
     
         <?= $form->field($model, 'orderStatus')->checkbox() ?>
