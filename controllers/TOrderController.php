@@ -269,7 +269,7 @@ class TOrderController extends Controller {
             'options' => ['title' => 'Work Order #'.$orderid],
             // call mPDF methods on the fly
             'methods' => [
-                'SetHeader' => ['Jago Tukang'],
+                'SetHeader' => ['Jagonya Tukang'],
                 'SetFooter' => ['{PAGENO}'],
             ]
         ]);
@@ -305,7 +305,7 @@ class TOrderController extends Controller {
             'options' => ['title' => 'Invoice #'.$orderid],
             // call mPDF methods on the fly
             'methods' => [
-                'SetHeader' => ['Jago Tukang'],
+                'SetHeader' => ['Jagonya Tukang'],
                 'SetFooter' => ['{PAGENO}'],
             ]
         ]);
