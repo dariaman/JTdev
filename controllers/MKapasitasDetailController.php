@@ -117,4 +117,10 @@ class MKapasitasDetailController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+    
+    private function deleteFile($filename){
+        if(file_exists(Yii::$app->params['GambarProduct'].$filename)){
+            unlink(Yii::$app->params['GambarProduct'].$filename);
+        }
+    }
 }
