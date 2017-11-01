@@ -3,10 +3,16 @@
 $header = (new \yii\db\Query())
         ->select('*')
         ->from('t_order as o')
-        ->leftJoin('t_order_detail td','o.orderID = td.orderId')
-        ->innerJoin('m_rekan_jt rj','rj.rekanId = td.rekanId')
         ->innerJoin('m_user mu','mu.userId=o.userId')
         ->where(['o.orderId' => $orderid])
+        ->all();
+
+$tukang = (new \yii\db\Query())
+        ->select('mj.`rekanNamaLengkap`')
+        ->from('t_order_detail as td')
+        ->leftJoin('m_rekan_jt mj','mj.`rekanId`=td.`rekanId`')
+        ->where(['td.`orderId`' => $orderid])
+        ->distinct()
         ->all();
 
 $detail = (new \yii\db\Query())
@@ -19,8 +25,10 @@ $detail = (new \yii\db\Query())
         ->leftJoin('m_service_kategori msk','msk.serviceKategoriId = msd.serviceKategoriId')
         ->leftJoin('m_kapasitas_detail mkd','mkd.kapasitasId = td.kapasitasId')
         ->where(['td.orderId' => $orderid])
-        ->andWhere(['td.rekanId' => $rekanid])
+        ->andWhere(['o.orderStatus' => 1])
+        ->andWhere(['td.orderDetailStatus' => 1])
         ->all();
+
 
 ?>
 <div class="content-wrapper">
@@ -44,9 +52,33 @@ $detail = (new \yii\db\Query())
         <div class="row invoice-info" style="margin-top:50px;">
             <div class="col-sm-4 invoice-col">
               <address>
-                <strong>Nama : </strong><?= $header[0]['rekanNamaLengkap'];?><br>
-                <strong>Alamat : </strong><?= $header[0]['rekanAlamat'];?><br>
-                <strong>Telepon : </strong><?= $header[0]['rekanNoHp'];?><br>
+                  <table border="0">
+                        <tr>
+                            <td><strong>Nama Customer : </strong></td>
+                            <td><?= ucfirst($header[0]['userNamaDepan']). ' ' . ucfirst($header[0]['userNamaBelakang']);?></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Alamat Customer : </strong></td>
+                            <td><?= $header[0]['orderAlamat'];?></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Telepon Customer : </strong></td>
+                            <td><?= $header[0]['userNoHp'];?></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Nama Teknisi : </strong></td>
+                            <td>
+                                <?php  
+                                    $i=0;
+                                    foreach ($tukang as $tuk){
+                                        if($i!==0) echo ', ';
+                                        echo $tuk['rekanNamaLengkap'];
+                                        $i++;
+                                    }
+                                ?>
+                            </td>
+                        </tr>
+                  </table>
               </address>
             </div>
             <!-- /.col -->
@@ -62,7 +94,7 @@ $detail = (new \yii\db\Query())
             <table class="table table-striped">
             <thead>
                 <tr>
-                    <th style="text-align: right;width:25px">No. </th>
+                    <th style="text-align: center;width:25px">No. </th>
                     <th style="width:200px;">Jasa</th>
                     <th style="text-align: center;">Kuantitas</th>
                     <th style="text-align: center;">Harga Satuan</th>
@@ -73,7 +105,7 @@ $detail = (new \yii\db\Query())
                 $sub=0;
                 foreach ($detail as &$val) { ?>
                 <tr>
-                    <td><?= $i ?></td>
+                    <td style="text-align: center;width:25px"><?= $i ?></td>
                     <td><?= $val['serviceKategoriJudul'].' Jasa '.$val['serviceDetailJudul'].' '.$val['kapasitasJudul'] ?></td>
                     <td style="text-align: right;width:100px;"><?= $val['orderDetailQTY'] ?></td>
                     <td style="text-align: right;width:120px;"><?= number_format($val['kapasitasHarga']) ?></td>
@@ -151,7 +183,7 @@ $detail = (new \yii\db\Query())
             Teknisi
         </div>
         <div style="margin-top:30px; margin-left:150px; text-align: center; font-size:8pt; width:400px;" >
-            <b>PT. Solusi Sekawan Sejahtera</b> , Jl. Pejompongan Dalam No. 29, Jakarta Pusat 0215793 1331, halo@jagonyatukang.com
+            <b>PT. Solusi Sekawan Sejahtera</b> , Jl. Pejompongan Dalam No. 29, Jakarta Pusat 021 57931331 / 0811 201 8810, halo@jagonyatukang.com
         </div>
       </div>
       

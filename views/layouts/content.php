@@ -19,7 +19,7 @@ use dmstr\widgets\Alert;
 
 <footer class="main-footer">
     <div class="pull-right hidden-xs"> <b>Version</b> 2.0 </div>
-    <strong>Copyright &copy; 2017 Jago Tukang
+    <strong>Copyright &copy; 2017 Jagonya Tukang
 </footer>
 
 <!-- Control Sidebar -->

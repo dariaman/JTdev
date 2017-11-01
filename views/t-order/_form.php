@@ -82,7 +82,7 @@ $dataKel = ArrayHelper::map(app\models\MKelurahan::find()->all(), 'kelurahanId',
     <?= $form->field($model, 'orderKodePos')->textInput(['maxlength' => true]) ?>
     
     <?php if(!$model->isNewRecord){ ?>
-        <?= $form->field($model, 'StatusBayar')->dropDownList(['P'=>'Lunas','U'=>'Belum Lunas'], [
+        <?= $form->field($model, 'StatusBayar')->dropDownList(['P'=>'Paid','U'=>'Pending'], [
         ])->label("Status Bayar") ?>
     
         <?= $form->field($model, 'orderStatus')->checkbox() ?>

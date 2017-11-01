@@ -17,6 +17,8 @@ $detail = (new \yii\db\Query())
         ->innerJoin('m_service_kategori msk','msk.serviceKategoriId = msd.serviceKategoriId')
         ->innerJoin('m_kapasitas_detail mkd','mkd.kapasitasId = td.kapasitasId')
         ->where(['o.orderId' => $orderid])
+        ->andWhere(['o.orderStatus' => 1])
+        ->andWhere(['td.orderDetailStatus' => 1])
         ->all();
 //echo var_dump($header);
 //die();
@@ -125,7 +127,7 @@ $detail = (new \yii\db\Query())
         </div>
         
         <div style="margin-top:30px; margin-left:150px; text-align: center; font-size:8pt; width:400px;" >
-            <b>PT. Solusi Sekawan Sejahtera</b> , Jl. Pejompongan Dalam No. 29, Jakarta Pusat 0215793 1331, halo@jagonyatukang.com
+            <b>PT. Solusi Sekawan Sejahtera</b> , Jl. Pejompongan Dalam No. 29, Jakarta Pusat 021 57931331 / 0811 201 8810, halo@jagonyatukang.com
         </div>
       </div>
       

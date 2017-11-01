@@ -50,7 +50,7 @@ Modal::end();
         </tr>
         <tr>
             <td><b>Status Pembayaran</b></td>
-            <td>: <?= ($modelh->StatusBayar == 'P' ? 'Lunas' : 'Belum Lunas') ?></td>
+            <td>: <?= ($modelh->StatusBayar == 'P' ? 'Paid' : '<strong style="color: red;">Pending</strong>') ?></td>
 
             <td><b>Kecamatan</b></td>
             <td>: <?= ($modelh->kec->kecamatanNama ?? '') ?></td>
@@ -77,8 +77,8 @@ Modal::end();
             'id' => 'btnEditHeaderModal', 'class' => 'btn btn-success']);
         ?>
 
-        <?= Html::a('<i class="glyphicon glyphicon-print"></i>  Print Invoice', ['print-inv', 'orderid' => $modelh->orderId], ['class' => 'btn btn-primary', 'target' => '_blank'])
-        ?>
+        <?= Html::a('<i class="glyphicon glyphicon-print"></i>  Print Invoice', ['print-inv', 'orderid' => $modelh->orderId], ['class' => 'btn btn-primary', 'target' => '_blank']) ?>
+        <?= Html::a('<i class="glyphicon glyphicon-print"></i>  Print WO', ['print-wo', 'orderid' => $modelh->orderId], ['class' => 'btn btn-primary', 'target' => '_blank']) ?>
 
     </p>
 
@@ -159,18 +159,18 @@ Modal::end();
                     return Html::a('', ['update-detail', 'id' => $data->orderDetailId], ['class' => 'glyphicon glyphicon-pencil popupModal']);
                 }
             ],
-            [
-                'header' => 'Print WO',
-                'contentOptions' => ['Align' => 'center'],
-                'format' => 'raw',
-                'value' => function($data) {
-                    if ($data->rekanId != '') {
-                        return Html::a('', ['print-wo', 'rekanid' => $data['rekanId'], 'orderid' => $data['orderId']], ['class' => 'glyphicon glyphicon-print', 'target' => '_blank', 'data-pjax' => '0']);
-                    } else {
-                        return '';
-                    }
-                }
-            ]
+//            [
+//                'header' => 'Print WO',
+//                'contentOptions' => ['Align' => 'center'],
+//                'format' => 'raw',
+//                'value' => function($data) {
+//                    if ($data->rekanId != '') {
+//                        return Html::a('', ['print-wo', 'rekanid' => $data['rekanId'], 'orderid' => $data['orderId']], ['class' => 'glyphicon glyphicon-print', 'target' => '_blank', 'data-pjax' => '0']);
+//                    } else {
+//                        return '';
+//                    }
+//                }
+//            ]
         ],
     ]);
     ?>

@@ -51,12 +51,12 @@ yii\bootstrap\Modal::end();
             [
                 'header' => 'Jenis Bayar',
                 'value' => function($data){
-                    return (($data['orderJenisBayar']=='1') ? 'Tunai' : (($data['muser']=='P') ? 'Lunas' : 'Belum Lunas'));
+                    return (($data['orderJenisBayar']=='1') ? 'Tunai' : (($data['muser']=='P') ? 'Paid' : 'Pending'));
 
                     if($data['orderJenisBayar']=='P'){
-                        return 'Lunas';
+                        return 'Paid';
                     }else{
-                        return 'Belum Lunas';
+                        return 'Pending';
                     }
                 }
             ],
@@ -64,7 +64,7 @@ yii\bootstrap\Modal::end();
             [
                 'header' => 'StatusBayar',
                 'value' => function($data){
-                    return (($data['muser']=='P') ? 'Lunas' : 'Belum Lunas');
+                    return (($data['muser']=='P') ? 'Paid' : 'Pending');
                 }
             ],
             [
@@ -74,6 +74,15 @@ yii\bootstrap\Modal::end();
                 'headerOptions' => ['style' => 'text-align:center'],
                 'value' => function($data){
                     return Html::a('',['print-inv','orderid' => $data['orderId']],['class'=>'glyphicon glyphicon-print','target'=>'_blank','data-pjax' => '0']);
+                }
+            ],
+            [
+                'header' => 'WO',
+                'format' => 'raw',
+                'contentOptions' => ['Align' => 'center','style' => 'width: 50px;'],
+                'headerOptions' => ['style' => 'text-align:center'],
+                'value' => function($data){
+                    return Html::a('',['print-wo','orderid' => $data['orderId']],['class'=>'glyphicon glyphicon-print','target'=>'_blank','data-pjax' => '0']);
                 }
             ],
 

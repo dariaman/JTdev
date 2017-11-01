@@ -242,10 +242,10 @@ class TOrderController extends Controller {
         }
     }
 
-    public function actionPrintWo($rekanid, $orderid) {
+    public function actionPrintWo($orderid) {
         // get your HTML raw content without any layouts or scripts
 
-        $content = $this->renderPartial('renderwo', ['rekanid' => $rekanid, 'orderid' => $orderid]);
+        $content = $this->renderPartial('renderwo', ['orderid' => $orderid]);
 
         // setup kartik\mpdf\Pdf component
         $pdf = new Pdf([
@@ -259,7 +259,7 @@ class TOrderController extends Controller {
             'destination' => Pdf::DEST_BROWSER,
             // your html content input
             'content' => $content,
-            'filename' => $orderid .$rekanid. 'WO',
+            'filename' => $orderid . 'WO',
             // format content from your own css file if needed or use the
             // enhanced bootstrap css built by Krajee for mPDF formatting 
             'cssFile' => '@vendor/kartik-v/yii2-mpdf/assets/kv-mpdf-bootstrap.min.css',

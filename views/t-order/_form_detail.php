@@ -13,12 +13,12 @@ use app\models\MServiceDetail;
 use app\models\MKapasitasDetail;
 use app\models\MRekanJt;
 
-$KategoriData = ArrayHelper::map(app\models\MServiceKategori::find()->all(), 'serviceKategoriId', 'serviceKategoriJudul');
-$dropDownDataService = ArrayHelper::map(MService::find()->all(), 'serviceId', 'serviceJudul');
-$ServiceDetailData = ArrayHelper::map(MServiceDetail::find()->all(), 'serviceDetailId', 'serviceDetailJudul');
-$KapasitasDetailData = ArrayHelper::map(MKapasitasDetail::find()->all(), 'kapasitasId', 'kapasitasJudul');
+$KategoriData = ArrayHelper::map(app\models\MServiceKategori::find()->where(['serviceKategoriStatus' => 1])->all(), 'serviceKategoriId', 'serviceKategoriJudul');
+$dropDownDataService = ArrayHelper::map(MService::find()->where(['serviceStatus' => 1])->all(), 'serviceId', 'serviceJudul');
+$ServiceDetailData = ArrayHelper::map(MServiceDetail::find()->where(['serviceDetailStatus' => 1])->all(), 'serviceDetailId', 'serviceDetailJudul');
+$KapasitasDetailData = ArrayHelper::map(MKapasitasDetail::find()->where(['kapasitasStatus' => 1])->all(), 'kapasitasId', 'kapasitasJudul');
 
-$dropDownDataRekanJt = ArrayHelper::map(MRekanJt::find()->all(), 'rekanId', 'rekanNamaLengkap');
+$dropDownDataRekanJt = ArrayHelper::map(MRekanJt::find()->where(['rekanStatus' => 1])->all(), 'rekanId', 'rekanNamaLengkap');
 
 //$orderId = Yii::$app->request->get('id', 'xxx');
 
