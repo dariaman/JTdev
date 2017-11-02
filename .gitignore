@@ -8,3 +8,4 @@
 /web/assets/*.*
 /gbr
 /composer.phar
+config/db.php
