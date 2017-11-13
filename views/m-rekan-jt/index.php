@@ -23,6 +23,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
+            
             [
                 'header' => 'ID',
                 'width' => '60px',
@@ -58,7 +59,7 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'rekanKendaraanNopol',
             'rekanAlamat',
             [
-                'label' => 'IsAktive',
+                'label' => 'IsActive',
                 'width' => '100px',
                 'hAlign' => 'center',
                 'class' => 'kartik\grid\BooleanColumn',

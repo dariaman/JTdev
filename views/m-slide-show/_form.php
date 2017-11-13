@@ -1,7 +1,8 @@
 <?php
 
 use yii\helpers\Html;
-use yii\widgets\ActiveForm;
+use yii\bootstrap\ActiveForm;
+use kartik\file\FileInput;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\MSlideShow */
@@ -10,14 +11,17 @@ use yii\widgets\ActiveForm;
 
 <div class="mslide-show-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin([
+        'options' => ['enctype' => 'multipart/form-data'],
+        'layout' => 'horizontal',]); ?>
 
-    <?= $form->field($model, 'slideUrl')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'pic')->fileInput()->label("Gambar") ?>
 
-    <?= $form->field($model, 'slideStatus')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'slideStatus')->checkbox()->label("Status") ?>
 
-    <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+    <div class="col-xs-12">
+        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Cancel', ['index'], ['class' => 'btn btn-primary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

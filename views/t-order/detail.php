@@ -17,6 +17,13 @@ Modal::end();
 
 Modal::begin(['id' => 'modalGrid']);
 Modal::end();
+
+// echo var_dump($modelh);
+
+$biayatransport = ($modelh->IsFreeOngkir == '1' ? 0 : $modelh->orderBiayaTransport);
+// echo var_dump($biayatransport);
+// die();
+
 ?>
 <div class="torder-index">
 
@@ -42,33 +49,44 @@ Modal::end();
             <td>: <?= ($modelh->orderJenisBayar == '1' ? 'Tunai' : ($modelh->orderJenisBayar == '2' ? 'Transfer' : 'EDC')) ?></td>
         </tr>
         <tr>
-            <td><b>Total Tagihan</b></td>
-            <td>: <?= Yii::$app->formatter->format($modelh->total, 'decimal') ?></td>
+            <td><b>Biaya Transport</b></td>
+            <td>: <?= ($modelh->IsFreeOngkir == '1' ? 'Free' : number_format($biayatransport)) ?></td>
 
             <td><b>Kota</b></td>
             <td>: <?= ($modelh->kota->kotaNama ?? '') ?></td>
         </tr>
         <tr>
-            <td><b>Status Pembayaran</b></td>
-            <td>: <?= ($modelh->StatusBayar == 'P' ? 'Paid' : '<strong style="color: red;">Pending</strong>') ?></td>
+            <td><b>Total Tagihan</b></td>
+            <td>: <?= number_format($modelh->total + $biayatransport) ?></td>
 
             <td><b>Kecamatan</b></td>
             <td>: <?= ($modelh->kec->kecamatanNama ?? '') ?></td>
+        </tr>
+
+        <tr>
+            <td></td>
+            <td></td>
+
+            <td><b>Kelurahan</b></td>
+            <td>: <?= ($modelh->kel->kelurahanNama ?? '') ?></td>
+
+        </tr>
+
+
+        <tr>
+            <td><b>Status Pembayaran</b></td>
+            <td>: <?= ($modelh->StatusBayar == 'P' ? 'Paid' : '<strong style="color: red;">Pending</strong>') ?></td>
+
+            <td><b>Kode Pos</b></td>
+            <td>: <?= $modelh->orderKodePos ?></td>
         </tr>
         <tr>
             <td><b>Status Aktif</b></td>
             <td>: <?= ($modelh->orderStatus == '1' ? html::label('<span class="glyphicon glyphicon-ok"></span>', '', ['style' => ['color' => 'green']]) : html::label('<span class="glyphicon glyphicon-remove"></span>', '', ['style' => ['color' => 'red']]))
     ?></td>
-
-            <td><b>Kelurahan</b></td>
-            <td>: <?= ($modelh->kel->kelurahanNama ?? '') ?></td>
-        </tr>
-        <tr>
-            <td><b></b></td>
+            
             <td></td>
-
-            <td><b>Kode Pos</b></td>
-            <td>: <?= $modelh->orderKodePos ?></td>
+            <td></td>
         </tr>
     </table>
     <p align="left">
@@ -78,8 +96,6 @@ Modal::end();
         ?>
 
         <?= Html::a('<i class="glyphicon glyphicon-print"></i>  Print Invoice', ['print-inv', 'orderid' => $modelh->orderId], ['class' => 'btn btn-primary', 'target' => '_blank']) ?>
-        <?= Html::a('<i class="glyphicon glyphicon-print"></i>  Print WO', ['print-wo', 'orderid' => $modelh->orderId], ['class' => 'btn btn-primary', 'target' => '_blank']) ?>
-
     </p>
 
     <hr style="border: solid 1px; " />
@@ -98,8 +114,12 @@ Modal::end();
             ['class' => 'yii\grid\SerialColumn'],
             [
                 'header' => 'ID Detail',
+                'format' => 'raw',
                 'contentOptions' => ['Align' => 'right', 'style' => 'width: 50px;'],
                 'attribute' => 'orderDetailId',
+                'value' => function($data){
+                    return Html::a($data['orderDetailId'], ['update-detail', 'id' => $data->orderDetailId],['class' => 'popupModal']);
+                }
             ],
             [
                 'header' => 'Jadwal Pengerjaan',
@@ -133,15 +153,18 @@ Modal::end();
                 'format' => 'decimal',
                 'attribute' => 'HargaSatuan',
             ],
-//            [
-//                'header' => 'Download Work Order',
-//                'format' => 'raw',
-//                'value' => function($data){
-//                    return Html::a('Print WO',['print-wo','id' => $data['id'],'orderid' => $data['orderId']]);
-//                }
-//            ]
+           [
+               'header' => 'StatusPengerjaan',
+               'value' => function($data){
+                    return ($data['StatusPekerjaan'] == 'D' ? 'Done' : ($data['StatusPekerjaan'] == 'P') ? 'Process' : 'Open');
+               }
+           ],
+           [
+                'header' => 'Ket Hasil Pengerjaan',
+                'attribute' => 'FeedBackWO',
+            ],
             [
-                'header' => 'Status Aktif',
+                'header' => 'StatusAktif',
                 'attribute' => 'orderDetailStatus',
                 'format' => 'raw',
                 'value' => function($data) {
@@ -152,25 +175,22 @@ Modal::end();
                     }
                 }
             ],
+            // [
+            //     'header' => '',
+            //     'format' => 'raw',
+            //     'value' => function($data) {
+            //         return Html::a('', ['update-detail', 'id' => $data->orderDetailId], ['class' => 'glyphicon glyphicon-pencil popupModal']);
+            //     }
+            // ],
             [
-                'header' => '',
+                'header' => 'WO',
                 'format' => 'raw',
-                'value' => function($data) {
-                    return Html::a('', ['update-detail', 'id' => $data->orderDetailId], ['class' => 'glyphicon glyphicon-pencil popupModal']);
+                'contentOptions' => ['Align' => 'center','style' => 'width: 50px;'],
+                'headerOptions' => ['style' => 'text-align:center'],
+                'value' => function($data){
+                    return Html::a('',['print-wo','orderdetailid' => $data['orderDetailId']],['class'=>'glyphicon glyphicon-print','target'=>'_blank','data-pjax' => '0']);
                 }
             ],
-//            [
-//                'header' => 'Print WO',
-//                'contentOptions' => ['Align' => 'center'],
-//                'format' => 'raw',
-//                'value' => function($data) {
-//                    if ($data->rekanId != '') {
-//                        return Html::a('', ['print-wo', 'rekanid' => $data['rekanId'], 'orderid' => $data['orderId']], ['class' => 'glyphicon glyphicon-print', 'target' => '_blank', 'data-pjax' => '0']);
-//                    } else {
-//                        return '';
-//                    }
-//                }
-//            ]
         ],
     ]);
     ?>

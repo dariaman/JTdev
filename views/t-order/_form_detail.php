@@ -96,6 +96,8 @@ $dropDownDataRekanJt = ArrayHelper::map(MRekanJt::find()->where(['rekanStatus' =
         }
     ?>
 
+    <?= $form->field($model, 'FeedBackWO')->textArea(['rows' => '2'])->label('Catatan Teknisi') ?>
+
     <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
     <?= Html::a('Cancel', ['detail', 'id' => $model->orderId], ['class' => 'btn btn-primary']) ?>
 

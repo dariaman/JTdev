@@ -8,5 +8,6 @@ return [
     'uploadGalery'=>'../gbr/',
     'GambarPromo'=>'../gbr/',
     'GambarEvent'=>'../gbr/',
-    'GambarProduct'=>'../gbr/'
+    'GambarProduct'=>'../gbr/',
+    'GambarSlide'=>'../gbr/'
 ];

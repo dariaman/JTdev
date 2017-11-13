@@ -1,13 +1,13 @@
 <?php
 
 use yii\helpers\Html;
-use yii\grid\GridView;
+use kartik\grid\GridView;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\MSlideShowSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Mslide Shows';
+$this->title = 'Slide Show';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="mslide-show-index">
@@ -15,20 +15,26 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
-    <p>
-        <?= Html::a('Create Mslide Show', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
+
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'slideId',
+            // 'slideId',
             'slideUrl:url',
-            'slideStatus',
+            [
+                'label' => 'IsActive',
+                'width' => '100px',
+                'hAlign' => 'center',
+                'class' => 'kartik\grid\BooleanColumn',
+                'attribute' => 'slideStatus',
+            ],
 
-            ['class' => 'yii\grid\ActionColumn'],
+            // 'slideStatus',
+
+            ['class' => 'yii\grid\ActionColumn','template'=>'{update}'],
         ],
     ]); ?>
 </div>

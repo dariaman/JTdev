@@ -20,12 +20,49 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
+            [
+                'header' => 'Email',
+                'format' => 'raw',
+                'attribute'=>'userEmail',
+                // 'contentOptions' => ['Align' => 'center','style' => 'width: 50px;'],
+                // 'headerOptions' => ['style' => 'text-align:center'],
+                'value' => function($data){
+                    return Html::a($data['userEmail'],['update','id' => $data['userId']]);
+                }
+            ],
 
 //            'userId',
-            'userEmail:email',
+            // 'userEmail:email',
+            // [
+            //     'header' => 'Nama',
+            //     // 'format' => 'raw',
+            //     // 'contentOptions' => ['Align' => 'center','style' => 'width: 50px;'],
+            //     // 'headerOptions' => ['style' => 'text-align:center'],
+            //     'value' => function($data){
+            //         return $data['userNamaDepan'] . ' ' . $data['userNamaBelakang'];
+            //         // Html::a($data['userEmail'],['update','id' => $data['userId']]);
+            //     }
+            // ],
+
             'userNamaDepan',
             'userNamaBelakang',
-            'userKelamin',
+            // 'userKelamin',
+            [
+                'header' => 'JenisKelamin',
+                // 'attribute'=>'userKelamin',
+                // 'contentOptions' => ['Align' => 'center','style' => 'width: 50px;'],
+                // 'headerOptions' => ['style' => 'text-align:center'],
+                'value' => function($data){
+                    if($data['userKelamin']=='L'){
+                        return 'Laki-laki';
+                    }else{
+                        return 'Perempuan';
+                    }
+                }
+            ],
+            'userNoHp',
+            'userNoTelp',
+
             // 'userPassword',
             'userAlamat',
             [
@@ -45,11 +82,18 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             'userDaerah',
             'userKodePos',
-            'userNoTelp',
-            'userNoHp',
-            'userStatus',
+            [
+                'label' => 'IsActive',
+                'width' => '100px',
+                'hAlign' => 'center',
+                'class' => 'kartik\grid\BooleanColumn',
+                'attribute' => 'userStatus',
+            ],
 
-            ['class' => 'yii\grid\ActionColumn','template' => '{update}'],
+            
+            // 'userStatus',
+
+            // ['class' => 'yii\grid\ActionColumn','template' => '{update}'],
         ],
     ]); ?>
     

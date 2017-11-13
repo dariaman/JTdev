@@ -66,7 +66,7 @@ class MUserController extends Controller
         $model = new MUser();
 
         if ($model->load(Yii::$app->request->post()) ) {
-            $model->save();
+            $model->save(false);
             return $this->redirect(['index']);
         } else {
             return $this->render('create', [
@@ -100,8 +100,8 @@ class MUserController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post())) {
-            $model->save();
-            return $this->redirect(['update', 'id' => $model->userId]);
+            $model->save(false);
+            return $this->redirect(['index']);
         } else {
             return $this->render('update', [
                 'model' => $model,

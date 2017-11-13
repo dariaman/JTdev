@@ -5,8 +5,8 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\MSlideShow */
 
-$this->title = 'Update Mslide Show: ' . $model->slideId;
-$this->params['breadcrumbs'][] = ['label' => 'Mslide Shows', 'url' => ['index']];
+$this->title = 'Update Slide Show : ' . $model->slideId;
+$this->params['breadcrumbs'][] = ['label' => 'Slide Show', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->slideId, 'url' => ['view', 'id' => $model->slideId]];
 $this->params['breadcrumbs'][] = 'Update';
 ?>

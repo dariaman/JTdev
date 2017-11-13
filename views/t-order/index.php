@@ -47,26 +47,48 @@ yii\bootstrap\Modal::end();
                 }
             ],
             // 'userId',
-            'orderTgl',
+            // 'orderTgl',
             [
-                'header' => 'Jenis Bayar',
+                'header' => 'Tgl Order',
                 'value' => function($data){
-                    return (($data['orderJenisBayar']=='1') ? 'Tunai' : (($data['muser']=='P') ? 'Paid' : 'Pending'));
-
-                    if($data['orderJenisBayar']=='P'){
-                        return 'Paid';
-                    }else{
-                        return 'Pending';
-                    }
+                    return date('d-M-Y',strtotime($data['orderTgl']));
                 }
             ],
+            // [
+            //     'header' => 'Jenis Bayar',
+            //     'value' => function($data){
+            //         return (($data['orderJenisBayar']=='1') ? 'Tunai' : (($data['muser']=='P') ? 'Paid' : 'Pending'));
+
+            //         if($data['orderJenisBayar']=='P'){
+            //             return 'Paid';
+            //         }else{
+            //             return 'Pending';
+            //         }
+            //     }
+            // ],
             'orderAlamat',
+            // [
+            //     'header' => 'StatusPekerjaan',
+            //     'attribute' => 'StatusPekerjaan',
+            //     'value' => function($data){
+            //         return (($data['StatusPekerjaan']=='D') ? 'Done' : 
+            //                 ($data['StatusPekerjaan']=='P' ? 'Process' : 'Open') );
+            //     }
+            // ],
             [
                 'header' => 'StatusBayar',
+                'attribute' => 'StatusBayar',
                 'value' => function($data){
-                    return (($data['muser']=='P') ? 'Paid' : 'Pending');
+                    return (($data['StatusBayar']=='P') ? 'Paid' : 'Pending');
                 }
             ],
+            [
+                'label' => 'IsActive',
+                'width' => '100px',
+                'hAlign' => 'center',
+                'class' => 'kartik\grid\BooleanColumn',
+                'attribute' => 'orderStatus',
+            ],  
             [
                 'header' => 'Invoice',
                 'format' => 'raw',
@@ -76,15 +98,15 @@ yii\bootstrap\Modal::end();
                     return Html::a('',['print-inv','orderid' => $data['orderId']],['class'=>'glyphicon glyphicon-print','target'=>'_blank','data-pjax' => '0']);
                 }
             ],
-            [
-                'header' => 'WO',
-                'format' => 'raw',
-                'contentOptions' => ['Align' => 'center','style' => 'width: 50px;'],
-                'headerOptions' => ['style' => 'text-align:center'],
-                'value' => function($data){
-                    return Html::a('',['print-wo','orderid' => $data['orderId']],['class'=>'glyphicon glyphicon-print','target'=>'_blank','data-pjax' => '0']);
-                }
-            ],
+            // [
+            //     'header' => 'WO',
+            //     'format' => 'raw',
+            //     'contentOptions' => ['Align' => 'center','style' => 'width: 50px;'],
+            //     'headerOptions' => ['style' => 'text-align:center'],
+            //     'value' => function($data){
+            //         return Html::a('',['print-wo','orderid' => $data['orderId']],['class'=>'glyphicon glyphicon-print','target'=>'_blank','data-pjax' => '0']);
+            //     }
+            // ],
 
             // ['class' => 'yii\grid\ActionColumn'],
         ],

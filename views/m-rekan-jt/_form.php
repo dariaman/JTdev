@@ -60,7 +60,7 @@ $list = ['L'=>'Laki-laki','P'=>'Perempuan'];
     <?= $form->field($model, 'rekanKodePos')->textInput(['type' => 'number','maxlength' =>5])->label("Kode Pos") ?>
 
         <?php if(!$model->isNewRecord){
-            echo $form->field($model, 'rekanStatus')->checkbox()->label("Status");
+            echo $form->field($model, 'rekanStatus')->checkbox();
         }
     ?>
 

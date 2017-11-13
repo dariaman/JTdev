@@ -22,6 +22,7 @@ $detail = (new \yii\db\Query())
         ->all();
 //echo var_dump($header);
 //die();
+$biayatransport = ($header[0]['IsFreeOngkir'] =='1' ? 0 : $header[0]['orderBiayaTransport'] );
 ?>
 <div class="content-wrapper">
     <section class="content-header">
@@ -43,9 +44,21 @@ $detail = (new \yii\db\Query())
         <div class="row invoice-info" style="margin-top:50px;">
             <div class="col-sm-4 invoice-col">
               <address>
-                <strong>Nama : </strong><?= $header[0]['userNamaDepan'] . ' ' . $header[0]['userNamaBelakang'];?><br>
-                <strong>Alamat : </strong><?= $header[0]['userAlamat'];?><br>
-                <strong>Telepon : </strong><?= $header[0]['userNoTelp'] ;?><br>
+                <table border="0">
+                        <tr>
+                            <td><strong>Nama </strong></td>
+                            <td> : <?= $header[0]['userNamaDepan'] . ' ' . $header[0]['userNamaBelakang'];?></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Alamat </strong></td>
+                            <td> : <?= $header[0]['userAlamat'];?></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Telepon </strong></td>
+                            <td> : <?= $header[0]['userNoTelp'] ;?></td>
+                        </tr>
+                  </table>
+
               </address>
             </div>
             <!-- /.col -->
@@ -90,11 +103,11 @@ $detail = (new \yii\db\Query())
             </tr>
             <tr>
                 <th style="text-align: right;" colspan="4">Transportasi : </th> 
-                <td style="text-align: right;"> <?= number_format($header[0]['orderBiayaTransport']); ?></td>
+                <td style="text-align: right;"> <?= number_format($biayatransport) ?></td>
             </tr>
             <tr>
                 <th style="text-align: right;" colspan="4">Total : </th> 
-                <td style="text-align: right;"> <?= number_format($sub + $header[0]['orderBiayaTransport'] ); ?></td>
+                <td style="text-align: right;"> <?= number_format($sub + $biayatransport ) ?></td>
             </tr>
           </table>
         </div>

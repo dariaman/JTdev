@@ -242,10 +242,10 @@ class TOrderController extends Controller {
         }
     }
 
-    public function actionPrintWo($orderid) {
+    public function actionPrintWo($orderdetailid) {
         // get your HTML raw content without any layouts or scripts
 
-        $content = $this->renderPartial('renderwo', ['orderid' => $orderid]);
+        $content = $this->renderPartial('renderwo', ['orderdetailid' => $orderdetailid]);
 
         // setup kartik\mpdf\Pdf component
         $pdf = new Pdf([
@@ -259,14 +259,14 @@ class TOrderController extends Controller {
             'destination' => Pdf::DEST_BROWSER,
             // your html content input
             'content' => $content,
-            'filename' => $orderid . 'WO',
+            'filename' => $orderdetailid . 'WO',
             // format content from your own css file if needed or use the
             // enhanced bootstrap css built by Krajee for mPDF formatting 
             'cssFile' => '@vendor/kartik-v/yii2-mpdf/assets/kv-mpdf-bootstrap.min.css',
             // any css to be embedded if required
             'cssInline' => '.kv-heading-1{font-size:18px}',
             // set mPDF properties on the fly
-            'options' => ['title' => 'Work Order #'.$orderid],
+            'options' => ['title' => 'Work Order #'.$orderdetailid],
             // call mPDF methods on the fly
             'methods' => [
                 'SetHeader' => ['Jagonya Tukang'],

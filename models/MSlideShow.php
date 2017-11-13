@@ -16,6 +16,7 @@ class MSlideShow extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
+    public $pic;
     public static function tableName()
     {
         return 'm_slide_show';
@@ -30,6 +31,7 @@ class MSlideShow extends \yii\db\ActiveRecord
             [['slideUrl', 'slideStatus'], 'required'],
             [['slideUrl'], 'string', 'max' => 500],
             [['slideStatus'], 'string', 'max' => 1],
+            [['pic'], 'file'],
         ];
     }
 

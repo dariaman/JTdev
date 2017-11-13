@@ -23,10 +23,11 @@ $kecamatan = ArrayHelper::map(app\models\MKecamatan::find()->asArray()->all(), '
     <?= $form->field($model, 'userNamaDepan')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'userNamaBelakang')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'userKelamin')->dropDownList(['L'=>'Laki-laki','P'=>'Perempuan'])->label("Jenis Kelamin") ?>
     
     <?= $form->field($model, 'userEmail')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'userPassword')->passwordInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'userAlamat')->textarea(['maxlength' => true,'rows' => 4]) ?>
 
@@ -61,8 +62,6 @@ $kecamatan = ArrayHelper::map(app\models\MKecamatan::find()->asArray()->all(), '
     ?>
 
     <?= $form->field($model, 'userDaerah')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'userKelamin')->textInput(['maxlength' => true]) ?>
     
     <?= $form->field($model, 'userKodePos')->textInput(['maxlength' => true]) ?>
 

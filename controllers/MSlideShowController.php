@@ -8,6 +8,7 @@ use app\models\MSlideShowSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\UploadedFile;
 
 /**
  * MSlideShowController implements the CRUD actions for MSlideShow model.
@@ -56,69 +57,44 @@ class MSlideShowController extends Controller
         ]);
     }
 
-    /**
-     * Creates a new MSlideShow model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
-     */
-    public function actionCreate()
-    {
-        $model = new MSlideShow();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->slideId]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
-        }
-    }
-
-    /**
-     * Updates an existing MSlideShow model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
-     * @return mixed
-     */
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $FileNameGbr = pathinfo($model->slideUrl,PATHINFO_FILENAME);
+        if (Yii::$app->request->isPost) {
+            $model->load(Yii::$app->request->post());
+            $image = UploadedFile::getInstance($model, 'pic');
+            if(!empty($image) && $image->size !== 0){
+                if($model->slideUrl != '' || $model->slideUrl != null){
+                    $filegbr = pathinfo($model->slideUrl,PATHINFO_FILENAME).'.'.pathinfo($model->slideUrl, PATHINFO_EXTENSION);
+                    $this->deleteFile($filegbr);
+                }
+                $image->saveAs(Yii::$app->params['GambarSlide'] . $FileNameGbr . '.' . $image->extension);
+                $model->slideUrl='images/Slideshow/'. $FileNameGbr . '.' . $image->extension;
+                $model->save(FALSE);
+            }
+            return $this->redirect(['index']);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->slideId]);
         } else {
             return $this->render('update', [
                 'model' => $model,
             ]);
         }
+
     }
 
-    /**
-     * Deletes an existing MSlideShow model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionDelete($id)
-    {
-        $this->findModel($id)->delete();
-
-        return $this->redirect(['index']);
-    }
-
-    /**
-     * Finds the MSlideShow model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id
-     * @return MSlideShow the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
     protected function findModel($id)
     {
         if (($model = MSlideShow::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
+        }
+    }
+
+    private function deleteFile($filename){
+        if(file_exists(Yii::$app->params['GambarSlide'].$filename)){
+            unlink(Yii::$app->params['GambarSlide'].$filename);
         }
     }
 }

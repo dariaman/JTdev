@@ -80,8 +80,12 @@ $dataKel = ArrayHelper::map(app\models\MKelurahan::find()->all(), 'kelurahanId',
     ?>
 
     <?= $form->field($model, 'orderKodePos')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'IsFreeOngkir')->checkbox() ?>
     
     <?php if(!$model->isNewRecord){ ?>
+        <?= $form->field($model, 'orderBiayaTransport')->textInput(['maxlength' => true]) ?>
+
         <?= $form->field($model, 'StatusBayar')->dropDownList(['P'=>'Paid','U'=>'Pending'], [
         ])->label("Status Bayar") ?>
     

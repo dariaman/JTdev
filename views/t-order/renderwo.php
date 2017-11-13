@@ -3,15 +3,16 @@
 $header = (new \yii\db\Query())
         ->select('*')
         ->from('t_order as o')
+        ->innerJoin('t_order_detail as td','o.orderID = td.orderId')
         ->innerJoin('m_user mu','mu.userId=o.userId')
-        ->where(['o.orderId' => $orderid])
+        ->where(['td.orderDetailId' => $orderdetailid])
         ->all();
 
 $tukang = (new \yii\db\Query())
         ->select('mj.`rekanNamaLengkap`')
         ->from('t_order_detail as td')
         ->leftJoin('m_rekan_jt mj','mj.`rekanId`=td.`rekanId`')
-        ->where(['td.`orderId`' => $orderid])
+        ->where(['td.`orderDetailId`' => $orderdetailid])
         ->distinct()
         ->all();
 
@@ -19,17 +20,20 @@ $detail = (new \yii\db\Query())
         ->select('*')
         ->from('t_order_detail as td')
         ->leftJoin('t_order o','o.orderID = td.orderId')
-        ->innerJoin('m_rekan_jt rj','rj.rekanId = td.rekanId')
+        ->leftJoin('m_rekan_jt rj','rj.rekanId = td.rekanId')
         ->leftJoin('m_service_detail msd','msd.serviceDetailId = td.serviceDetailId')
         ->leftJoin('m_service ms','ms.serviceId = msd.serviceId')
         ->leftJoin('m_service_kategori msk','msk.serviceKategoriId = msd.serviceKategoriId')
         ->leftJoin('m_kapasitas_detail mkd','mkd.kapasitasId = td.kapasitasId')
-        ->where(['td.orderId' => $orderid])
+        ->where(['td.orderDetailId' => $orderdetailid])
+        // ->andWhere(['td.orderDetailId' => 1])
         ->andWhere(['o.orderStatus' => 1])
         ->andWhere(['td.orderDetailStatus' => 1])
         ->all();
 
-
+// echo var_dump($header);
+// die();
+$biayatransport = ($header[0]['IsFreeOngkir'] =='1' ? 0 : $header[0]['orderBiayaTransport'] );
 ?>
 <div class="content-wrapper">
     <section class="content-header">
@@ -43,7 +47,7 @@ $detail = (new \yii\db\Query())
             <label>Tanggal Order : <?= date('j F Y',strtotime($header[0]['orderTgl'])) ?></label>
         </div>
         <h3 style="margin-left:40%; margin-top: -20px;"><strong><?= strtoupper('work order');?></strong></h3>
-        <div style="margin-left:44%;">No. Order OD#<?= $header[0]['orderId'];?></div>
+        <div style="margin-left:44%;">No. Order OD#<?= $orderdetailid;?></div>
     </section>
     
     <!-- Main content -->
@@ -54,20 +58,20 @@ $detail = (new \yii\db\Query())
               <address>
                   <table border="0">
                         <tr>
-                            <td><strong>Nama Customer : </strong></td>
-                            <td><?= ucfirst($header[0]['userNamaDepan']). ' ' . ucfirst($header[0]['userNamaBelakang']);?></td>
+                            <td><strong>Nama Customer </strong></td>
+                            <td> : <?= ucfirst($header[0]['userNamaDepan']). ' ' . ucfirst($header[0]['userNamaBelakang']);?></td>
                         </tr>
                         <tr>
-                            <td><strong>Alamat Customer : </strong></td>
-                            <td><?= $header[0]['orderAlamat'];?></td>
+                            <td><strong>Alamat Customer </strong></td>
+                            <td> : <?= $header[0]['orderAlamat'];?></td>
                         </tr>
                         <tr>
-                            <td><strong>Telepon Customer : </strong></td>
-                            <td><?= $header[0]['userNoHp'];?></td>
+                            <td><strong>Telepon Customer </strong></td>
+                            <td> : <?= $header[0]['userNoHp'];?></td>
                         </tr>
                         <tr>
-                            <td><strong>Nama Teknisi : </strong></td>
-                            <td>
+                            <td><strong>Nama Teknisi </strong></td>
+                            <td> : 
                                 <?php  
                                     $i=0;
                                     foreach ($tukang as $tuk){
@@ -90,43 +94,26 @@ $detail = (new \yii\db\Query())
             <div style="margin-left:15px;">
                 <h3>Rincian Jasa</h3>
             </div>
-        <div class="col-xs-12 table-responsive">
-            <table class="table table-striped">
+        <div class="col-xs-12">
+            <table class="table">
             <thead>
                 <tr>
-                    <th style="text-align: center;width:25px">No. </th>
-                    <th style="width:200px;">Jasa</th>
-                    <th style="text-align: center;">Kuantitas</th>
-                    <th style="text-align: center;">Harga Satuan</th>
-                    <th style="text-align: center;">Total</th>
+                    <th style="text-align:center;width:25px;">No. </th>
+                    <th style="text-align:center;width:630px;">Jasa</th>
+                    <th style="text-align:right;width:25px;">Kuantitas</th>
                 </tr>
             </thead>
             <?php $i=1; 
-                $sub=0;
                 foreach ($detail as &$val) { ?>
                 <tr>
-                    <td style="text-align: center;width:25px"><?= $i ?></td>
-                    <td><?= $val['serviceKategoriJudul'].' Jasa '.$val['serviceDetailJudul'].' '.$val['kapasitasJudul'] ?></td>
-                    <td style="text-align: right;width:100px;"><?= $val['orderDetailQTY'] ?></td>
-                    <td style="text-align: right;width:120px;"><?= number_format($val['kapasitasHarga']) ?></td>
-                    <td style="text-align: right;width:100px;"><?= number_format($val['orderDetailQTY'] * $val['kapasitasHarga']); ?></td>
+                    <td style="text-align:right;width:25px;"> <?= $i++ ?> . </td>
+                    <td style="text-align:left;width:630px;"><?= $val['serviceKategoriJudul'].' Jasa '.$val['serviceDetailJudul'].' '.$val['kapasitasJudul'] ?></td>
+                    <td style="text-align:right;width:25px;"><?= $val['orderDetailQTY'] ?></td>
+                    
                 </tr>
-            <?php $i++; 
-                $sub += $val['orderDetailQTY'] * $val['kapasitasHarga'];
-                }?>
+            <?php }?>
             <tr><td colspan="5"><hr/></td></tr>
-            <tr>
-                <th style="text-align: right;" colspan="4">Subtotal : </th> 
-                <td style="text-align: right;"> <?= number_format($sub); ?></td>
-            </tr>
-            <tr>
-                <th style="text-align: right;" colspan="4">Transportasi : </th> 
-                <td style="text-align: right;"> <?= number_format($header[0]['orderBiayaTransport']); ?></td>
-            </tr>
-            <tr>
-                <th style="text-align: right;" colspan="4">Total : </th> 
-                <td style="text-align: right;"> <?= number_format($sub + $header[0]['orderBiayaTransport'] ); ?></td>
-            </tr>
+           
           </table>
         </div>
         <!-- /.col -->
