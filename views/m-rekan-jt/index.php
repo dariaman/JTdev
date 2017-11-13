@@ -24,11 +24,11 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
             
-            [
-                'header' => 'ID',
-                'width' => '60px',
-                'attribute' => 'rekanId',
-            ],
+            // [
+            //     'header' => 'ID',
+            //     'width' => '60px',
+            //     'attribute' => 'rekanId',
+            // ],
             [
                 'header' => 'Nama Rekan Tukang',
                 'attribute' => 'rekanNamaLengkap',
