@@ -32,10 +32,11 @@ class DailySales extends \yii\db\ActiveRecord
      */
     public $serviceKategoriJudul;
     public $userNamaDepan;
+    public $dateTo;
     public function rules()
     {
         return [
-            [['tgl', 'DateUpdate'], 'safe'],
+            [['tgl', 'DateUpdate','dateTo'], 'safe'],
             [['userid', 'KategoriId', 'jlh', 'paid', 'unpaid'], 'integer'],
             [['UserUpdate'], 'string', 'max' => 200],
             [['tgl', 'userid', 'KategoriId'], 'unique', 'targetAttribute' => ['tgl', 'userid', 'KategoriId'], 'message' => 'The combination of Tgl, Userid and Kategori ID has already been taken.'],

@@ -35,6 +35,11 @@ class DailySalesController extends Controller
     public function actionIndex()
     {
         $searchModel = new DailySalesSearch();
+        if (Yii::$app->request->IsPost){
+            $param = Yii::$app->request->post('DailySalesSearch');
+            $searchModel->load(Yii::$app->request->post());
+            $searchModel->dateTo = $param['dateTo'];
+        }
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [

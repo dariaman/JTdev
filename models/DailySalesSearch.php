@@ -19,7 +19,7 @@ class DailySalesSearch extends DailySales
     {
         return [
             [['id', 'userid', 'KategoriId', 'jlh', 'paid', 'unpaid'], 'integer'],
-            [['tgl', 'UserUpdate', 'DateUpdate'], 'safe'],
+            [['tgl','dateTo', 'UserUpdate', 'DateUpdate'], 'safe'],
 //            [['tgl'], 'required'],
         ];
     }
@@ -33,13 +33,6 @@ class DailySalesSearch extends DailySales
         return Model::scenarios();
     }
 
-    /**
-     * Creates data provider instance with search query applied
-     *
-     * @param array $params
-     *
-     * @return ActiveDataProvider
-     */
     public function search($params)
     {
         $query = DailySales::find()
@@ -57,6 +50,7 @@ class DailySalesSearch extends DailySales
         $this->load($params);
         
         if($this->tgl == null) $this->tgl= date("Y-m-d");
+        if($this->dateTo == null) $this->dateTo= $this->tgl;
 
         if (!$this->validate()) {
             // uncomment the following line if you do not want to return any records when validation fails
@@ -64,19 +58,9 @@ class DailySalesSearch extends DailySales
             return $dataProvider;
         }
 
-        // grid filtering conditions
-        $query->andFilterWhere([
-            'id' => $this->id,
-            'tgl' => $this->tgl,
-            'userid' => $this->userid,
-            'KategoriId' => $this->KategoriId,
-            'jlh' => $this->jlh,
-            'paid' => $this->paid,
-            'unpaid' => $this->unpaid,
-            'DateUpdate' => $this->DateUpdate,
-        ]);
 
-        $query->andFilterWhere(['like', 'UserUpdate', $this->UserUpdate]);
+        $query->andFilterWhere(['>=', 'tgl', $this->tgl]);
+        $query->andFilterWhere(['<=', 'tgl', $this->dateTo]);
 
         return $dataProvider;
     }
