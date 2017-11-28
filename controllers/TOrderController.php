@@ -109,9 +109,9 @@ class TOrderController extends Controller {
     public function actionDetail($id) {
 //        Yii::$app->session->setFlash('success', 'Model has been saved');
 
-        $subQuery = TOrderDetail::find()->select('orderId, SUM(`HargaSatuan` * `orderDetailQTY`) as total ')
+        $subQuery = TOrderDetail::find()->select('orderId, SUM(`HargaSatuan` * `orderDetailQTY`) as total , MIN(`StatusPekerjaan`) AS StatusPekerjaan')
                 ->where(['orderId' => $id,'orderDetailStatus'=>'1']);
-        $modelh = TOrder::find($id)->select(['t_order.*', 'T.total',])
+        $modelh = TOrder::find($id)->select(['t_order.*', 'T.total','T.StatusPekerjaan'])
                 ->leftJoin(['T' => $subQuery], 'T.orderId = t_order.orderId')
                 ->where(['t_order.orderId' => $id])
                 ->one();

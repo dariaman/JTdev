@@ -12,6 +12,7 @@ class TOrder extends \yii\db\ActiveRecord
     }
     
     public $total;
+    public $StatusPekerjaan;
 
     public function rules()
     {

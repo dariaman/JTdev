@@ -64,8 +64,11 @@ $biayatransport = ($modelh->IsFreeOngkir == '1' ? 0 : $modelh->orderBiayaTranspo
         </tr>
 
         <tr>
-            <td></td>
-            <td></td>
+            <td><b>Status Pekerjaan</b></td>
+            <td>: <?= ($modelh->StatusPekerjaan == '2' ? html::label('Done', '', ['style' => ['color' => 'green']]) :
+                    ($modelh->StatusPekerjaan == '1' ? html::label('Process', '', ['style' => ['color' => 'red']]) 
+                        : html::label('Open', '', ['style' => ['color' => 'red']])))
+    ?></td>
 
             <td><b>Kelurahan</b></td>
             <td>: <?= ($modelh->kel->kelurahanNama ?? '') ?></td>
@@ -156,7 +159,7 @@ $biayatransport = ($modelh->IsFreeOngkir == '1' ? 0 : $modelh->orderBiayaTranspo
            [
                'header' => 'StatusPengerjaan',
                'value' => function($data){
-                    return ($data['StatusPekerjaan'] == 'D' ? 'Done' : ($data['StatusPekerjaan'] == 'P') ? 'Process' : 'Open');
+                    return ($data['StatusPekerjaan'] == '2' ? 'Done' : ($data['StatusPekerjaan'] == '1') ? 'Process' : 'Open');
                }
            ],
            [

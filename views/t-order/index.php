@@ -67,19 +67,22 @@ yii\bootstrap\Modal::end();
             //     }
             // ],
             'orderAlamat',
-            // [
-            //     'header' => 'StatusPekerjaan',
-            //     'attribute' => 'StatusPekerjaan',
-            //     'value' => function($data){
-            //         return (($data['StatusPekerjaan']=='D') ? 'Done' : 
-            //                 ($data['StatusPekerjaan']=='P' ? 'Process' : 'Open') );
-            //     }
-            // ],
+            [
+                'header' => 'StatusPekerjaan',
+                'format' => 'raw',
+                'attribute' => 'StatusPekerjaan',
+                'value' => function($data){
+                    return (($data['StatusPekerjaan']=='2') ? html::label('Done', '', ['style' => ['color' => 'green']]) : 
+                            ($data['StatusPekerjaan']=='1' ? html::label('Process', '', ['style' => ['color' => 'red']]) 
+                                : html::label('Open', '', ['style' => ['color' => 'red']])) );
+                }
+            ],
             [
                 'header' => 'StatusBayar',
+                'format' => 'raw',
                 'attribute' => 'StatusBayar',
                 'value' => function($data){
-                    return (($data['StatusBayar']=='P') ? 'Paid' : 'Pending');
+                    return (($data['StatusBayar']=='P') ? html::label('Paid', '', ['style' => ['color' => 'green']]) : html::label('Pending', '', ['style' => ['color' => 'red']]));
                 }
             ],
             [
