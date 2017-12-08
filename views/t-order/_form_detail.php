@@ -95,11 +95,21 @@ $dropDownDataRekanJt = ArrayHelper::map(MRekanJt::find()->where(['rekanStatus' =
             echo $form->field($model, 'orderDetailStatus')->checkbox()->label("Status Aktif");
         }
     ?>
-
+    <hr>
+    
+    <?=
+    $form->field($model, 'StatusPekerjaan')->widget(Select2::classname(), [
+        'data' => ['0' => 'Open', '1' => 'Process', '2' => 'Done'],
+        'options' => ['placeholder' => 'Status Pekerjaan ...'],
+        'pluginOptions' => [
+            'allowClear' => true
+        ],
+    ]);
+    ?>
+    
     <?= $form->field($model, 'FeedBackWO')->textArea(['rows' => '2'])->label('Catatan Teknisi') ?>
 
     <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
-    <?= Html::a('Cancel', ['detail', 'id' => $model->orderId], ['class' => 'btn btn-primary']) ?>
 
     <?php ActiveForm::end(); ?>
 

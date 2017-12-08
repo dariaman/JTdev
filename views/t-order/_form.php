@@ -93,7 +93,6 @@ $dataKel = ArrayHelper::map(app\models\MKelurahan::find()->all(), 'kelurahanId',
     <?php } ?>
 
     <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
-    <?= Html::a('Cancel', ['detail', 'id' => $model->orderId], ['class' => 'btn btn-primary']) ?>
 
     <?php ActiveForm::end(); ?>
 

@@ -38,11 +38,44 @@ class DailySalesController extends Controller
         if (Yii::$app->request->IsPost){
             $param = Yii::$app->request->post('DailySalesSearch');
             $searchModel->load(Yii::$app->request->post());
-            $searchModel->dateTo = $param['dateTo'];
+//            $searchModel->dateTo = $param['dateTo'];
         }
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+    
+    public function actionWeekly()
+    {
+        $searchModel = new DailySalesSearch();
+        if (Yii::$app->request->IsPost){
+            $param = Yii::$app->request->post('DailySalesSearch');
+            $searchModel->load(Yii::$app->request->post());
+            $searchModel->dateTo = $param['dateTo'];
+        }
+        $dataProvider = $searchModel->searchweekly(Yii::$app->request->queryParams);
+
+        return $this->render('weekly', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+    
+    public function actionMonthly()
+    {
+        $searchModel = new DailySalesSearch();
+        
+        if (Yii::$app->request->IsPost){
+            $param = Yii::$app->request->post('DailySalesSearch');
+            $searchModel->load(Yii::$app->request->post());
+            $searchModel->dateTo = $param['tahun'] ?? date("Y");
+        }
+        $dataProvider = $searchModel->searchmonthly(Yii::$app->request->queryParams);
+
+        return $this->render('monthly', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);

@@ -27,8 +27,16 @@ $tglSkrg = new DateTime();
         'autoclose'=>true,
         'format' => 'yyyy-mm-dd',
         'width'=>'100px'
-    ]])->label("Tanggal") ?>
+    ]])->label("Dari tanggal") ?>
     
+    <?= $form->field($model, 'dateTo')->widget(DatePicker::classname(), [
+    'options' => ['placeholder' => 'Date To ...','width'=>'100px'],
+    'value' => $tglSkrg,
+    'pluginOptions' => [
+        'autoclose'=>true,
+        'format' => 'yyyy-mm-dd',
+        'width'=>'100px'
+    ]])->label("Sampai tanggal") ?>
 
     <p align="center">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>

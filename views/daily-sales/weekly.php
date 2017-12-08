@@ -7,14 +7,14 @@ use yii\widgets\Pjax;
 /* @var $searchModel app\models\DailySalesSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Report Harian Penjualan';
+$this->title = 'Report Mingguan Penjualan';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="daily-sales-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
     <br>
-    <?php  echo $this->render('_search', ['model' => $searchModel]); ?>
+    <?php  echo $this->render('_search_weekly', ['model' => $searchModel]); ?>
 
     
 <?php Pjax::begin(); ?>    <?= GridView::widget([

@@ -18,11 +18,7 @@ Modal::end();
 Modal::begin(['id' => 'modalGrid']);
 Modal::end();
 
-// echo var_dump($modelh);
-
 $biayatransport = ($modelh->IsFreeOngkir == '1' ? 0 : $modelh->orderBiayaTransport);
-// echo var_dump($biayatransport);
-// die();
 
 ?>
 <div class="torder-index">
