@@ -155,7 +155,7 @@ $biayatransport = ($modelh->IsFreeOngkir == '1' ? 0 : $modelh->orderBiayaTranspo
            [
                'header' => 'StatusPengerjaan',
                'value' => function($data){
-                    return ($data['StatusPekerjaan'] == '2' ? 'Done' : ($data['StatusPekerjaan'] == '1') ? 'Process' : 'Open');
+                    return ($data['StatusPekerjaan'] == '2' ? 'Done' : ($data['StatusPekerjaan'] == '1' ? 'Process' : 'Open'));
                }
            ],
            [

@@ -28,7 +28,6 @@ class MSlideShow extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['slideUrl', 'slideStatus'], 'required'],
             [['slideUrl'], 'string', 'max' => 500],
             [['slideStatus'], 'string', 'max' => 1],
             [['pic'], 'file'],

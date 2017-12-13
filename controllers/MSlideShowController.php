@@ -62,17 +62,26 @@ class MSlideShowController extends Controller
         $model = $this->findModel($id);
         $FileNameGbr = pathinfo($model->slideUrl,PATHINFO_FILENAME);
         if (Yii::$app->request->isPost) {
+            
+            $randomString = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            $img = Yii::$app->security->generateRandomString(16,$randomString);
+            
             $model->load(Yii::$app->request->post());
             $image = UploadedFile::getInstance($model, 'pic');
-            if(!empty($image) && $image->size !== 0){
-                if($model->slideUrl != '' || $model->slideUrl != null){
-                    $filegbr = pathinfo($model->slideUrl,PATHINFO_FILENAME).'.'.pathinfo($model->slideUrl, PATHINFO_EXTENSION);
-                    $this->deleteFile($filegbr);
-                }
-                $image->saveAs(Yii::$app->params['GambarSlide'] . $FileNameGbr . '.' . $image->extension);
-                $model->slideUrl='images/Slideshow/'. $FileNameGbr . '.' . $image->extension;
-                $model->save(FALSE);
+            $filegbr = pathinfo($model->slideUrl,PATHINFO_FILENAME).'.'.pathinfo($model->slideUrl, PATHINFO_EXTENSION);
+            $this->deleteFile($filegbr);
+            try{
+                $image->saveAs(Yii::$app->params['GambarSlide'] . $img . '.' . $image->extension);
+//                echo var_dump(Yii::$app->params['GambarSlide'] . $img . '.' . $image->extension);
+//                die();
             }
+            catch (ErrorException $ex){
+                echo var_dump($ex);
+//                die();
+            }
+            
+            $model->slideUrl='images/Slideshow/'. $img . '.' . $image->extension;
+            $model->save(FALSE);
             return $this->redirect(['index']);
 
         } else {

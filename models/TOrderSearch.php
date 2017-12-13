@@ -47,8 +47,14 @@ class TOrderSearch extends TOrder
      */
     public function search($params)
     {
+        $subQuery = TOrderDetail::find()
+        ->select(['orderId', 'COALESCE(MIN(StatusPekerjaan),0) AS StatusPekerjaan'])
+        ->groupBy('orderId');
+
         $query = TOrder::find()
-                ->joinWith(['muser']);
+                ->select('t_order.*, m.StatusPekerjaan')
+                ->joinWith(['muser'])
+                ->leftJoin(['m' => $subQuery], 't_order.orderId = m.orderId');
 //                ->joinWith('tOrderDetails', TRUE, 'Left Join');
 
         // add conditions that should always apply here
