@@ -101,15 +101,30 @@ yii\bootstrap\Modal::end();
                     return Html::a('',['print-inv','orderid' => $data['orderId']],['class'=>'glyphicon glyphicon-print','target'=>'_blank','data-pjax' => '0']);
                 }
             ],
-            // [
-            //     'header' => 'WO',
-            //     'format' => 'raw',
-            //     'contentOptions' => ['Align' => 'center','style' => 'width: 50px;'],
-            //     'headerOptions' => ['style' => 'text-align:center'],
-            //     'value' => function($data){
-            //         return Html::a('',['print-wo','orderid' => $data['orderId']],['class'=>'glyphicon glyphicon-print','target'=>'_blank','data-pjax' => '0']);
-            //     }
-            // ],
+            [
+                'header' => 'Tgl Email Invoice',
+                'value' => function($data){
+                    if($data['SendInvDate']==null){
+                        return'';
+                    }
+                        else {
+                            return date('d-M-Y',strtotime($data['SendInvDate']));
+                    }
+                }
+            ],
+             [
+                 'header' => 'Email Invoice',
+                 'format' => 'raw',
+                 'contentOptions' => ['Align' => 'center','style' => 'width: 50px;'],
+                 'headerOptions' => ['style' => 'text-align:center'],
+                 'value' => function($data){
+                if($data['SendInvDate']==null){
+                    return Html::a('Send Email', ['send-inv','orderid' => $data['orderId']], ['class' => 'btn btn-success']);
+                }else{
+                    return Html::a('Resend Email', ['send-inv','orderid' => $data['orderId']], ['class' => 'btn btn-warning']);
+                }
+                 }
+             ],
 
             // ['class' => 'yii\grid\ActionColumn'],
         ],

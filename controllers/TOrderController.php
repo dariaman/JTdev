@@ -92,7 +92,15 @@ class TOrderController extends Controller {
         if (($model = TOrder::findOne($id)) !== null) {
             return $model;
         } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
+            throw new NotFoundHttpException('Data Order tidak ditemukan');
+        }
+    }
+    
+    protected function findModelCustomer($id) {
+        if (($model = \app\models\MUser::findOne($id)) !== null) {
+            return $model;
+        } else {
+            throw new NotFoundHttpException('Data Customer tidak ditemukan');
         }
     }
 
@@ -347,6 +355,31 @@ class TOrderController extends Controller {
         }
         echo Json::encode(['output' => '', 'selected' => '']);
         return;
+    }
+    
+    public function actionSendInv($orderid) {
+        $content = $this->renderPartial('invmail', ['orderid' => $orderid]);
+
+        $model = $this->findModel($orderid);
+        
+        echo var_dump(date("Y-m-d H:i:s"));
+        die();
+        $model->SendInvDate = date("Y-m-d H:i:s");
+        
+        
+        $modelCust = $this->findModelCustomer($model->userId);
+        
+        Yii::$app->mailer->compose()
+            ->setFrom('layanan@jagonyatukang.com')
+            ->setTo($modelCust->userEmail)
+            ->setSubject('Invoice')
+            ->setHtmlBody($content)
+            ->send();
+
+        
+        $model->save(false);
+        
+        return $this->redirect(['index']);
     }
 
 }
