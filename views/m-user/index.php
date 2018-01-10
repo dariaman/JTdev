@@ -60,6 +60,19 @@ $this->params['breadcrumbs'][] = $this->title;
                     }
                 }
             ],
+            [
+                'header' => 'DOB',
+                 'attribute'=>'userDOB',
+                'width' => '500px',
+                'value' => function($data){
+                    if($data['userDOB']==null){
+                        return'';
+                    }
+                        else {
+                            return date('dMY',strtotime($data['userDOB']));
+                    }
+                }
+            ],
             'userNoHp',
             'userNoTelp',
 
