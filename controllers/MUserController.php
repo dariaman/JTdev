@@ -99,7 +99,8 @@ class MUserController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post())) {
+        if (Yii::$app->request->IsPost) {
+            $model->load(Yii::$app->request->post());
             $model->save(false);
             return $this->redirect(['index']);
         } else {

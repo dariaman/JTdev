@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\ArrayHelper;
 use kartik\widgets\Select2;
+use kartik\widgets\DatePicker;
 /* @var $this yii\web\View */
 /* @var $model app\models\MUser */
 /* @var $form yii\widgets\ActiveForm */
@@ -25,6 +26,15 @@ $kecamatan = ArrayHelper::map(app\models\MKecamatan::find()->asArray()->all(), '
     <?= $form->field($model, 'userNamaBelakang')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'userKelamin')->dropDownList(['L'=>'Laki-laki','P'=>'Perempuan'])->label("Jenis Kelamin") ?>
+
+    <?= $form->field($model, 'userDOB')->widget(DatePicker::classname(), [
+        'options' => ['placeholder' => 'Tgl Lahir ...'],
+        'pluginOptions' => [
+            'autoclose' => true,
+            'format' => 'yyyy-mm-dd',
+            'todayHighlight' => true
+        ]])->label('Tgl Lahir');
+    ?>
     
     <?= $form->field($model, 'userEmail')->textInput(['maxlength' => true]) ?>
 

@@ -43,7 +43,8 @@ class MUser extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['userEmail', 'userNamaDepan', 'userPassword', 'userAlamat'], 'required'],
+            [['userEmail', 'userNamaDepan', 'userKelamin', 'userPassword', 'userAlamat', 'userNoTelp', 'userNoHp', 'userStatus'], 'required'],
+            [['userDOB', 'DateCrt', 'DateUpdate'], 'safe'],
             [['userEmail', 'userPassword'], 'string', 'max' => 200],
             [['userNamaDepan', 'userNamaBelakang', 'userKota', 'userKelurahan', 'userKecamatan', 'userDaerah'], 'string', 'max' => 100],
             [['userKelamin', 'userStatus'], 'string', 'max' => 1],
@@ -60,20 +61,23 @@ class MUser extends \yii\db\ActiveRecord
     {
         return [
             'userId' => 'User ID',
-            'userEmail' => 'Email',
-            'userNamaDepan' => 'Nama Depan',
-            'userNamaBelakang' => 'Nama Belakang',
-            'userKelamin' => 'JenisKelamin',
-            'userPassword' => 'Password',
-            'userAlamat' => 'Alamat',
-            'userKota' => 'Kota',
-            'userKelurahan' => 'Kelurahan',
-            'userKecamatan' => 'Kecamatan',
-            'userDaerah' => 'Daerah',
-            'userKodePos' => 'Kode Pos',
-            'userNoTelp' => 'No Telp',
-            'userNoHp' => 'No Hp',
-            'userStatus' => 'Status',
+            'userEmail' => 'User Email',
+            'userNamaDepan' => 'User Nama Depan',
+            'userNamaBelakang' => 'User Nama Belakang',
+            'userKelamin' => 'User Kelamin',
+            'userDOB' => 'User Dob',
+            'userPassword' => 'User Password',
+            'userAlamat' => 'User Alamat',
+            'userKota' => 'User Kota',
+            'userKelurahan' => 'User Kelurahan',
+            'userKecamatan' => 'User Kecamatan',
+            'userDaerah' => 'User Daerah',
+            'userKodePos' => 'User Kode Pos',
+            'userNoTelp' => 'User No Telp',
+            'userNoHp' => 'User No Hp',
+            'userStatus' => 'User Status',
+            'DateCrt' => 'Date Crt',
+            'DateUpdate' => 'Date Update',
         ];
     }
 
