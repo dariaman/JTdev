@@ -15,6 +15,9 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
+    <p align="right">
+        <?= Html::a('Tambah Customer', ['create'], ['class' => 'btn btn-success']) ?>
+    </p>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
@@ -109,7 +112,5 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]); ?>
     
-    <p>
-        <?= Html::a('Tambah Customer', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
+    
 </div>

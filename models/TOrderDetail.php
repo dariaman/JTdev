@@ -39,18 +39,35 @@ class TOrderDetail extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['serviceDetailId', 'kapasitasId', 'orderDetailTglKerja','orderDetailQTY', 'orderDetailWaktuKerja'], 'required'],
+            [['orderId', 'serviceDetailId', 'kapasitasId', 'orderDetailTglKerja', 'orderDetailWaktuKerja'], 'required'],
             [['orderId', 'serviceDetailId', 'kapasitasId', 'rekanId', 'orderDetailQTY'], 'integer'],
             [['orderDetailTglKerja'], 'safe'],
+            [['HargaSatuan'], 'number'],
             [['orderDetailWaktuKerja'], 'string', 'max' => 15],
             [['orderDetailKeluhan'], 'string', 'max' => 300],
             [['orderDetailNote', 'orderDetailProperti'], 'string', 'max' => 200],
             [['orderDetailStatus', 'StatusPekerjaan'], 'string', 'max' => 1],
+            [['StatusBayar'], 'string', 'max' => 2],
+            [['FeedBackWO'], 'string', 'max' => 8000],
             [['orderId'], 'exist', 'skipOnError' => true, 'targetClass' => TOrder::className(), 'targetAttribute' => ['orderId' => 'orderId']],
             [['kapasitasId'], 'exist', 'skipOnError' => true, 'targetClass' => MKapasitasDetail::className(), 'targetAttribute' => ['kapasitasId' => 'kapasitasId']],
             [['rekanId'], 'exist', 'skipOnError' => true, 'targetClass' => MRekanJt::className(), 'targetAttribute' => ['rekanId' => 'rekanId']],
             [['serviceDetailId'], 'exist', 'skipOnError' => true, 'targetClass' => MServiceDetail::className(), 'targetAttribute' => ['serviceDetailId' => 'serviceDetailId']],
         ];
+        
+//        return [
+//            [['serviceDetailId', 'kapasitasId', 'orderDetailTglKerja','orderDetailQTY', 'orderDetailWaktuKerja'], 'required'],
+//            [['orderId', 'serviceDetailId', 'kapasitasId', 'rekanId', 'orderDetailQTY'], 'integer'],
+//            [['orderDetailTglKerja'], 'safe'],
+//            [['orderDetailWaktuKerja'], 'string', 'max' => 15],
+//            [['orderDetailKeluhan'], 'string', 'max' => 300],
+//            [['orderDetailNote', 'orderDetailProperti'], 'string', 'max' => 200],
+//            [['orderDetailStatus', 'StatusPekerjaan'], 'string', 'max' => 1],
+//            [['orderId'], 'exist', 'skipOnError' => true, 'targetClass' => TOrder::className(), 'targetAttribute' => ['orderId' => 'orderId']],
+//            [['kapasitasId'], 'exist', 'skipOnError' => true, 'targetClass' => MKapasitasDetail::className(), 'targetAttribute' => ['kapasitasId' => 'kapasitasId']],
+//            [['rekanId'], 'exist', 'skipOnError' => true, 'targetClass' => MRekanJt::className(), 'targetAttribute' => ['rekanId' => 'rekanId']],
+//            [['serviceDetailId'], 'exist', 'skipOnError' => true, 'targetClass' => MServiceDetail::className(), 'targetAttribute' => ['serviceDetailId' => 'serviceDetailId']],
+//        ];
     }
 
     /**

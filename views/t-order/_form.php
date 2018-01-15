@@ -8,7 +8,16 @@ use kartik\widgets\DepDrop;
 use yii\helpers\Url;
 use app\models\MUser;
 
-$cust = ArrayHelper::map(MUser::find()->aktif()->all(), 'userId', 'userNamaDepan');
+$datax = MUser::find()->select(['userId', 'userNamaDepan' , 'userNamaBelakang'])->asArray()->all();
+$datacust=array("","");
+foreach ($datax as $item){
+    array_push($datacust, array($item['userId'], $item['userNamaDepan']." ".$item['userNamaBelakang']));
+    
+}
+//echo var_dump($datacust);
+//die();
+        
+//$cust = ArrayHelper::map(MUser::find()->aktif()->all(), 'userId', ['userNamaDepan'.'userNamaBelakang']);
 
 $dataKota = ArrayHelper::map(app\models\MKota::find()->all(), 'kotaId', 'kotaNama');
 $dataKec = ArrayHelper::map(app\models\MKecamatan::find()->all(), 'kecamatanId', 'kecamatanNama');
@@ -25,7 +34,7 @@ $dataKel = ArrayHelper::map(app\models\MKelurahan::find()->all(), 'kelurahanId',
     <?php } ?>
     <?=
     $form->field($model, 'userId')->widget(Select2::classname(), [
-        'data' => $cust,
+        'data' => ArrayHelper::map($datacust,0,1),
         'options' => ['id' => 'cat-ixd', 'placeholder' => 'Customer Order'],
         'pluginOptions' => [
             'allowClear' => true

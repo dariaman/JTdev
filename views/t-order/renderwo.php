@@ -128,7 +128,7 @@ $biayatransport = ($header[0]['IsFreeOngkir'] =='1' ? 0 : $header[0]['orderBiaya
           <table class="table table-bordered">            
             <tbody>
                 <tr>
-                    <td style="width:680px;"> <br/></td>
+                    <td style="width:680px;"><?= $val['orderDetailKeluhan'] ?></td>
                 </tr>
             </tbody>
           </table>
@@ -143,7 +143,7 @@ $biayatransport = ($header[0]['IsFreeOngkir'] =='1' ? 0 : $header[0]['orderBiaya
             <table class="table table-bordered">            
             <tbody>
                 <tr>
-                    <td style="width:680px; height:50px;"></td>
+                    <td style="width:680px; height:50px;"><?= $val['FeedBackWO'] ?></td>
                 </tr>
             </tbody>
           </table>

@@ -112,7 +112,7 @@ $biayatransport = ($modelh->IsFreeOngkir == '1' ? 0 : $modelh->orderBiayaTranspo
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
             [
-                'header' => 'ID Detail',
+                'header' => 'WO ID',
                 'format' => 'raw',
                 'contentOptions' => ['Align' => 'right', 'style' => 'width: 50px;'],
                 'attribute' => 'orderDetailId',
