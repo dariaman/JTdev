@@ -3,14 +3,17 @@
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\ArrayHelper;
-use kartik\widgets\Select2;
+use kartik\widgets\DepDrop;
+use yii\helpers\Url;
 use kartik\widgets\DatePicker;
 /* @var $this yii\web\View */
 /* @var $model app\models\MUser */
 /* @var $form yii\widgets\ActiveForm */
-$kota = ArrayHelper::map(app\models\MKota::find()->asArray()->all(), 'kotaId', 'kotaNama');
-$kelurahan = ArrayHelper::map(app\models\MKelurahan::find()->asArray()->all(), 'kelurahanId', 'kelurahanNama');
-$kecamatan = ArrayHelper::map(app\models\MKecamatan::find()->asArray()->all(), 'kecamatanId', 'kecamatanNama');
+
+$dataKota = ArrayHelper::map(app\models\MKota::find()->all(), 'kotaId', 'kotaNama');
+$dataKec = ArrayHelper::map(app\models\MKecamatan::find()->all(), 'kecamatanId', 'kecamatanNama');
+$dataKel = ArrayHelper::map(app\models\MKelurahan::find()->all(), 'kelurahanId', 'kelurahanNama');
+
 ?>
 
 <div class="muser-form">
@@ -41,34 +44,38 @@ $kecamatan = ArrayHelper::map(app\models\MKecamatan::find()->asArray()->all(), '
 
     <?= $form->field($model, 'userAlamat')->textarea(['maxlength' => true,'rows' => 4]) ?>
 
+    
     <?=
-    $form->field($model, 'userKota')->widget(Select2::classname(), [
-       'data' => $kota,
-       'options' => ['placeholder' => '--Pilih Kota--'],
-       'pluginOptions' => [
-           'allowClear' => true
-       ],
-       ])
+    $form->field($model, 'userKota')->dropDownList($dataKota, [
+        'id' => 'kota-id',
+        'prompt' => '-- Pilih Kota --'
+    ])->label("Kota")
     ?>
 
     <?=
-        $form->field($model, 'userKelurahan')->widget(Select2::classname(), [
-        'data' => $kelurahan,
-        'options' => ['placeholder' => '--Pilih Kelurahan--'],
+    $form->field($model, 'userKecamatan')->widget(DepDrop::classname(), [
+        'data' => $dataKec,
+        'options' => ['id' => 'kec-id'],
         'pluginOptions' => [
-            'allowClear' => true
-        ],
-        ])
+            'depends' => ['kota-id'],
+            'initialize' => true,
+            'placeholder' => '-- Pilih Kecamatan --',
+            'url' => Url::to(['t-order/list-kec'])
+        ]
+    ])->label("Kecamatan")
     ?>
 
     <?=
-        $form->field($model, 'userKecamatan')->widget(Select2::classname(), [
-        'data' => $kecamatan,
-        'options' => ['placeholder' => '--Pilih Kecamatan--'],
+    $form->field($model, 'userKelurahan')->widget(DepDrop::classname(), [
+        'data' => $dataKel,
+        'options' => ['id' => 'kel-id'],
         'pluginOptions' => [
-            'allowClear' => true
-        ],
-        ])
+            'depends' => ['kec-id'],
+            'initialize' => true,
+            'placeholder' => '-- Pilih Kelurahan --',
+            'url' => Url::to(['t-order/list-kel'])
+        ]
+    ])->label("Kelurahan")
     ?>
 
     <?= $form->field($model, 'userDaerah')->textInput(['maxlength' => true]) ?>

@@ -170,7 +170,7 @@ $biayatransport = ($header[0]['IsFreeOngkir'] =='1' ? 0 : $header[0]['orderBiaya
             Teknisi
         </div>
         <div style="margin-top:30px; margin-left:150px; text-align: center; font-size:8pt; width:400px;" >
-            <b>PT. Solusi Sekawan Sejahtera</b> , Jl. Pejompongan Dalam No. 29, Jakarta Pusat 021 57931331 / 0811 201 8810, halo@jagonyatukang.com
+            <b>PT. Solusi Sekawan Sejahtera</b> , Jl. Pejompongan Dalam No. 29, Jakarta Pusat 021 57931331 / 0811 201 8810, halo@jagonyatukang.co.id
         </div>
       </div>
       
