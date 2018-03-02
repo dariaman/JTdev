@@ -42,7 +42,9 @@ $dataKel = ArrayHelper::map(app\models\MKelurahan::find()->all(), 'kelurahanId',
     <?= $form->field($model, 'userEmail')->textInput(['maxlength' => true]) ?>
 
 
-    <?= $form->field($model, 'userAlamat')->textarea(['maxlength' => true,'rows' => 4]) ?>
+    <?= $form->field($model, 'userAlamat')->textarea(['maxlength' => true,'rows' => 4])->label("Alamat1") ?>
+    <?= $form->field($model, 'alamat2')->textarea(['maxlength' => true,'rows' => 4])->label("Alamat2") ?>
+    <?= $form->field($model, 'alamat3')->textarea(['maxlength' => true,'rows' => 4])->label("Alamat3") ?>
 
     
     <?=

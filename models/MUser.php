@@ -48,7 +48,7 @@ class MUser extends \yii\db\ActiveRecord
             [['userEmail', 'userPassword'], 'string', 'max' => 200],
             [['userNamaDepan', 'userNamaBelakang', 'userKota', 'userKelurahan', 'userKecamatan', 'userDaerah'], 'string', 'max' => 100],
             [['userKelamin', 'userStatus'], 'string', 'max' => 1],
-            [['userAlamat'], 'string', 'max' => 500],
+            [['userAlamat', 'alamat2', 'alamat3'], 'string', 'max' => 2000],
             [['userKodePos'], 'string', 'max' => 10],
             [['userNoTelp', 'userNoHp'], 'string', 'max' => 20],
         ];
